@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class HomeTableViewController: UITableViewController {
+class ListTableViewController: UITableViewController {
     
     var root : FIRDatabaseReference?
     
@@ -75,22 +75,15 @@ class HomeTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell : UITableViewCell
-        if indexPath.row == 0 {
-            cell = tableView.dequeueReusableCell(withIdentifier: "locationHeaderCell", for: indexPath) as! LocationHeaderTableViewCell
-            cell.selectionStyle = .none
-            
-        }
-        else{
+    
             cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! LocationsTableViewCell
-            
-        }
         
         // Configure the cell...
         return cell
 
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    /*override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         if(indexPath.row == 0)
         {
@@ -99,7 +92,7 @@ class HomeTableViewController: UITableViewController {
         else{
             return 100
         }
-    }
+    }*/
     
 
     /*

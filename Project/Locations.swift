@@ -10,16 +10,20 @@ import Foundation
 
 class Locations {
     
+    var id = 0
     var location = ""
     var address = ""
     var distance = 0.0
     var rating = 0
+    var reviews = [String]()
+    var photos = [Photo]()
     
     init() {
         
     }
     
-    init(location: String, address: String, distance: Double, rating: Int) {
+    init(id: Int, location: String, address: String, distance: Double, rating: Int) {
+        self.id = id
         self.location = location
         self.address = address
         self.distance = distance
