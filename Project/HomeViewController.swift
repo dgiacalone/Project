@@ -13,6 +13,9 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var listContainer: UIView!
     @IBOutlet weak var mapContainer: UIView!
     
+    var locations = [Locations]()
+    var newPost: UserPosts?
+    
     @IBAction func displayTypeChanged(_ sender: AnyObject) {
         if sender.selectedSegmentIndex == 0 {
             UIView.animate(withDuration: 0.5, animations: {

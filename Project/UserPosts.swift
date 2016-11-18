@@ -7,12 +7,13 @@
 //
 
 import Foundation
+import CoreLocation
 
 class UserPosts {
     
-    var id = 0
     var user = ""
-    var location = ""
+    var lat = 0.0
+    var long = 0.0
     var address = ""
     var rating = 0
     var review = ""
@@ -24,13 +25,17 @@ class UserPosts {
         
     }
     
-    init(id: Int, user: String, location: String, address: String, rating: Int, review: String) {
-        self.id = id
+    init(user: String, lat: CLLocationDegrees, long: CLLocationDegrees, address: String, rating: Int, review: String) {
         self.user = user
-        self.location = location
+        self.lat = lat
+        self.long = long
         self.address = address
         self.rating = rating
         self.review = review
+    }
+    
+    func printUserPost() {
+        print("user: \(self.user)\nlat: \(lat)\nlong: \(long)\naddress: \(address)\nrating: \(rating)\nreview: \(review)")
     }
 
 }

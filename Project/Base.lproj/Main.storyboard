@@ -316,7 +316,7 @@
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uOx-Dr-hms">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="DYp-CV-RjM"/>
+                                    <constraint firstAttribute="height" constant="25" id="DYp-CV-RjM"/>
                                     <constraint firstAttribute="width" constant="240" id="nkz-3M-qbd"/>
                                 </constraints>
                                 <nil key="textColor"/>
@@ -330,10 +330,16 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ox7-qg-4zz">
                                 <state key="normal" title="Submit"/>
+                                <connections>
+                                    <action selector="submitButton:" destination="jRl-kt-zef" eventType="touchUpInside" id="ohx-dF-X8E"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iZ1-hN-Ngq">
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Select Photo"/>
+                                <connections>
+                                    <action selector="selectPhotoButton:" destination="jRl-kt-zef" eventType="touchUpInside" id="WBg-8P-t92"/>
+                                </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="N3Q-Ml-WUc">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -367,22 +373,30 @@
                                     <segue destination="gf5-QH-o5a" kind="unwind" unwindAction="unwindFromDetailWithSegue:" id="B67-ZK-4rg"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xhg-n3-1xe">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="4ho-cW-h8z"/>
+                                    <constraint firstAttribute="width" constant="240" id="71F-O3-zUN"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Ox7-qg-4zz" firstAttribute="top" secondItem="N3Q-Ml-WUc" secondAttribute="bottom" constant="50" id="1bD-ap-yZb"/>
+                            <constraint firstItem="Ox7-qg-4zz" firstAttribute="top" secondItem="N3Q-Ml-WUc" secondAttribute="bottom" constant="30" id="1bD-ap-yZb"/>
                             <constraint firstItem="N3Q-Ml-WUc" firstAttribute="top" secondItem="ikB-ij-Pyz" secondAttribute="bottom" constant="8" id="4BI-EL-4Iu"/>
-                            <constraint firstItem="uOx-Dr-hms" firstAttribute="top" secondItem="iZ1-hN-Ngq" secondAttribute="bottom" constant="55" id="4MC-5u-heK"/>
+                            <constraint firstItem="uOx-Dr-hms" firstAttribute="top" secondItem="iZ1-hN-Ngq" secondAttribute="bottom" constant="150" id="4MC-5u-heK"/>
                             <constraint firstItem="X9b-3A-SK7" firstAttribute="top" secondItem="s5o-Qp-ys6" secondAttribute="bottom" constant="40" id="4tC-A5-wpR"/>
                             <constraint firstItem="N3Q-Ml-WUc" firstAttribute="centerX" secondItem="Jg3-0V-zhF" secondAttribute="centerX" id="6xn-Gv-V9O"/>
                             <constraint firstItem="ikB-ij-Pyz" firstAttribute="centerX" secondItem="Jg3-0V-zhF" secondAttribute="centerX" id="7tO-05-5G0"/>
                             <constraint firstItem="TBN-13-er6" firstAttribute="centerX" secondItem="Jg3-0V-zhF" secondAttribute="centerX" id="B1x-Fo-TkH"/>
                             <constraint firstItem="iZ1-hN-Ngq" firstAttribute="centerX" secondItem="Jg3-0V-zhF" secondAttribute="centerX" id="Db6-d1-TRK"/>
+                            <constraint firstItem="xhg-n3-1xe" firstAttribute="top" secondItem="iZ1-hN-Ngq" secondAttribute="bottom" constant="-1" id="LPv-bG-rHr"/>
                             <constraint firstItem="TBN-13-er6" firstAttribute="top" secondItem="iiS-tT-L3n" secondAttribute="bottom" constant="28" id="MQJ-gE-7Ou"/>
-                            <constraint firstItem="s5o-Qp-ys6" firstAttribute="top" secondItem="iZ1-hN-Ngq" secondAttribute="bottom" constant="67" id="UMu-oR-igR"/>
+                            <constraint firstItem="s5o-Qp-ys6" firstAttribute="top" secondItem="iZ1-hN-Ngq" secondAttribute="bottom" constant="150" id="UMu-oR-igR"/>
                             <constraint firstItem="Ox7-qg-4zz" firstAttribute="centerX" secondItem="Jg3-0V-zhF" secondAttribute="centerX" id="Wbo-Rr-W7y"/>
-                            <constraint firstItem="iZ1-hN-Ngq" firstAttribute="top" secondItem="TBN-13-er6" secondAttribute="bottom" constant="60" id="XKY-PS-Rhz"/>
+                            <constraint firstItem="iZ1-hN-Ngq" firstAttribute="top" secondItem="TBN-13-er6" secondAttribute="bottom" constant="30" id="XKY-PS-Rhz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8Gq-U8-SfS" secondAttribute="trailing" constant="10" id="b66-IM-ybI"/>
+                            <constraint firstItem="xhg-n3-1xe" firstAttribute="centerX" secondItem="Jg3-0V-zhF" secondAttribute="centerX" id="bRf-VA-bnG"/>
                             <constraint firstAttribute="trailingMargin" secondItem="uOx-Dr-hms" secondAttribute="trailing" constant="10" id="csG-f0-PQL"/>
                             <constraint firstItem="oNz-UM-19P" firstAttribute="top" secondItem="Ox7-qg-4zz" secondAttribute="bottom" constant="25" id="j4x-jm-rFh"/>
                             <constraint firstItem="X9b-3A-SK7" firstAttribute="leading" secondItem="Jg3-0V-zhF" secondAttribute="leadingMargin" constant="10" id="mTv-Qk-hUQ"/>
@@ -395,6 +409,8 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Add Photo" id="B3d-TA-d9e"/>
                     <connections>
+                        <outlet property="imageToUpload" destination="xhg-n3-1xe" id="z4d-BA-CDa"/>
+                        <outlet property="locationTextField" destination="uOx-Dr-hms" id="09R-Bw-DNG"/>
                         <outlet property="ratingView" destination="8Gq-U8-SfS" id="98D-Zk-Mcj"/>
                         <outlet property="reviewTextField" destination="N3Q-Ml-WUc" id="Gvm-BL-EuS"/>
                     </connections>
@@ -583,6 +599,10 @@
         <scene sceneID="Oso-Aa-3Ho">
             <objects>
                 <viewController id="EJ5-tZ-Xzf" customClass="ListViewController" customModule="Project" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sgG-Kz-393"/>
+                        <viewControllerLayoutGuide type="bottom" id="Kks-c4-F0X"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="VSs-AF-wNZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -603,7 +623,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="chN-6l-l7E" id="S8H-xv-BJN">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -624,6 +644,10 @@
         <scene sceneID="w5Y-OH-Exq">
             <objects>
                 <viewController id="8pH-5o-lbc" customClass="MapViewController" customModule="Project" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="viP-Ez-nmL"/>
+                        <viewControllerLayoutGuide type="bottom" id="NFb-Pw-dZG"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="QU8-IN-2Bm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

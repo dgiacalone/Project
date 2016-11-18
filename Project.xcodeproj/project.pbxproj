@@ -7,9 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8E25664C1DD7FE8600208F0E /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E25664B1DD7FE8600208F0E /* ChangePasswordViewController.swift */; };
 		8E25664E1DD9239E00208F0E /* UserPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E25664D1DD9239E00208F0E /* UserPosts.swift */; };
 		8E2566501DD92B6200208F0E /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E25664F1DD92B6200208F0E /* Photo.swift */; };
+		8E70B41D1DDE5AD8006D8108 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4161DDE5AD8006D8108 /* MapViewController.swift */; };
+		8E70B41E1DDE5AD8006D8108 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */; };
+		8E70B41F1DDE5AD8006D8108 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4181DDE5AD8006D8108 /* ListViewController.swift */; };
+		8E70B4201DDE5AD8006D8108 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4191DDE5AD8006D8108 /* ListTableViewController.swift */; };
+		8E70B4211DDE5AD8006D8108 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B41A1DDE5AD8006D8108 /* SettingsViewController.swift */; };
+		8E70B4221DDE5AD8006D8108 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B41B1DDE5AD8006D8108 /* ChangePasswordViewController.swift */; };
+		8E70B4231DDE5AD8006D8108 /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B41C1DDE5AD8006D8108 /* ProfileTableViewController.swift */; };
+		8E70B4281DDE5AE6006D8108 /* ProfileHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4241DDE5AE6006D8108 /* ProfileHeaderTableViewCell.swift */; };
+		8E70B4291DDE5AE6006D8108 /* LocationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4251DDE5AE6006D8108 /* LocationsTableViewCell.swift */; };
+		8E70B42A1DDE5AE6006D8108 /* UserPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4261DDE5AE6006D8108 /* UserPostTableViewCell.swift */; };
+		8E70B42B1DDE5AE6006D8108 /* AddPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4271DDE5AE6006D8108 /* AddPhotoViewController.swift */; };
 		8EAD7A441DCFEE5E0093DED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7A431DCFEE5E0093DED8 /* AppDelegate.swift */; };
 		8EAD7A461DCFEE5E0093DED8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7A451DCFEE5E0093DED8 /* ViewController.swift */; };
 		8EAD7A491DCFEE5E0093DED8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EAD7A471DCFEE5E0093DED8 /* Main.storyboard */; };
@@ -29,21 +39,11 @@
 		8EAD7A891DCFF5900093DED8 /* FirebaseAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EAD7A861DCFF5900093DED8 /* FirebaseAuth.framework */; };
 		8EAD7A8A1DCFF5900093DED8 /* GTMSessionFetcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EAD7A871DCFF5900093DED8 /* GTMSessionFetcher.framework */; };
 		8EAD7A8C1DCFF7650093DED8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8EAD7A8B1DCFF7650093DED8 /* GoogleService-Info.plist */; };
-		8EAD7ACE1DD266BF0093DED8 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7ACD1DD266BF0093DED8 /* ListTableViewController.swift */; };
 		8EAD7AD21DD2830C0093DED8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7AD11DD2830C0093DED8 /* LoginViewController.swift */; };
 		8EAD7AD41DD2831F0093DED8 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7AD31DD2831F0093DED8 /* SignUpViewController.swift */; };
-		8EAD7AD61DD2EB950093DED8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7AD51DD2EB950093DED8 /* SettingsViewController.swift */; };
-		8EAD7AD81DD3FC270093DED8 /* AddPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7AD71DD3FC270093DED8 /* AddPhotoViewController.swift */; };
 		8EAD7ADA1DD3FFBF0093DED8 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7AD91DD3FFBF0093DED8 /* DoubleExtension.swift */; };
 		8EAD7ADC1DD41C780093DED8 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7ADB1DD41C780093DED8 /* RatingControl.swift */; };
-		8EAD7ADE1DD6BFF10093DED8 /* UserPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7ADD1DD6BFF10093DED8 /* UserPostTableViewCell.swift */; };
-		8EAD7AE01DD6C13E0093DED8 /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7ADF1DD6C13E0093DED8 /* ProfileTableViewController.swift */; };
-		8EAD7AE21DD7C5FF0093DED8 /* LocationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7AE11DD7C5FF0093DED8 /* LocationsTableViewCell.swift */; };
-		8EAD7AE61DD7CD900093DED8 /* ProfileHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7AE51DD7CD900093DED8 /* ProfileHeaderTableViewCell.swift */; };
 		8EAD7AE81DD7F6C30093DED8 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7AE71DD7F6C30093DED8 /* Locations.swift */; };
-		8EC57D7B1DDACA8300B236EE /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC57D7A1DDACA8300B236EE /* MapViewController.swift */; };
-		8EC57D7D1DDAD0EF00B236EE /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC57D7C1DDAD0EF00B236EE /* HomeViewController.swift */; };
-		8EC57D7F1DDAD69C00B236EE /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC57D7E1DDAD69C00B236EE /* ListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,9 +64,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8E25664B1DD7FE8600208F0E /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		8E25664D1DD9239E00208F0E /* UserPosts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPosts.swift; sourceTree = "<group>"; };
 		8E25664F1DD92B6200208F0E /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		8E70B4161DDE5AD8006D8108 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		8E70B4181DDE5AD8006D8108 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		8E70B4191DDE5AD8006D8108 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
+		8E70B41A1DDE5AD8006D8108 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		8E70B41B1DDE5AD8006D8108 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		8E70B41C1DDE5AD8006D8108 /* ProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
+		8E70B4241DDE5AE6006D8108 /* ProfileHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		8E70B4251DDE5AE6006D8108 /* LocationsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationsTableViewCell.swift; sourceTree = "<group>"; };
+		8E70B4261DDE5AE6006D8108 /* UserPostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPostTableViewCell.swift; sourceTree = "<group>"; };
+		8E70B4271DDE5AE6006D8108 /* AddPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPhotoViewController.swift; sourceTree = "<group>"; };
 		8EAD7A401DCFEE5E0093DED8 /* Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAD7A431DCFEE5E0093DED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8EAD7A451DCFEE5E0093DED8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -95,21 +105,11 @@
 		8EAD7A871DCFF5900093DED8 /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GTMSessionFetcher.framework; path = Firebase/Auth/GTMSessionFetcher.framework; sourceTree = "<group>"; };
 		8EAD7A8B1DCFF7650093DED8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8EAD7A8E1DD16F2B0093DED8 /* Project.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Project.entitlements; sourceTree = "<group>"; };
-		8EAD7ACD1DD266BF0093DED8 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		8EAD7AD11DD2830C0093DED8 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8EAD7AD31DD2831F0093DED8 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		8EAD7AD51DD2EB950093DED8 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		8EAD7AD71DD3FC270093DED8 /* AddPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPhotoViewController.swift; sourceTree = "<group>"; };
 		8EAD7AD91DD3FFBF0093DED8 /* DoubleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		8EAD7ADB1DD41C780093DED8 /* RatingControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
-		8EAD7ADD1DD6BFF10093DED8 /* UserPostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPostTableViewCell.swift; sourceTree = "<group>"; };
-		8EAD7ADF1DD6C13E0093DED8 /* ProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
-		8EAD7AE11DD7C5FF0093DED8 /* LocationsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationsTableViewCell.swift; sourceTree = "<group>"; };
-		8EAD7AE51DD7CD900093DED8 /* ProfileHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		8EAD7AE71DD7F6C30093DED8 /* Locations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
-		8EC57D7A1DDACA8300B236EE /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		8EC57D7C1DDAD0EF00B236EE /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		8EC57D7E1DDAD69C00B236EE /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,32 +173,32 @@
 		8EAD7A421DCFEE5E0093DED8 /* Project */ = {
 			isa = PBXGroup;
 			children = (
-				8EAD7A8E1DD16F2B0093DED8 /* Project.entitlements */,
-				8EAD7A8B1DCFF7650093DED8 /* GoogleService-Info.plist */,
 				8EAD7A431DCFEE5E0093DED8 /* AppDelegate.swift */,
-				8EAD7A451DCFEE5E0093DED8 /* ViewController.swift */,
 				8EAD7A471DCFEE5E0093DED8 /* Main.storyboard */,
-				8EC57D7E1DDAD69C00B236EE /* ListViewController.swift */,
-				8EC57D7C1DDAD0EF00B236EE /* HomeViewController.swift */,
-				8E25664B1DD7FE8600208F0E /* ChangePasswordViewController.swift */,
 				8EAD7AE71DD7F6C30093DED8 /* Locations.swift */,
 				8E25664F1DD92B6200208F0E /* Photo.swift */,
 				8E25664D1DD9239E00208F0E /* UserPosts.swift */,
-				8EAD7AE51DD7CD900093DED8 /* ProfileHeaderTableViewCell.swift */,
-				8EAD7AE11DD7C5FF0093DED8 /* LocationsTableViewCell.swift */,
-				8EAD7ADF1DD6C13E0093DED8 /* ProfileTableViewController.swift */,
-				8EAD7ADD1DD6BFF10093DED8 /* UserPostTableViewCell.swift */,
-				8EAD7AD71DD3FC270093DED8 /* AddPhotoViewController.swift */,
 				8EAD7ADB1DD41C780093DED8 /* RatingControl.swift */,
+				8E70B4241DDE5AE6006D8108 /* ProfileHeaderTableViewCell.swift */,
+				8E70B4251DDE5AE6006D8108 /* LocationsTableViewCell.swift */,
+				8E70B4261DDE5AE6006D8108 /* UserPostTableViewCell.swift */,
+				8E70B4271DDE5AE6006D8108 /* AddPhotoViewController.swift */,
+				8E70B4161DDE5AD8006D8108 /* MapViewController.swift */,
+				8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */,
+				8E70B4181DDE5AD8006D8108 /* ListViewController.swift */,
+				8E70B4191DDE5AD8006D8108 /* ListTableViewController.swift */,
+				8E70B41A1DDE5AD8006D8108 /* SettingsViewController.swift */,
+				8E70B41B1DDE5AD8006D8108 /* ChangePasswordViewController.swift */,
+				8E70B41C1DDE5AD8006D8108 /* ProfileTableViewController.swift */,
 				8EAD7AD91DD3FFBF0093DED8 /* DoubleExtension.swift */,
-				8EAD7AD51DD2EB950093DED8 /* SettingsViewController.swift */,
 				8EAD7AD11DD2830C0093DED8 /* LoginViewController.swift */,
 				8EAD7AD31DD2831F0093DED8 /* SignUpViewController.swift */,
-				8EAD7ACD1DD266BF0093DED8 /* ListTableViewController.swift */,
-				8EC57D7A1DDACA8300B236EE /* MapViewController.swift */,
+				8EAD7A451DCFEE5E0093DED8 /* ViewController.swift */,
 				8EAD7A4A1DCFEE5E0093DED8 /* Assets.xcassets */,
+				8EAD7A8E1DD16F2B0093DED8 /* Project.entitlements */,
 				8EAD7A4C1DCFEE5E0093DED8 /* LaunchScreen.storyboard */,
 				8EAD7A4F1DCFEE5E0093DED8 /* Info.plist */,
+				8EAD7A8B1DCFF7650093DED8 /* GoogleService-Info.plist */,
 			);
 			path = Project;
 			sourceTree = "<group>";
@@ -382,26 +382,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E25664E1DD9239E00208F0E /* UserPosts.swift in Sources */,
+				8E70B42B1DDE5AE6006D8108 /* AddPhotoViewController.swift in Sources */,
 				8EAD7AD41DD2831F0093DED8 /* SignUpViewController.swift in Sources */,
-				8EAD7AD81DD3FC270093DED8 /* AddPhotoViewController.swift in Sources */,
-				8EC57D7B1DDACA8300B236EE /* MapViewController.swift in Sources */,
-				8EAD7ACE1DD266BF0093DED8 /* ListTableViewController.swift in Sources */,
 				8EAD7ADA1DD3FFBF0093DED8 /* DoubleExtension.swift in Sources */,
-				8EAD7AD61DD2EB950093DED8 /* SettingsViewController.swift in Sources */,
-				8EAD7ADE1DD6BFF10093DED8 /* UserPostTableViewCell.swift in Sources */,
+				8E70B4201DDE5AD8006D8108 /* ListTableViewController.swift in Sources */,
+				8E70B4221DDE5AD8006D8108 /* ChangePasswordViewController.swift in Sources */,
+				8E70B4231DDE5AD8006D8108 /* ProfileTableViewController.swift in Sources */,
 				8EAD7AE81DD7F6C30093DED8 /* Locations.swift in Sources */,
-				8EAD7AE01DD6C13E0093DED8 /* ProfileTableViewController.swift in Sources */,
-				8EAD7AE21DD7C5FF0093DED8 /* LocationsTableViewCell.swift in Sources */,
+				8E70B41E1DDE5AD8006D8108 /* HomeViewController.swift in Sources */,
 				8EAD7A461DCFEE5E0093DED8 /* ViewController.swift in Sources */,
+				8E70B42A1DDE5AE6006D8108 /* UserPostTableViewCell.swift in Sources */,
 				8EAD7A441DCFEE5E0093DED8 /* AppDelegate.swift in Sources */,
 				8E2566501DD92B6200208F0E /* Photo.swift in Sources */,
 				8EAD7AD21DD2830C0093DED8 /* LoginViewController.swift in Sources */,
-				8EC57D7D1DDAD0EF00B236EE /* HomeViewController.swift in Sources */,
-				8E25664C1DD7FE8600208F0E /* ChangePasswordViewController.swift in Sources */,
 				8EAD7ADC1DD41C780093DED8 /* RatingControl.swift in Sources */,
 				8EAD7A841DCFF4D20093DED8 /* BridgingHeader.m in Sources */,
-				8EAD7AE61DD7CD900093DED8 /* ProfileHeaderTableViewCell.swift in Sources */,
-				8EC57D7F1DDAD69C00B236EE /* ListViewController.swift in Sources */,
+				8E70B4291DDE5AE6006D8108 /* LocationsTableViewCell.swift in Sources */,
+				8E70B4281DDE5AE6006D8108 /* ProfileHeaderTableViewCell.swift in Sources */,
+				8E70B41F1DDE5AD8006D8108 /* ListViewController.swift in Sources */,
+				8E70B41D1DDE5AD8006D8108 /* MapViewController.swift in Sources */,
+				8E70B4211DDE5AD8006D8108 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

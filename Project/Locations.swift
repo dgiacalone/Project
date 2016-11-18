@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import CoreLocation
 
 class Locations {
     
-    var id = 0
-    var location = ""
+    var lat = 0.0
+    var long = 0.0
     var address = ""
     var distance = 0.0
     var rating = 0
@@ -22,9 +23,9 @@ class Locations {
         
     }
     
-    init(id: Int, location: String, address: String, distance: Double, rating: Int) {
-        self.id = id
-        self.location = location
+    init(lat: CLLocationDegrees, long: CLLocationDegrees,address: String, distance: Double, rating: Int) {
+        self.lat = lat
+        self.long = long
         self.address = address
         self.distance = distance
         self.rating = rating
