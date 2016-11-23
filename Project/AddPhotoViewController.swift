@@ -27,7 +27,14 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
             let user = FIRAuth.auth()?.currentUser
             userPost = UserPosts(user: (user?.email)!, lat: lat!, long: long!, address: locationTextField.text!, rating: ratingView.rating, review: reviewTextField.text)
             userPost?.photo = photo
-            userPost?.printUserPost()
+            //userPost?.printUserPost()
+            self.performSegue(withIdentifier: "photoSubmit", sender: self)
+        }
+        else {
+            let alert = UIAlertController(title : "Error", message: "Must enter all non optional fields!", preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(action)
+            self.present(alert, animated:true, completion: nil)
         }
     }
     
@@ -106,11 +113,12 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "submitPhoto"
+        if segue.identifier == "photoSubmit"
         {
-            let destVC = segue.destination as? HomeViewController
+            let destVC = segue.destination as? TabBarViewController
             if let newPost = userPost {
-                destVC?.newPost = newPost
+                newPost.printUserPost()
+                destVC?.newUserPost = newPost
             }
         }
 

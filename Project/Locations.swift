@@ -14,7 +14,6 @@ class Locations {
     var lat = 0.0
     var long = 0.0
     var address = ""
-    var distance = 0.0
     var rating = 0
     var reviews = [String]()
     var photos = [Photo]()
@@ -23,12 +22,15 @@ class Locations {
         
     }
     
-    init(lat: CLLocationDegrees, long: CLLocationDegrees,address: String, distance: Double, rating: Int) {
+    init(lat: CLLocationDegrees, long: CLLocationDegrees,address: String, rating: Int) {
         self.lat = lat
         self.long = long
         self.address = address
-        self.distance = distance
         self.rating = rating
+    }
+    
+    func printLocations() {
+        print("lat: \(lat)\nlong: \(long)\naddress: \(address)\nrating: \(rating)")
     }
 
     

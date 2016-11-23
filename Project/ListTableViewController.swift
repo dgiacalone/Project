@@ -15,44 +15,7 @@ class ListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.tableView.contentInset = UIEdgeInsetsMake(100, 0, 0, 0)
-
-        //FIRDatabase.database().persistenceEnabled = true
         
-        root = FIRDatabase.database().reference()
-        let ref = root?.child("users").child("user1")
-        print("ref \(ref)")
-        print("test ")
-        /*root?.queryOrdered(byChild: "users").observe(.value, with: { snapshot in
-            print("test2 ")
-            for item in snapshot.children {
-                let hi = item as! String
-                print("item: \(hi)")
-            }
-        })*/
-        
-        ref?.observeSingleEvent(of: .value, with: { snapshot in
-            
-            if !snapshot.exists() {
-                return
-            }
-            let user = snapshot.value as! [String:Any]
-            if let userName = user["username"] as? String {
-                print("username \(userName)")
-            }
-            if let age = user["age"] as? Int {
-                print("age \(age)")
-            }
-            
-            // can also use
-            // snapshot.childSnapshotForPath("full_name").value as! String
-        })
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {

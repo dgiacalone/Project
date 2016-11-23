@@ -8,9 +8,10 @@
 
 import UIKit
 
-class ListViewController: UIViewController {
+class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     @IBOutlet weak var tableView: UITableView!
+    var locations = [Locations]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +22,37 @@ class ListViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return locations.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "locationsCell", for: indexPath) as? LocationsTableViewCell
+        cell?.addressLabel.text = locations[indexPath.row].address
+        cell?.ratingLabel.text = String(locations[indexPath.row].rating)
+        cell?.latLabel.text = String(locations[indexPath.row].lat)
+        cell?.longLabel.text = String(locations[indexPath.row].long)
+        // Configure the cell...
+        
+        return cell!
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+         return 100
+    }
+    
+    func updateTable() {
+        self.tableView.reloadData()
     }
     
 
