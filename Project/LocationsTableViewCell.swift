@@ -12,10 +12,10 @@ class LocationsTableViewCell: UITableViewCell {
 
     
     @IBOutlet weak var addressLabel: UILabel!
-    @IBOutlet weak var ratingLabel: UILabel!
-    @IBOutlet weak var latLabel: UILabel!
-    @IBOutlet weak var longLabel: UILabel!
-    
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var exampleImage: UIImageView!
+    @IBOutlet weak var ratingContainer: UIView!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

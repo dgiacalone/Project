@@ -40,6 +40,7 @@ class HomeViewController: UIViewController {
 
         if let tbc = self.tabBarController as? TabBarViewController {
             newPost = tbc.newUserPost
+            newPost?.photo.photoURL = dataSchema.imageURL
             newPost?.printUserPost()
         }
         getLocations()
@@ -61,11 +62,13 @@ class HomeViewController: UIViewController {
             let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
             for (_, value) in locationDict {
                 if let data = value as? [String : AnyObject] {
+                    print("here \(data)")
                     let loc = Locations()
                     loc.address = data["Address"] as! String
                     loc.lat = data["Lat"] as! Double
                     loc.long = data["Long"] as! Double
                     loc.rating = data["Rating"] as! Int
+                    loc.numPosts = data["NumPosts"] as! Int
                     newLocations.append(loc)
                 }
             }
@@ -102,6 +105,7 @@ class HomeViewController: UIViewController {
                 newLoc.long = post.long
                 newLoc.rating = post.rating
                 newLoc.photos.append(post.photo)
+                newLoc.numPosts = 1
                 if post.review != "" {
                     newLoc.reviews.append(post.review)
                 }

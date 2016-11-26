@@ -19,15 +19,22 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
     var lat: CLLocationDegrees?
     var long: CLLocationDegrees?
     var userPost: UserPosts?
+    let dataSchema = Database()
     
     @IBAction func submitButton(_ sender: AnyObject) {
-        if imageToUpload.image != nil && locationTextField.text != "" && ratingView.rating != 0 && lat != nil && long != nil {
+        if imageToUpload.image != nil && locationTextField.text != "" && ratingView.rating != 0 {
+            if lat == nil || long == nil {
+                lat = 0
+                long = 0
+            }
             let photo = Photo()
             photo.photo = imageToUpload.image!
             let user = FIRAuth.auth()?.currentUser
             userPost = UserPosts(user: (user?.email)!, lat: lat!, long: long!, address: locationTextField.text!, rating: ratingView.rating, review: reviewTextField.text)
             userPost?.photo = photo
-            //userPost?.printUserPost()
+            if let uploadPost = userPost {
+                 dataSchema.insertUserPost(post: uploadPost)
+            }
             self.performSegue(withIdentifier: "photoSubmit", sender: self)
         }
         else {
@@ -97,7 +104,9 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
                     let pm = places[0] as CLPlacemark
                     print("address hopefully: \(pm.locality)")
                     print("name hopefully: \(pm.name)")
-                    self.locationTextField.text = pm.name
+                    if let name = pm.name {
+                        self.locationTextField.text = name
+                    }
                 }
             }
             else {

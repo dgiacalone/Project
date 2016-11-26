@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8E25664E1DD9239E00208F0E /* UserPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E25664D1DD9239E00208F0E /* UserPosts.swift */; };
 		8E2566501DD92B6200208F0E /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E25664F1DD92B6200208F0E /* Photo.swift */; };
+		8E4E70481DE92F2A006BE426 /* FirebaseStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E4E70461DE92F2A006BE426 /* FirebaseStorage.framework */; };
+		8E4E70491DE92F2A006BE426 /* GTMSessionFetcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E4E70471DE92F2A006BE426 /* GTMSessionFetcher.framework */; };
 		8E70B41D1DDE5AD8006D8108 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4161DDE5AD8006D8108 /* MapViewController.swift */; };
 		8E70B41E1DDE5AD8006D8108 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */; };
 		8E70B41F1DDE5AD8006D8108 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4181DDE5AD8006D8108 /* ListViewController.swift */; };
@@ -68,6 +70,8 @@
 /* Begin PBXFileReference section */
 		8E25664D1DD9239E00208F0E /* UserPosts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPosts.swift; sourceTree = "<group>"; };
 		8E25664F1DD92B6200208F0E /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		8E4E70461DE92F2A006BE426 /* FirebaseStorage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseStorage.framework; path = Firebase/Storage/FirebaseStorage.framework; sourceTree = "<group>"; };
+		8E4E70471DE92F2A006BE426 /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GTMSessionFetcher.framework; path = Firebase/Storage/GTMSessionFetcher.framework; sourceTree = "<group>"; };
 		8E70B4161DDE5AD8006D8108 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8E70B4181DDE5AD8006D8108 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +125,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E4E70481DE92F2A006BE426 /* FirebaseStorage.framework in Frameworks */,
+				8E4E70491DE92F2A006BE426 /* GTMSessionFetcher.framework in Frameworks */,
 				8EAD7A881DCFF5900093DED8 /* FirebaseDatabase.framework in Frameworks */,
 				8EAD7A891DCFF5900093DED8 /* FirebaseAuth.framework in Frameworks */,
 				8EAD7A8A1DCFF5900093DED8 /* GTMSessionFetcher.framework in Frameworks */,
@@ -230,6 +236,8 @@
 		8EAD7A731DCFF25E0093DED8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8E4E70461DE92F2A006BE426 /* FirebaseStorage.framework */,
+				8E4E70471DE92F2A006BE426 /* GTMSessionFetcher.framework */,
 				8EAD7A851DCFF5900093DED8 /* FirebaseDatabase.framework */,
 				8EAD7A861DCFF5900093DED8 /* FirebaseAuth.framework */,
 				8EAD7A871DCFF5900093DED8 /* GTMSessionFetcher.framework */,
@@ -569,6 +577,7 @@
 					"$(PROJECT_DIR)/Firebase/Analytics",
 					"$(PROJECT_DIR)/Firebase/Database",
 					"$(PROJECT_DIR)/Firebase/Auth",
+					"$(PROJECT_DIR)/Firebase/Storage",
 				);
 				INFOPLIST_FILE = Project/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -596,6 +605,7 @@
 					"$(PROJECT_DIR)/Firebase/Analytics",
 					"$(PROJECT_DIR)/Firebase/Database",
 					"$(PROJECT_DIR)/Firebase/Auth",
+					"$(PROJECT_DIR)/Firebase/Storage",
 				);
 				INFOPLIST_FILE = Project/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

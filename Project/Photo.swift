@@ -13,6 +13,7 @@ class Photo {
     var thumbsUp = 0
     var thumbsDown = 0
     var numReported = 0
+    var photoURL = ""
     var photo = UIImage()
     
     init() {

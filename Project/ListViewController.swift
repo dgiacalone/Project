@@ -38,9 +38,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationsCell", for: indexPath) as? LocationsTableViewCell
         cell?.addressLabel.text = locations[indexPath.row].address
-        cell?.ratingLabel.text = String(locations[indexPath.row].rating)
-        cell?.latLabel.text = String(locations[indexPath.row].lat)
-        cell?.longLabel.text = String(locations[indexPath.row].long)
         // Configure the cell...
         
         return cell!

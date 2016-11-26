@@ -17,6 +17,7 @@ class Locations {
     var rating = 0
     var reviews = [String]()
     var photos = [Photo]()
+    var numPosts = 0
     
     init() {
         
@@ -30,7 +31,7 @@ class Locations {
     }
     
     func printLocations() {
-        print("lat: \(lat)\nlong: \(long)\naddress: \(address)\nrating: \(rating)")
+        print("lat: \(lat)\nlong: \(long)\naddress: \(address)\nrating: \(rating)\nnumPosts: \(numPosts)")
     }
 
     
