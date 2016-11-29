@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MapKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var listContainer: UIView!
     @IBOutlet weak var mapContainer: UIView!
@@ -18,6 +19,11 @@ class HomeViewController: UIViewController {
     let dataSchema = Database()
     var locations = [Locations]()
     var newPost: UserPosts?
+    var distances = [Double]()
+    
+    let locationManager = CLLocationManager()
+    var userLocation: CLLocationCoordinate2D?
+    let mileConversion = 1609.344
     
     @IBAction func displayTypeChanged(_ sender: AnyObject) {
         if sender.selectedSegmentIndex == 0 {
@@ -37,6 +43,8 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         self.listContainer.alpha = 1
         self.mapContainer.alpha = 0
+        
+        configureLocationManager()
 
         if let tbc = self.tabBarController as? TabBarViewController {
             newPost = tbc.newUserPost
@@ -50,6 +58,18 @@ class HomeViewController: UIViewController {
         
         // Do any additional setup after loading the view.
     }
+    
+    func configureLocationManager() {
+        CLLocationManager.locationServicesEnabled()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+            locationManager.distanceFilter = 100.0
+            locationManager.startUpdatingLocation()
+        }
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -74,6 +94,8 @@ class HomeViewController: UIViewController {
             }
             self.locations = newLocations
             self.listViewController?.locations = newLocations
+            self.getAllDistances()
+            self.listViewController?.distances = self.distances
             self.listViewController?.updateTable()
         })
     }
@@ -118,6 +140,30 @@ class HomeViewController: UIViewController {
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        userLocation = manager.location!.coordinate
+        print("locations = \(userLocation?.latitude) \(userLocation?.longitude)")
+    }
+
+    func getDistance(lat: Double, long: Double) -> Double {
+        var distanceInMiles = 0.0
+        let coordinate = CLLocation(latitude: lat, longitude: long)
+        if let userLoc = userLocation {
+            let user = CLLocation(latitude: userLoc.latitude, longitude: userLoc.longitude)
+            let distanceInMeters = coordinate.distance(from: user)
+            distanceInMiles = (distanceInMeters / mileConversion).roundTo(places:1)
+        }
+        return distanceInMiles
+    }
+    
+    func getAllDistances() {
+        print("locations count \(locations.count)")
+        for loc in locations {
+            let distance = getDistance(lat: loc.lat, long: loc.long)
+            distances.append(distance)
+        }
+    }
+    
 
     
     // MARK: - Navigation
@@ -130,6 +176,7 @@ class HomeViewController: UIViewController {
         if (segue.identifier == "listContainer") {
             listViewController = segue.destination as? ListViewController
             listViewController?.locations = locations
+            listViewController?.distances = distances
 
         }
         if (segue.identifier == "mapContainer") {

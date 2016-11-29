@@ -10,8 +10,13 @@ import UIKit
 
 class ProfileTableViewController: UITableViewController {
 
+    var dataScehma = Database()
+    var userPosts = [UserPosts]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getUserPosts()
 
         //self.tableView.contentInset = UIEdgeInsetsMake(100, 0, 0, 0)
         // Uncomment the following line to preserve selection between presentations
@@ -35,7 +40,7 @@ class ProfileTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 5
+        return userPosts.count + 1
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -47,7 +52,10 @@ class ProfileTableViewController: UITableViewController {
         }
         else{
             cell = tableView.dequeueReusableCell(withIdentifier: "userPostCell", for: indexPath) as! UserPostTableViewCell
-            
+            if indexPath.row <= userPosts.count {
+                (cell as! UserPostTableViewCell).addressLabel.text = userPosts[indexPath.row-1].address
+                (cell as! UserPostTableViewCell).ratingLabel.rating = userPosts[indexPath.row-1].rating
+            }
         }
         
         // Configure the cell...
@@ -57,14 +65,32 @@ class ProfileTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        if(indexPath.row == 0)
-        {
-            return 200
-        }
-        else{
-            return 100
-        }
+        return 100
     }
+    
+    func getUserPosts(){
+        userPosts.removeAll()
+        _ = dataScehma.postsRef?.observe(FIRDataEventType.value, with: { (snapshot) in
+            let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
+            for (_, value) in locationDict {
+                if let data = value as? [String : AnyObject] {
+                    print("here \(data)")
+                    let user = data["User"] as! String
+                    if user == FIRAuth.auth()?.currentUser?.email {
+                        let post = UserPosts()
+                        post.address = data["Address"] as! String
+                        post.lat = data["Lat"] as! Double
+                        post.long = data["Long"] as! Double
+                        post.rating = data["Rating"] as! Int
+                        post.review = data["Review"] as! String
+                        self.userPosts.append(post)
+                    }
+                }
+            }
+            self.tableView.reloadData()
+        })
+    }
+
 
     /*
     // Override to support conditional editing of the table view.

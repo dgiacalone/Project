@@ -20,8 +20,6 @@ class Database {
     let storage = FIRStorage.storage()    
     var storageRef : FIRStorageReference?
     var imagesRef: FIRStorageReference?
-    var reviewsRef: FIRDatabaseReference?
-    var photosRef: FIRDatabaseReference?
     var imageURL = ""
     
     init() {
@@ -44,7 +42,7 @@ class Database {
         let ref = locationsRef?.child("Location \(key)")
         ref?.setValue(location)
         
-        self.reviewsRef = ref?.child("Reviews")
+        /*self.reviewsRef = ref?.child("Reviews")
         let reviews: NSMutableDictionary = [:]
         print("count \(loc.reviews.count)")
         if loc.reviews.count > 0 {
@@ -60,7 +58,7 @@ class Database {
         for i in 0...loc.photos.count-1 {
             photos.setValue(loc.photos[i].photoURL, forKey: "Photo \(i)")
         }
-        photosRef?.setValue(photos)
+        photosRef?.setValue(photos)*/
     }
     
     func insertUserPost(post: UserPosts){

@@ -12,6 +12,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     @IBOutlet weak var tableView: UITableView!
     var locations = [Locations]()
+    var distances = [Double]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationsCell", for: indexPath) as? LocationsTableViewCell
         cell?.addressLabel.text = locations[indexPath.row].address
+        cell?.ratingContainer.rating = locations[indexPath.row].rating
+        if distances.count > indexPath.row {
+            cell?.distanceLabel.text = "\(distances[indexPath.row]) miles"
+        }
         // Configure the cell...
         
         return cell!

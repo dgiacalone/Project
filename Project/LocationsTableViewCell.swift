@@ -14,7 +14,7 @@ class LocationsTableViewCell: UITableViewCell {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var exampleImage: UIImageView!
-    @IBOutlet weak var ratingContainer: UIView!
+    @IBOutlet weak var ratingContainer: RatingDisplay!
 
     override func awakeFromNib() {
         super.awakeFromNib()

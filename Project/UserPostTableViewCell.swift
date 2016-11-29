@@ -10,6 +10,10 @@ import UIKit
 
 class UserPostTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var postImage: UIImageView!
+    @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var ratingLabel: RatingDisplay!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
