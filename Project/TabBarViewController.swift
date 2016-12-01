@@ -10,7 +10,8 @@ import UIKit
 
 class TabBarViewController: UITabBarController {
 
-    var newUserPost: UserPosts?
+    /*var newUserPost: UserPosts?
+    var locations: [Locations]?*/
     
     override func viewDidLoad() {
         super.viewDidLoad()

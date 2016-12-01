@@ -12,6 +12,7 @@
 		8E4E70481DE92F2A006BE426 /* FirebaseStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E4E70461DE92F2A006BE426 /* FirebaseStorage.framework */; };
 		8E4E70491DE92F2A006BE426 /* GTMSessionFetcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E4E70471DE92F2A006BE426 /* GTMSessionFetcher.framework */; };
 		8E4E704B1DEA1792006BE426 /* RatingDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E704A1DEA1792006BE426 /* RatingDisplay.swift */; };
+		8E4E704D1DEEA606006BE426 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E704C1DEEA606006BE426 /* LoadingIndicatorView.swift */; };
 		8E70B41D1DDE5AD8006D8108 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4161DDE5AD8006D8108 /* MapViewController.swift */; };
 		8E70B41E1DDE5AD8006D8108 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */; };
 		8E70B41F1DDE5AD8006D8108 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4181DDE5AD8006D8108 /* ListViewController.swift */; };
@@ -74,6 +75,7 @@
 		8E4E70461DE92F2A006BE426 /* FirebaseStorage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseStorage.framework; path = Firebase/Storage/FirebaseStorage.framework; sourceTree = "<group>"; };
 		8E4E70471DE92F2A006BE426 /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GTMSessionFetcher.framework; path = Firebase/Storage/GTMSessionFetcher.framework; sourceTree = "<group>"; };
 		8E4E704A1DEA1792006BE426 /* RatingDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingDisplay.swift; sourceTree = "<group>"; };
+		8E4E704C1DEEA606006BE426 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		8E70B4161DDE5AD8006D8108 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8E70B4181DDE5AD8006D8108 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				8E70B4251DDE5AE6006D8108 /* LocationsTableViewCell.swift */,
 				8E70B4261DDE5AE6006D8108 /* UserPostTableViewCell.swift */,
 				8E70B4271DDE5AE6006D8108 /* AddPhotoViewController.swift */,
+				8E4E704C1DEEA606006BE426 /* LoadingIndicatorView.swift */,
 				8E70B42C1DE265B9006D8108 /* TabBarViewController.swift */,
 				8E70B4161DDE5AD8006D8108 /* MapViewController.swift */,
 				8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */,
@@ -404,6 +407,7 @@
 				8E70B42D1DE265B9006D8108 /* TabBarViewController.swift in Sources */,
 				8EAD7AD41DD2831F0093DED8 /* SignUpViewController.swift in Sources */,
 				8EAD7ADA1DD3FFBF0093DED8 /* DoubleExtension.swift in Sources */,
+				8E4E704D1DEEA606006BE426 /* LoadingIndicatorView.swift in Sources */,
 				8E70B4201DDE5AD8006D8108 /* ListTableViewController.swift in Sources */,
 				8E70B4221DDE5AD8006D8108 /* ChangePasswordViewController.swift in Sources */,
 				8E70B4231DDE5AD8006D8108 /* ProfileTableViewController.swift in Sources */,

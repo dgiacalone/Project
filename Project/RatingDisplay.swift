@@ -15,7 +15,6 @@ class RatingDisplay: UIView {
     let size = 20
     var rating = 0 {
         didSet {
-            print("here yay \(rating)")
             updateRating()
             setNeedsLayout()
         }

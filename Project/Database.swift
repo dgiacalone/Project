@@ -11,6 +11,8 @@ import Firebase
 import CoreLocation
 import FirebaseStorage
 
+let databaseDoneNotificationKey = "com.dgiacalone.specialNotificationKey"
+
 class Database {
     
     var root : FIRDatabaseReference?
@@ -21,6 +23,7 @@ class Database {
     var storageRef : FIRStorageReference?
     var imagesRef: FIRStorageReference?
     var imageURL = ""
+    var locPostsRef : FIRDatabaseReference?
     
     init() {
         self.root = FIRDatabase.database().reference()
@@ -30,17 +33,34 @@ class Database {
         //self.storageRef = storage.reference(forURL: "gs://project-aaf48.appspot.com")
         let imageName = NSUUID().uuidString
         self.imagesRef = storageRef?.child("Images").child("Image \(imageName)")
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationSent), name: NSNotification.Name(rawValue: databaseDoneNotificationKey), object: nil)
+
     }
     
-    func insertLocation(loc: Locations) {
+    @objc func notificationSent() {
+        
+    }
+
+    
+    func insertNewLocation(loc: Locations, postKey: String) {
+        print("starting new location")
         let key = (locationsRef?.childByAutoId().key)!
         let location: NSDictionary = ["Address" : loc.address,
                                       "Lat" : loc.lat,
                                       "Long" : loc.long,
-                                      "Rating" : loc.rating,
-                                      "NumPosts" : loc.numPosts]
+                                      "Rating" : loc.rating]
         let ref = locationsRef?.child("Location \(key)")
         ref?.setValue(location)
+        
+        self.locPostsRef = ref?.child("UserPosts")
+        let posts: NSMutableDictionary = [:]
+        posts.setValue(postKey, forKey: "UserPost 0")
+        self.locPostsRef?.setValue(posts)
+        
+        print("done with insert locations")
+        
+        NotificationCenter.default.post(name: Notification.Name(rawValue: databaseDoneNotificationKey), object: self)
         
         /*self.reviewsRef = ref?.child("Reviews")
         let reviews: NSMutableDictionary = [:]
@@ -62,13 +82,15 @@ class Database {
     }
     
     func insertUserPost(post: UserPosts){
+        print("really should be here")
         if let imageData = UIImagePNGRepresentation(post.photo.photo) {
             imagesRef?.put(imageData, metadata: nil, completion: { (metadata, error) in
                 if error != nil {
                     print(error)
                 }
+                var key = ""
                 if let image = metadata?.downloadURL()?.absoluteString {
-                    let key = (self.postsRef?.childByAutoId().key)!
+                    key = (self.postsRef?.childByAutoId().key)!
                     let userPost: NSDictionary = ["User" : post.user,
                                                   "Address" : post.address,
                                                   "Lat" : post.lat,
@@ -80,9 +102,62 @@ class Database {
                     ref?.setValue(userPost)
                     self.imageURL = image
                 }
+                print("done with user post")
+                self.getLocations(post: post, postKey: key)
             })
             
         }
+    }
+    
+    func getLocations(post: UserPosts, postKey: String){
+        print("stating get locations")
+        locations.removeAll()
+        _ = locationsRef?.observeSingleEvent(of: .value, with: { (snapshot) in
+            let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
+            var found = false
+            for (key, value) in locationDict {
+                if let data = value as? [String : AnyObject] {
+                    print("here \(data)")
+                    let loc = Locations()
+                    loc.address = data["Address"] as! String
+                    loc.lat = data["Lat"] as! Double
+                    loc.long = data["Long"] as! Double
+                    loc.rating = data["Rating"] as! Int
+                    self.locations.append(loc)
+                    
+                    if loc.address == post.address {
+                        self.updateLocation(post: post, postKey: postKey, locationsKey: key, posts: data["UserPosts"] as! NSMutableDictionary, oldRating: loc.rating)
+                        found = true
+                    }
+                }
+                
+            }
+            print("size of locations \(self.locations.count)")
+            print("done with get locations \(self.locations.count)")
+            if found == false{
+                let newLoc = Locations()
+                newLoc.address = post.address
+                newLoc.lat = post.lat
+                newLoc.long = post.long
+                newLoc.rating = post.rating
+                newLoc.photos.append(post.photo)
+                self.insertNewLocation(loc: newLoc, postKey: postKey)
+            }
+        })
+    }
+
+    func updateLocation(post: UserPosts, postKey: String, locationsKey: String, posts: NSMutableDictionary, oldRating: Int) {
+        
+        posts["UserPost \(posts.count)"] = postKey
+        //posts.setValue(postKey, forKey: "UserPost \(posts.count)")
+        print("post count \(posts.count) posts \(posts)")
+        //need to get all ratings
+        let sum = (posts.count - 1) * oldRating
+        let newRating = (sum + post.rating) / posts.count
+        locationsRef?.child(locationsKey).child("UserPosts").setValue(posts)
+        locationsRef?.child(locationsKey).updateChildValues(["Rating": newRating])
+        
+        NotificationCenter.default.post(name: Notification.Name(rawValue: databaseDoneNotificationKey), object: self)
     }
     
     /*func changeLocation(loc: Locations){

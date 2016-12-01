@@ -21,11 +21,27 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
     var userPost: UserPosts?
     let dataSchema = Database()
     
+    var currentLocations = [Locations]()
+    
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(databaseDoneNotification), name: NSNotification.Name(rawValue: databaseDoneNotificationKey), object: nil)
+        
+        reviewTextField.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor
+        reviewTextField.layer.borderWidth = 1.0
+        reviewTextField.layer.cornerRadius = 5
+        
+        // Do any additional setup after loading the view.
+    }
+    
+
     @IBAction func submitButton(_ sender: AnyObject) {
         if imageToUpload.image != nil && locationTextField.text != "" && ratingView.rating != 0 {
             if lat == nil || long == nil {
-                lat = 0
-                long = 0
+                lat = 0.0
+                long = 0.0
             }
             let photo = Photo()
             photo.photo = imageToUpload.image!
@@ -33,9 +49,9 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
             userPost = UserPosts(user: (user?.email)!, lat: lat!, long: long!, address: locationTextField.text!, rating: ratingView.rating, review: reviewTextField.text)
             userPost?.photo = photo
             if let uploadPost = userPost {
-                 dataSchema.insertUserPost(post: uploadPost)
+                LoadingIndicatorView.show("Uploading Image")
+                dataSchema.insertUserPost(post: uploadPost)
             }
-            self.performSegue(withIdentifier: "photoSubmit", sender: self)
         }
         else {
             let alert = UIAlertController(title : "Error", message: "Must enter all non optional fields!", preferredStyle: .alert)
@@ -55,15 +71,11 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        reviewTextField.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor
-        reviewTextField.layer.borderWidth = 1.0
-        reviewTextField.layer.cornerRadius = 5
-
-
-        // Do any additional setup after loading the view.
+    func databaseDoneNotification() {
+        print("omg got here")
+        LoadingIndicatorView.hide()
+        //currentLocations = dataSchema.locations
+        self.performSegue(withIdentifier: "photoSubmit", sender: self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -124,11 +136,13 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
         // Pass the selected object to the new view controller.
         if segue.identifier == "photoSubmit"
         {
-            let destVC = segue.destination as? TabBarViewController
-            if let newPost = userPost {
+            //let destVC = segue.destination as? TabBarViewController
+            /*if let newPost = userPost {
                 newPost.printUserPost()
                 destVC?.newUserPost = newPost
             }
+            print("locations count \(currentLocations.count)")
+            destVC?.locations = currentLocations*/
         }
 
     }

@@ -41,7 +41,15 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell?.addressLabel.text = locations[indexPath.row].address
         cell?.ratingContainer.rating = locations[indexPath.row].rating
         if distances.count > indexPath.row {
-            cell?.distanceLabel.text = "\(distances[indexPath.row]) miles"
+            if distances[indexPath.row] == -1 {
+                cell?.distanceLabel.text = "Unknown"
+            }
+            else if distances[indexPath.row] > 50{
+                cell?.distanceLabel.text = "50+ miles"
+            }
+            else {
+                cell?.distanceLabel.text = "\(distances[indexPath.row]) miles"
+            }
         }
         // Configure the cell...
         

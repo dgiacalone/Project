@@ -41,18 +41,33 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        /*if let tbc = self.tabBarController as? TabBarViewController {
+            newPost = tbc.newUserPost
+            newPost?.photo.photoURL = dataSchema.imageURL
+            newPost?.printUserPost()
+            /*if let locs = tbc.locations {
+                print("second time")
+                locations = locs
+                self.listViewController?.locations = locs
+                getAllDistances()
+                self.listViewController?.updateTable()
+            }
+            else {
+                print("first time")
+                dataSchema.getStartingLocations()
+            }*/
+        }*/
+
         self.listContainer.alpha = 1
         self.mapContainer.alpha = 0
         
         configureLocationManager()
+        //dataSchema.getStartingLocations()
+        getStartingLocations()
 
-        if let tbc = self.tabBarController as? TabBarViewController {
-            newPost = tbc.newUserPost
-            newPost?.photo.photoURL = dataSchema.imageURL
-            newPost?.printUserPost()
-        }
-        getLocations()
-        addNewPost()
+        //getLocations()
+        //addNewPost()
         print("cool ")
         print(locations.count)
         
@@ -67,6 +82,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
             locationManager.distanceFilter = 100.0
             locationManager.startUpdatingLocation()
+            
+            userLocation = CLLocationCoordinate2DMake((locationManager.location?.coordinate.latitude)!, (locationManager.location?.coordinate.longitude)!)
         }
     }
 
@@ -76,7 +93,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func getLocations(){
+    /*func getLocations(){
         _ = dataSchema.locationsRef?.observe(FIRDataEventType.value, with: { (snapshot) in
             var newLocations = [Locations]()
             let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
@@ -98,57 +115,25 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             self.listViewController?.distances = self.distances
             self.listViewController?.updateTable()
         })
-    }
-
-    
-    func addNewPost() {
-        print("locations size \(locations.count)")
-        if let post = newPost {
-            var found = false
-            /*for location in locations {
-                print("okay: \(location.address) \(post.address)")
-                if location.address == post.address {
-                    let newRating = (location.rating + post.rating) / (location.photos.count + 1)
-                    location.rating = newRating
-                    location.photos.append(post.photo)
-                    if newPost?.review != "" {
-                        location.reviews.append(post.review)
-                    }
-                    found = true
-                    print("found old location!")
-                    break
-                }
-                location.printLocations()
-            }*/
-            if !found{
-                let newLoc = Locations()
-                newLoc.address = post.address
-                newLoc.lat = post.lat
-                newLoc.long = post.long
-                newLoc.rating = post.rating
-                newLoc.photos.append(post.photo)
-                newLoc.numPosts = 1
-                if post.review != "" {
-                    newLoc.reviews.append(post.review)
-                }
-                locations.append(newLoc)
-                dataSchema.insertLocation(loc: newLoc)
-                //add to firebase
-                print("locationssize: \(locations.count)")
-                print("new location!")
-            }
-        }
-    }
+    }*/
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        userLocation = manager.location!.coordinate
+        if let location = locations.first {
+            userLocation = location.coordinate
+        }
         print("locations = \(userLocation?.latitude) \(userLocation?.longitude)")
     }
-
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription)")
+    }
+    
     func getDistance(lat: Double, long: Double) -> Double {
         var distanceInMiles = 0.0
         let coordinate = CLLocation(latitude: lat, longitude: long)
+        print("userlocation: \(userLocation)")
         if let userLoc = userLocation {
+            print("shouldn't be 0")
             let user = CLLocation(latitude: userLoc.latitude, longitude: userLoc.longitude)
             let distanceInMeters = coordinate.distance(from: user)
             distanceInMiles = (distanceInMeters / mileConversion).roundTo(places:1)
@@ -157,15 +142,56 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func getAllDistances() {
-        print("locations count \(locations.count)")
+        print("distance locations count \(locations.count)")
+        distances.removeAll()
         for loc in locations {
-            let distance = getDistance(lat: loc.lat, long: loc.long)
+            var distance = 0.0
+            if loc.lat == 0 && loc.long == 0 {
+                distance = -1
+            }
+            else {
+                distance = getDistance(lat: loc.lat, long: loc.long)
+            }
+            print("distancee: \(distance)")
             distances.append(distance)
         }
+        self.listViewController?.distances = self.distances
+        self.listViewController?.updateTable()
+        
     }
     
+    func getStartingLocations(){
+        print("HOW MANY TIMES")
+        //locations.removeAll()
+        _ = dataSchema.locationsRef?.observe(FIRDataEventType.value, with: { (snapshot) in
+            var newItems: [Locations] = []
+            let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
+            for (_, value) in locationDict {
+                if let data = value as? [String : AnyObject] {
+                    print("here \(data)")
+                    let loc = Locations()
+                    loc.address = data["Address"] as! String
+                    loc.lat = data["Lat"] as! Double
+                    loc.long = data["Long"] as! Double
+                    loc.rating = data["Rating"] as! Int
+                    if let userData = data["UserPosts"] as? [String : AnyObject]{
+                        //loop through and get photos and reviews
+                        for (key, val) in userData {
+                            
+                        }
+                    }
+                    newItems.append(loc)
+                }
+            }
+            self.locations = newItems
+            self.listViewController?.locations = newItems
+            self.getAllDistances()
+            self.listViewController?.updateTable()
+            print("size of locations2 \(self.locations.count)")
+            //NotificationCenter.default.post(name: Notification.Name(rawValue: gotLocationsKey), object: self)
+        })
+    }
 
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -175,6 +201,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         
         if (segue.identifier == "listContainer") {
             listViewController = segue.destination as? ListViewController
+            //print
+            print("count here \(locations.count)")
             listViewController?.locations = locations
             listViewController?.distances = distances
 
