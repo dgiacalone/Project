@@ -9,17 +9,27 @@
 import UIKit
 import MapKit
 
+let imagesDoneNotificationKey = "com.dgiacalone.specialNotificationKey2"
+
 class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var listContainer: UIView!
     @IBOutlet weak var mapContainer: UIView!
     
+    var distanceFilter = 50
+    var ratingFilter = 1
+    var itemsInFilterRange = false
+    let defaults = UserDefaults.standard
+    var isWithinFilter = false
+    
     var listViewController : ListViewController?
     
     let dataSchema = Database()
     var locations = [Locations]()
+    var locationsToDisplay = [Locations]()
     var newPost: UserPosts?
-    var distances = [Double]()
+    var photosToDisplay = [String: Photo]()
+    //var distances = [Double]()
     
     let locationManager = CLLocationManager()
     var userLocation: CLLocationCoordinate2D?
@@ -41,37 +51,53 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        /*if let tbc = self.tabBarController as? TabBarViewController {
-            newPost = tbc.newUserPost
-            newPost?.photo.photoURL = dataSchema.imageURL
-            newPost?.printUserPost()
-            /*if let locs = tbc.locations {
-                print("second time")
-                locations = locs
-                self.listViewController?.locations = locs
-                getAllDistances()
-                self.listViewController?.updateTable()
-            }
-            else {
-                print("first time")
-                dataSchema.getStartingLocations()
-            }*/
-        }*/
 
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationSent), name: NSNotification.Name(rawValue: imagesDoneNotificationKey), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(imagesDoneNotification), name: NSNotification.Name(rawValue: imagesDoneNotificationKey), object: nil)
+        
         self.listContainer.alpha = 1
         self.mapContainer.alpha = 0
         
+        if let distance = defaults.string(forKey: "distance"){
+            distanceFilter = Int(distance)!
+        }
+        if let rating = defaults.string(forKey: "rating"){
+            ratingFilter = Int(rating)!
+        }
+        
         configureLocationManager()
-        //dataSchema.getStartingLocations()
-        getStartingLocations()
-
-        //getLocations()
-        //addNewPost()
-        print("cool ")
-        print(locations.count)
+        /*if let tbc = self.tabBarController as? TabBarViewController {
+            let addPhoto = tbc.cameFromAddPhoto
+            if addPhoto == false {
+                getStartingLocations()
+                
+            }
+        }*/
+        //getStartingLocations()
+        
+        //print("cool ")
+        //print(locations.count)
         
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        LoadingIndicatorView.show("Loading Locations")
+        getStartingLocations()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("removing observer")
+        dataSchema.locationsRef?.removeAllObservers()
+    }
+    
+    func notificationSent() {
+        
+    }
+    
+    func imagesDoneNotification() {
+        //LoadingIndicatorView.hide()
     }
     
     func configureLocationManager() {
@@ -87,41 +113,16 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
 
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    /*func getLocations(){
-        _ = dataSchema.locationsRef?.observe(FIRDataEventType.value, with: { (snapshot) in
-            var newLocations = [Locations]()
-            let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
-            for (_, value) in locationDict {
-                if let data = value as? [String : AnyObject] {
-                    print("here \(data)")
-                    let loc = Locations()
-                    loc.address = data["Address"] as! String
-                    loc.lat = data["Lat"] as! Double
-                    loc.long = data["Long"] as! Double
-                    loc.rating = data["Rating"] as! Int
-                    loc.numPosts = data["NumPosts"] as! Int
-                    newLocations.append(loc)
-                }
-            }
-            self.locations = newLocations
-            self.listViewController?.locations = newLocations
-            self.getAllDistances()
-            self.listViewController?.distances = self.distances
-            self.listViewController?.updateTable()
-        })
-    }*/
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             userLocation = location.coordinate
         }
-        print("locations = \(userLocation?.latitude) \(userLocation?.longitude)")
+        //print("locations = \(userLocation?.latitude) \(userLocation?.longitude)")
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -131,9 +132,9 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     func getDistance(lat: Double, long: Double) -> Double {
         var distanceInMiles = 0.0
         let coordinate = CLLocation(latitude: lat, longitude: long)
-        print("userlocation: \(userLocation)")
+        //print("userlocation: \(userLocation)")
         if let userLoc = userLocation {
-            print("shouldn't be 0")
+            //print("shouldn't be 0")
             let user = CLLocation(latitude: userLoc.latitude, longitude: userLoc.longitude)
             let distanceInMeters = coordinate.distance(from: user)
             distanceInMiles = (distanceInMeters / mileConversion).roundTo(places:1)
@@ -141,7 +142,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         return distanceInMiles
     }
     
-    func getAllDistances() {
+    /*func getAllDistances() {
         print("distance locations count \(locations.count)")
         distances.removeAll()
         for loc in locations {
@@ -158,40 +159,105 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         self.listViewController?.distances = self.distances
         self.listViewController?.updateTable()
         
-    }
+    }*/
     
     func getStartingLocations(){
-        print("HOW MANY TIMES")
+        //print("HOW MANY TIMES")
         //locations.removeAll()
+        //locationsToDisplay.removeAll()
         _ = dataSchema.locationsRef?.observe(FIRDataEventType.value, with: { (snapshot) in
+            self.locations.removeAll()
+            self.locationsToDisplay.removeAll()
+            print("HOW MANY TIMES")
             var newItems: [Locations] = []
             let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
-            for (_, value) in locationDict {
+            for (key, value) in locationDict {
                 if let data = value as? [String : AnyObject] {
-                    print("here \(data)")
+                    //print("here \(data)")
                     let loc = Locations()
+                    loc.key = key
                     loc.address = data["Address"] as! String
                     loc.lat = data["Lat"] as! Double
                     loc.long = data["Long"] as! Double
                     loc.rating = data["Rating"] as! Int
-                    if let userData = data["UserPosts"] as? [String : AnyObject]{
-                        //loop through and get photos and reviews
-                        for (key, val) in userData {
-                            
+                    if let userData = data["UserPosts"] as? [String : AnyObject] {
+                        if userData.count > 0 {
+                            loc.userPostKey = userData.first?.value as! String
                         }
                     }
+                    var distance = 0.0
+                    if loc.lat == 0 && loc.long == 0 {
+                        distance = -1
+                    }
+                    else {
+                        distance = self.getDistance(lat: loc.lat, long: loc.long)
+                    }
+                    loc.distanceFromUser = distance
+                    
                     newItems.append(loc)
                 }
             }
+            
             self.locations = newItems
-            self.listViewController?.locations = newItems
-            self.getAllDistances()
+            let inFilter = self.checkInFilter()
+            if !inFilter {
+                print("here")
+                LoadingIndicatorView.hide()
+            }
+            else {
+                self.getFirstPhotoURLs()
+            }
+            self.locationsToDisplay.sort(by: {
+                return $0.distanceFromUser < $1.distanceFromUser
+            })
+            
+            self.listViewController?.locations = self.locationsToDisplay
             self.listViewController?.updateTable()
-            print("size of locations2 \(self.locations.count)")
-            //NotificationCenter.default.post(name: Notification.Name(rawValue: gotLocationsKey), object: self)
+
         })
     }
-
+    
+    func checkInFilter() -> Bool {
+        var inFilter = false
+        for loc in self.locations {
+            if loc.distanceFromUser <= Double(self.distanceFilter) && loc.rating >= self.ratingFilter && loc.distanceFromUser >= 0 {
+                inFilter = true
+                self.locationsToDisplay.append(loc)
+            }
+        }
+        return inFilter
+    }
+    
+    func getFirstPhotoURLs(){
+        let size = self.locationsToDisplay.count
+        var count = 0
+        for loc in self.locationsToDisplay {
+            dataSchema.postsRef?.child("User Post \(loc.userPostKey)").observeSingleEvent(of: .value, with: { (snapshot) in
+                if let data = snapshot.value as? [String : AnyObject] {
+                    if let photoURL = data["Photo"] as? String {
+                        //print("photoURL home \(photoURL)")
+                        let getPhoto = Photo()
+                        let url = NSURL(string: photoURL)  //userPhoto URL
+                        let data2 = NSData(contentsOf: url! as URL)  //Convert into data
+                        if data2 != nil  {
+                            getPhoto.photo = UIImage(data: data2! as Data)!
+                        }
+                        loc.photoToDisplay = getPhoto.photo
+                        
+                        self.listViewController?.updateTable()
+                    }
+                }
+                if count == size - 1{
+                    print("hide")
+                    LoadingIndicatorView.hide()
+                    self.listViewController?.locations = self.locationsToDisplay
+                    self.listViewController?.updateTable()
+                }
+                count += 1
+            })
+        }
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -199,24 +265,40 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        if (segue.identifier == "listContainer") {
+        if segue.identifier == "listContainer" {
             listViewController = segue.destination as? ListViewController
-            //print
-            print("count here \(locations.count)")
+            //print("count here \(locations.count)")
             listViewController?.locations = locations
-            listViewController?.distances = distances
 
         }
-        if (segue.identifier == "mapContainer") {
+        if segue.identifier == "mapContainer" {
             let mapViewController = segue.destination as! MapViewController
             mapViewController.locations = locations
             
         }
+        if segue.identifier == "filter" {
+            let backItem = UIBarButtonItem()
+            backItem.title = "Cancel"
+            navigationItem.backBarButtonItem = backItem
+        }
+        else {
+            let backItem = UIBarButtonItem()
+            backItem.title = "Back"
+            navigationItem.backBarButtonItem = backItem
+        }
     }
  
     
-    @IBAction func unwindFromDetail(segue:UIStoryboardSegue) {
+    @IBAction func cancelAddPhoto(segue:UIStoryboardSegue) {
     
+    }
+    
+    @IBAction func saveFilter(segue:UIStoryboardSegue) {
+        if let sourceViewController = segue.source as? FilterViewController {
+            distanceFilter = Int(sourceViewController.distanceRoundedVal)
+            ratingFilter = Int(sourceViewController.ratingRoundedVal)
+            //self.listViewController?.updateTable()
+        }
     }
 
 

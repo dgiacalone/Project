@@ -44,7 +44,6 @@ class Database {
 
     
     func insertNewLocation(loc: Locations, postKey: String) {
-        print("starting new location")
         let key = (locationsRef?.childByAutoId().key)!
         let location: NSDictionary = ["Address" : loc.address,
                                       "Lat" : loc.lat,
@@ -57,8 +56,6 @@ class Database {
         let posts: NSMutableDictionary = [:]
         posts.setValue(postKey, forKey: "UserPost 0")
         self.locPostsRef?.setValue(posts)
-        
-        print("done with insert locations")
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: databaseDoneNotificationKey), object: self)
         
@@ -82,11 +79,10 @@ class Database {
     }
     
     func insertUserPost(post: UserPosts){
-        print("really should be here")
         if let imageData = UIImagePNGRepresentation(post.photo.photo) {
             imagesRef?.put(imageData, metadata: nil, completion: { (metadata, error) in
                 if error != nil {
-                    print(error)
+                    print(error!)
                 }
                 var key = ""
                 if let image = metadata?.downloadURL()?.absoluteString {
@@ -102,7 +98,7 @@ class Database {
                     ref?.setValue(userPost)
                     self.imageURL = image
                 }
-                print("done with user post")
+                //print("done with user post")
                 self.getLocations(post: post, postKey: key)
             })
             
@@ -110,14 +106,14 @@ class Database {
     }
     
     func getLocations(post: UserPosts, postKey: String){
-        print("stating get locations")
+        //print("stating get locations")
         locations.removeAll()
         _ = locationsRef?.observeSingleEvent(of: .value, with: { (snapshot) in
             let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
             var found = false
             for (key, value) in locationDict {
                 if let data = value as? [String : AnyObject] {
-                    print("here \(data)")
+                    //print("here \(data)")
                     let loc = Locations()
                     loc.address = data["Address"] as! String
                     loc.lat = data["Lat"] as! Double
@@ -132,8 +128,8 @@ class Database {
                 }
                 
             }
-            print("size of locations \(self.locations.count)")
-            print("done with get locations \(self.locations.count)")
+            //print("size of locations \(self.locations.count)")
+            //print("done with get locations \(self.locations.count)")
             if found == false{
                 let newLoc = Locations()
                 newLoc.address = post.address
@@ -150,7 +146,7 @@ class Database {
         
         posts["UserPost \(posts.count)"] = postKey
         //posts.setValue(postKey, forKey: "UserPost \(posts.count)")
-        print("post count \(posts.count) posts \(posts)")
+        //print("post count \(posts.count) posts \(posts)")
         //need to get all ratings
         let sum = (posts.count - 1) * oldRating
         let newRating = (sum + post.rating) / posts.count

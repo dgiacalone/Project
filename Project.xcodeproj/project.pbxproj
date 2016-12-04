@@ -16,7 +16,6 @@
 		8E70B41D1DDE5AD8006D8108 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4161DDE5AD8006D8108 /* MapViewController.swift */; };
 		8E70B41E1DDE5AD8006D8108 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */; };
 		8E70B41F1DDE5AD8006D8108 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4181DDE5AD8006D8108 /* ListViewController.swift */; };
-		8E70B4201DDE5AD8006D8108 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B4191DDE5AD8006D8108 /* ListTableViewController.swift */; };
 		8E70B4211DDE5AD8006D8108 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B41A1DDE5AD8006D8108 /* SettingsViewController.swift */; };
 		8E70B4221DDE5AD8006D8108 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B41B1DDE5AD8006D8108 /* ChangePasswordViewController.swift */; };
 		8E70B4231DDE5AD8006D8108 /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B41C1DDE5AD8006D8108 /* ProfileTableViewController.swift */; };
@@ -27,7 +26,6 @@
 		8E70B42D1DE265B9006D8108 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B42C1DE265B9006D8108 /* TabBarViewController.swift */; };
 		8E70B42F1DE26FD1006D8108 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70B42E1DE26FD1006D8108 /* Database.swift */; };
 		8EAD7A441DCFEE5E0093DED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7A431DCFEE5E0093DED8 /* AppDelegate.swift */; };
-		8EAD7A461DCFEE5E0093DED8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7A451DCFEE5E0093DED8 /* ViewController.swift */; };
 		8EAD7A491DCFEE5E0093DED8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EAD7A471DCFEE5E0093DED8 /* Main.storyboard */; };
 		8EAD7A4B1DCFEE5E0093DED8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAD7A4A1DCFEE5E0093DED8 /* Assets.xcassets */; };
 		8EAD7A4E1DCFEE5E0093DED8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EAD7A4C1DCFEE5E0093DED8 /* LaunchScreen.storyboard */; };
@@ -50,6 +48,9 @@
 		8EAD7ADA1DD3FFBF0093DED8 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7AD91DD3FFBF0093DED8 /* DoubleExtension.swift */; };
 		8EAD7ADC1DD41C780093DED8 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7ADB1DD41C780093DED8 /* RatingControl.swift */; };
 		8EAD7AE81DD7F6C30093DED8 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAD7AE71DD7F6C30093DED8 /* Locations.swift */; };
+		8EB5E7F51DF0D902005FBDEF /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5E7F41DF0D902005FBDEF /* FilterViewController.swift */; };
+		8EB5E7F91DF0F2D5005FBDEF /* LocationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5E7F81DF0F2D5005FBDEF /* LocationDetailViewController.swift */; };
+		8EB5E7FB1DF25985005FBDEF /* DetailedPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5E7FA1DF25985005FBDEF /* DetailedPostViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,7 +80,6 @@
 		8E70B4161DDE5AD8006D8108 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8E70B4181DDE5AD8006D8108 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
-		8E70B4191DDE5AD8006D8108 /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		8E70B41A1DDE5AD8006D8108 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8E70B41B1DDE5AD8006D8108 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		8E70B41C1DDE5AD8006D8108 /* ProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
@@ -91,7 +91,6 @@
 		8E70B42E1DE26FD1006D8108 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		8EAD7A401DCFEE5E0093DED8 /* Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAD7A431DCFEE5E0093DED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8EAD7A451DCFEE5E0093DED8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8EAD7A481DCFEE5E0093DED8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8EAD7A4A1DCFEE5E0093DED8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8EAD7A4D1DCFEE5E0093DED8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -122,6 +121,9 @@
 		8EAD7AD91DD3FFBF0093DED8 /* DoubleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		8EAD7ADB1DD41C780093DED8 /* RatingControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
 		8EAD7AE71DD7F6C30093DED8 /* Locations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
+		8EB5E7F41DF0D902005FBDEF /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		8EB5E7F81DF0F2D5005FBDEF /* LocationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationDetailViewController.swift; path = ../LocationDetailViewController.swift; sourceTree = "<group>"; };
+		8EB5E7FA1DF25985005FBDEF /* DetailedPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedPostViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,14 +191,15 @@
 			children = (
 				8EAD7A431DCFEE5E0093DED8 /* AppDelegate.swift */,
 				8EAD7A471DCFEE5E0093DED8 /* Main.storyboard */,
+				8EB5E7F41DF0D902005FBDEF /* FilterViewController.swift */,
 				8EAD7AE71DD7F6C30093DED8 /* Locations.swift */,
 				8E25664F1DD92B6200208F0E /* Photo.swift */,
 				8E25664D1DD9239E00208F0E /* UserPosts.swift */,
 				8EAD7ADB1DD41C780093DED8 /* RatingControl.swift */,
 				8E4E704A1DEA1792006BE426 /* RatingDisplay.swift */,
+				8EB5E7F81DF0F2D5005FBDEF /* LocationDetailViewController.swift */,
 				8E70B4241DDE5AE6006D8108 /* ProfileHeaderTableViewCell.swift */,
 				8E70B4251DDE5AE6006D8108 /* LocationsTableViewCell.swift */,
-				8E70B4261DDE5AE6006D8108 /* UserPostTableViewCell.swift */,
 				8E70B4271DDE5AE6006D8108 /* AddPhotoViewController.swift */,
 				8E4E704C1DEEA606006BE426 /* LoadingIndicatorView.swift */,
 				8E70B42C1DE265B9006D8108 /* TabBarViewController.swift */,
@@ -204,14 +207,14 @@
 				8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */,
 				8E70B42E1DE26FD1006D8108 /* Database.swift */,
 				8E70B4181DDE5AD8006D8108 /* ListViewController.swift */,
-				8E70B4191DDE5AD8006D8108 /* ListTableViewController.swift */,
 				8E70B41A1DDE5AD8006D8108 /* SettingsViewController.swift */,
 				8E70B41B1DDE5AD8006D8108 /* ChangePasswordViewController.swift */,
 				8E70B41C1DDE5AD8006D8108 /* ProfileTableViewController.swift */,
+				8EB5E7FA1DF25985005FBDEF /* DetailedPostViewController.swift */,
+				8E70B4261DDE5AE6006D8108 /* UserPostTableViewCell.swift */,
 				8EAD7AD91DD3FFBF0093DED8 /* DoubleExtension.swift */,
 				8EAD7AD11DD2830C0093DED8 /* LoginViewController.swift */,
 				8EAD7AD31DD2831F0093DED8 /* SignUpViewController.swift */,
-				8EAD7A451DCFEE5E0093DED8 /* ViewController.swift */,
 				8EAD7A4A1DCFEE5E0093DED8 /* Assets.xcassets */,
 				8EAD7A8E1DD16F2B0093DED8 /* Project.entitlements */,
 				8EAD7A4C1DCFEE5E0093DED8 /* LaunchScreen.storyboard */,
@@ -321,7 +324,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Delaney Giacalone";
 				TargetAttributes = {
 					8EAD7A3F1DCFEE5E0093DED8 = {
@@ -407,13 +410,13 @@
 				8E70B42D1DE265B9006D8108 /* TabBarViewController.swift in Sources */,
 				8EAD7AD41DD2831F0093DED8 /* SignUpViewController.swift in Sources */,
 				8EAD7ADA1DD3FFBF0093DED8 /* DoubleExtension.swift in Sources */,
+				8EB5E7F91DF0F2D5005FBDEF /* LocationDetailViewController.swift in Sources */,
 				8E4E704D1DEEA606006BE426 /* LoadingIndicatorView.swift in Sources */,
-				8E70B4201DDE5AD8006D8108 /* ListTableViewController.swift in Sources */,
+				8EB5E7FB1DF25985005FBDEF /* DetailedPostViewController.swift in Sources */,
 				8E70B4221DDE5AD8006D8108 /* ChangePasswordViewController.swift in Sources */,
 				8E70B4231DDE5AD8006D8108 /* ProfileTableViewController.swift in Sources */,
 				8EAD7AE81DD7F6C30093DED8 /* Locations.swift in Sources */,
 				8E70B41E1DDE5AD8006D8108 /* HomeViewController.swift in Sources */,
-				8EAD7A461DCFEE5E0093DED8 /* ViewController.swift in Sources */,
 				8E70B42A1DDE5AE6006D8108 /* UserPostTableViewCell.swift in Sources */,
 				8EAD7A441DCFEE5E0093DED8 /* AppDelegate.swift in Sources */,
 				8E2566501DD92B6200208F0E /* Photo.swift in Sources */,
@@ -421,6 +424,7 @@
 				8EAD7ADC1DD41C780093DED8 /* RatingControl.swift in Sources */,
 				8EAD7A841DCFF4D20093DED8 /* BridgingHeader.m in Sources */,
 				8E70B4291DDE5AE6006D8108 /* LocationsTableViewCell.swift in Sources */,
+				8EB5E7F51DF0D902005FBDEF /* FilterViewController.swift in Sources */,
 				8E70B4281DDE5AE6006D8108 /* ProfileHeaderTableViewCell.swift in Sources */,
 				8E70B41F1DDE5AD8006D8108 /* ListViewController.swift in Sources */,
 				8E70B41D1DDE5AD8006D8108 /* MapViewController.swift in Sources */,
@@ -498,6 +502,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -548,6 +553,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

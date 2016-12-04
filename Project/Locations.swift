@@ -17,6 +17,10 @@ class Locations {
     var rating = 0
     var reviews = [String]()
     var photos = [Photo]()
+    var photoToDisplay = UIImage()
+    var key = ""
+    var distanceFromUser = -1.0
+    var userPostKey = ""
     
     init() {
         

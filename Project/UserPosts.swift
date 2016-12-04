@@ -18,6 +18,7 @@ class UserPosts {
     var rating = 0
     var review = ""
     var photo = Photo()
+    var key = ""
     
     //photo?
     

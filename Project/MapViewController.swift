@@ -18,6 +18,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         configureLocationManager()
+        mapView.showsUserLocation = true
 
 
         // Do any additional setup after loading the view.

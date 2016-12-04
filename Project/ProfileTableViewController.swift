@@ -10,13 +10,13 @@ import UIKit
 
 class ProfileTableViewController: UITableViewController {
 
-    var dataScehma = Database()
+    var dataSchema = Database()
     var userPosts = [UserPosts]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        getUserPosts()
+        //LoadingIndicatorView.show("Loading Posts")
+        //getUserPosts()
 
         //self.tableView.contentInset = UIEdgeInsetsMake(100, 0, 0, 0)
         // Uncomment the following line to preserve selection between presentations
@@ -24,6 +24,16 @@ class ProfileTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("removing observer post2")
+        dataSchema.postsRef?.removeAllObservers()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        LoadingIndicatorView.show("Loading Posts")
+        getUserPosts()
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,6 +65,7 @@ class ProfileTableViewController: UITableViewController {
             if indexPath.row <= userPosts.count {
                 (cell as! UserPostTableViewCell).addressLabel.text = userPosts[indexPath.row-1].address
                 (cell as! UserPostTableViewCell).ratingLabel.rating = userPosts[indexPath.row-1].rating
+                (cell as! UserPostTableViewCell).postImage.image = userPosts[indexPath.row-1].photo.photo
             }
         }
         
@@ -69,12 +80,12 @@ class ProfileTableViewController: UITableViewController {
     }
     
     func getUserPosts(){
-        userPosts.removeAll()
-        _ = dataScehma.postsRef?.observe(FIRDataEventType.value, with: { (snapshot) in
+        _ = dataSchema.postsRef?.observe(FIRDataEventType.value, with: { (snapshot) in
+            self.userPosts.removeAll()
             let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
-            for (_, value) in locationDict {
+            for (key, value) in locationDict {
                 if let data = value as? [String : AnyObject] {
-                    print("here \(data)")
+                    //print("here \(data)")
                     let user = data["User"] as! String
                     if user == FIRAuth.auth()?.currentUser?.email {
                         let post = UserPosts()
@@ -83,10 +94,24 @@ class ProfileTableViewController: UITableViewController {
                         post.long = data["Long"] as! Double
                         post.rating = data["Rating"] as! Int
                         post.review = data["Review"] as! String
+                        post.key = key
+                        
+                        let photoURL = data["Photo"] as! String
+                        //print("url \(photoURL)")
+                        let getPhoto = Photo()
+                        let url = NSURL(string: photoURL)  //userPhoto URL
+                        let data2 = NSData(contentsOf: url! as URL)  //Convert into data
+                        if data2 != nil  {
+                            //print("getting photo yay")
+                            getPhoto.photo = UIImage(data: data2! as Data)!
+                            post.photo = getPhoto
+                        }
+
                         self.userPosts.append(post)
                     }
                 }
             }
+            LoadingIndicatorView.hide()
             self.tableView.reloadData()
         })
     }
@@ -134,10 +159,19 @@ class ProfileTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "detailedPost" {
+            let detailedViewController = segue.destination as! DetailedPostViewController
+            detailedViewController.post = userPosts[(tableView.indexPathForSelectedRow?.row)!-1]
+        }
         let backItem = UIBarButtonItem()
         backItem.title = "Back"
         navigationItem.backBarButtonItem = backItem
     }
+    
+    @IBAction func deletePost(segue:UIStoryboardSegue) {
+        
+    }
+    
     
 
 }

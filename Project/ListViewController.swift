@@ -12,7 +12,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     @IBOutlet weak var tableView: UITableView!
     var locations = [Locations]()
-    var distances = [Double]()
+    //var distances = [Double]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,21 +38,19 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationsCell", for: indexPath) as? LocationsTableViewCell
+        //print("okay size \(locations.count) \(indexPath.row)")
         cell?.addressLabel.text = locations[indexPath.row].address
         cell?.ratingContainer.rating = locations[indexPath.row].rating
-        if distances.count > indexPath.row {
-            if distances[indexPath.row] == -1 {
-                cell?.distanceLabel.text = "Unknown"
-            }
-            else if distances[indexPath.row] > 50{
-                cell?.distanceLabel.text = "50+ miles"
-            }
-            else {
-                cell?.distanceLabel.text = "\(distances[indexPath.row]) miles"
-            }
+        if locations[indexPath.row].distanceFromUser == -1 {
+            cell?.distanceLabel.text = "Unknown"
         }
-        // Configure the cell...
-        
+        else if locations[indexPath.row].distanceFromUser > 50{
+            cell?.distanceLabel.text = "50+ miles"
+        }
+        else {
+            cell?.distanceLabel.text = "\(locations[indexPath.row].distanceFromUser) miles"
+        }
+        cell?.exampleImage.image = locations[indexPath.row].photoToDisplay
         return cell!
     }
 

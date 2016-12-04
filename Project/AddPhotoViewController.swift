@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
 
     @IBOutlet weak var reviewTextField: UITextView!
     @IBOutlet weak var ratingView: RatingControl!
@@ -33,9 +33,18 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
         reviewTextField.layer.borderWidth = 1.0
         reviewTextField.layer.cornerRadius = 5
         
+        reviewTextField.delegate = self
+        locationTextField.delegate = self
+        
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func cancelButton(_ sender: Any) {
+        reviewTextField.text = ""
+        locationTextField.text = ""
+        ratingView.rating = 0
+        imageToUpload.image = nil
+    }
 
     @IBAction func submitButton(_ sender: AnyObject) {
         if imageToUpload.image != nil && locationTextField.text != "" && ratingView.rating != 0 {
@@ -71,8 +80,23 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
         }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+        
+        //scroll up when keyboard is up
+    }
+    
     func databaseDoneNotification() {
-        print("omg got here")
+        //print("omg got here")
         LoadingIndicatorView.hide()
         //currentLocations = dataSchema.locations
         self.performSegue(withIdentifier: "photoSubmit", sender: self)
@@ -85,26 +109,29 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
             imageToUpload.contentMode = .scaleAspectFit
             imageToUpload.image = pickedImage
             
             let imageUrl = info["UIImagePickerControllerReferenceURL"]
             let asset = PHAsset.fetchAssets(withALAssetURLs: [imageUrl as! URL], options: nil).firstObject! as PHAsset
-            print("location: \(asset.location?.coordinate.latitude) \(asset.location?.coordinate.longitude)")
+            //print("location: \(asset.location?.coordinate.latitude) \(asset.location?.coordinate.longitude)")
             if let latitude = asset.location?.coordinate.latitude {
                 if let longitude = asset.location?.coordinate.longitude {
                     self.lat = latitude
                     self.long = longitude
-                    getAddressForLatLng(latitude: latitude, longitude: longitude)
+                    getAddressForLatLong(latitude: latitude, longitude: longitude)
                 }
+            }
+            else {
+                self.locationTextField.text = ""
             }
             
         }
         dismiss(animated: true, completion: nil)
     }
     
-    func getAddressForLatLng(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+    func getAddressForLatLong(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
         let location = CLLocation(latitude: latitude, longitude: longitude)
         CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
             if error != nil {
@@ -114,8 +141,8 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
             if let places = placemarks {
                 if places.count > 0 {
                     let pm = places[0] as CLPlacemark
-                    print("address hopefully: \(pm.locality)")
-                    print("name hopefully: \(pm.name)")
+                    //print("address hopefully: \(pm.locality)")
+                    //print("name hopefully: \(pm.name)")
                     if let name = pm.name {
                         self.locationTextField.text = name
                     }
@@ -136,13 +163,8 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
         // Pass the selected object to the new view controller.
         if segue.identifier == "photoSubmit"
         {
-            //let destVC = segue.destination as? TabBarViewController
-            /*if let newPost = userPost {
-                newPost.printUserPost()
-                destVC?.newUserPost = newPost
-            }
-            print("locations count \(currentLocations.count)")
-            destVC?.locations = currentLocations*/
+            let destVC = segue.destination as? TabBarViewController
+            destVC?.cameFromAddPhoto = true
         }
 
     }

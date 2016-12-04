@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChangePasswordViewController: UIViewController {    
+class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var oldPasswordTextField: UITextField!
     @IBOutlet weak var newPasswordTextField: UITextField!
@@ -73,13 +73,21 @@ class ChangePasswordViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        oldPasswordTextField.delegate = self
+        newPasswordTextField.delegate = self
+        confirmPasswordTextField.delegate = self
+        emailTextField.delegate = self
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
 

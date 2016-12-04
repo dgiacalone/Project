@@ -1,23 +1,18 @@
 //
-//  TabBarViewController.swift
+//  LocationDetailViewController.swift
 //  Project
 //
-//  Created by Delaney Giacalone on 11/20/16.
+//  Created by Delaney Giacalone on 12/1/16.
 //  Copyright © 2016 Delaney Giacalone. All rights reserved.
 //
 
 import UIKit
 
-class TabBarViewController: UITabBarController {
+class LocationDetailViewController: UIViewController {
 
-    /*var newUserPost: UserPosts?
-    var locations: [Locations]?*/
-    var cameFromAddPhoto = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*var home = self.tabBarController?.viewControllers[0] as HomeViewController
-        secondTab.array = firstArray*/
+
         // Do any additional setup after loading the view.
     }
 
