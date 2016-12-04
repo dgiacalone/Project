@@ -20,8 +20,10 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
     var long: CLLocationDegrees?
     var userPost: UserPosts?
     let dataSchema = Database()
+    var tbc: TabBarViewController?
     
     var currentLocations = [Locations]()
+    var userPosts = [UserPosts]()
     
     let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
     
@@ -35,6 +37,8 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
         
         reviewTextField.delegate = self
         locationTextField.delegate = self
+        
+        tbc = self.tabBarController as! TabBarViewController?
         
         // Do any additional setup after loading the view.
     }
@@ -96,9 +100,15 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     func databaseDoneNotification() {
-        //print("omg got here")
         LoadingIndicatorView.hide()
+        self.tbc?.currentLocations = dataSchema.locations
+        self.tbc?.currentUserPosts = dataSchema.userPosts
         //currentLocations = dataSchema.locations
+        print("segue")
+        reviewTextField.text = ""
+        locationTextField.text = ""
+        ratingView.rating = 0
+        imageToUpload.image = nil
         self.performSegue(withIdentifier: "photoSubmit", sender: self)
     }
 
@@ -163,8 +173,7 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
         // Pass the selected object to the new view controller.
         if segue.identifier == "photoSubmit"
         {
-            let destVC = segue.destination as? TabBarViewController
-            destVC?.cameFromAddPhoto = true
+
         }
 
     }

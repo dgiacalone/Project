@@ -12,7 +12,12 @@ class TabBarViewController: UITabBarController {
 
     /*var newUserPost: UserPosts?
     var locations: [Locations]?*/
-    var cameFromAddPhoto = false
+    //var cameFromAddPhoto = false
+    
+    var currentUserPosts = [UserPosts]()
+    var currentLocations = [Locations]()
+    var displayLocations = [Locations]()
+    var didJustDelete = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,5 +41,6 @@ class TabBarViewController: UITabBarController {
         // Pass the selected object to the new view controller.
     }
     */
+
 
 }

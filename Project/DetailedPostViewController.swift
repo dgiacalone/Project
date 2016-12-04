@@ -10,8 +10,10 @@ import UIKit
 
 class DetailedPostViewController: UIViewController {
 
+    var userPosts = [UserPosts]()
     var post = UserPosts()
     let dataSchema = Database()
+    var tbc: TabBarViewController?
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var imagePost: UIImageView!
@@ -45,9 +47,7 @@ class DetailedPostViewController: UIViewController {
             reviewLabel.text = "Review: \(post.review)"
         }
         
-        if let tbc = self.tabBarController as? TabBarViewController {
-            
-        }
+        tbc = self.tabBarController as! TabBarViewController?
         
 
         // Do any additional setup after loading the view.
@@ -93,11 +93,51 @@ class DetailedPostViewController: UIViewController {
                     }
                 }
             }
-            LoadingIndicatorView.hide()
-            self.performSegue(withIdentifier: "deletePost", sender: nil)
-
+            self.getUserPosts()
         })
     }
+    
+    func getUserPosts(){
+        _ = dataSchema.postsRef?.observeSingleEvent(of: .value, with: { (snapshot) in
+            self.userPosts.removeAll()
+            let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
+            for (key, value) in locationDict {
+                if let data = value as? [String : AnyObject] {
+                    //print("here \(data)")
+                    let user = data["User"] as! String
+                    if user == FIRAuth.auth()?.currentUser?.email {
+                        let post = UserPosts()
+                        post.address = data["Address"] as! String
+                        post.lat = data["Lat"] as! Double
+                        post.long = data["Long"] as! Double
+                        post.rating = data["Rating"] as! Int
+                        post.review = data["Review"] as! String
+                        post.key = key
+                        
+                        let photoURL = data["Photo"] as! String
+                        //print("url \(photoURL)")
+                        let getPhoto = Photo()
+                        let url = NSURL(string: photoURL)  //userPhoto URL
+                        let data2 = NSData(contentsOf: url! as URL)  //Convert into data
+                        if data2 != nil  {
+                            //print("getting photo yay")
+                            getPhoto.photo = UIImage(data: data2! as Data)!
+                            post.photo = getPhoto
+                        }
+                        
+                        self.userPosts.append(post)
+                    }
+                }
+            }
+            LoadingIndicatorView.hide()
+            self.tbc?.didJustDelete = true
+            self.tbc?.currentUserPosts = self.userPosts
+            self.performSegue(withIdentifier: "deletePost", sender: nil)
+
+            //fix rating
+        })
+    }
+
     
 
     /*

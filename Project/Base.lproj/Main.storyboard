@@ -216,7 +216,7 @@
         <!--Detailed Post View Controller-->
         <scene sceneID="BB5-ws-RhL">
             <objects>
-                <viewController id="3tL-Rv-hRv" customClass="DetailedPostViewController" customModule="Project" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="deletePost" id="3tL-Rv-hRv" customClass="DetailedPostViewController" customModule="Project" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pMy-bc-dTO"/>
                         <viewControllerLayoutGuide type="bottom" id="tEP-fd-gmL"/>
@@ -268,7 +268,6 @@
                                 <state key="normal" title="Delete Post"/>
                                 <connections>
                                     <action selector="deleteButton:" destination="3tL-Rv-hRv" eventType="touchUpInside" id="n0k-0k-E6K"/>
-                                    <segue destination="syc-Gy-lYC" kind="unwind" identifier="deletePost" unwindAction="deletePostWithSegue:" id="aES-bV-LJJ"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -291,6 +290,7 @@
                         <outlet property="nameLabel" destination="dln-x4-Vph" id="MPu-ZN-Qut"/>
                         <outlet property="reviewLabel" destination="ch6-TJ-OzF" id="Wy7-pu-Pd1"/>
                         <outlet property="userRating" destination="UtV-Hw-sZZ" id="5Ah-KO-g8h"/>
+                        <segue destination="syc-Gy-lYC" kind="unwind" identifier="deletePost" unwindAction="deletePostWithSegue:" id="hLh-Nw-X8S"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NRN-n1-y9y" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -601,7 +601,7 @@
                         <outlet property="locationTextField" destination="uOx-Dr-hms" id="09R-Bw-DNG"/>
                         <outlet property="ratingView" destination="8Gq-U8-SfS" id="98D-Zk-Mcj"/>
                         <outlet property="reviewTextField" destination="N3Q-Ml-WUc" id="Gvm-BL-EuS"/>
-                        <segue destination="ejM-BO-6Pl" kind="presentation" identifier="photoSubmit" id="n41-24-o1i"/>
+                        <segue destination="gf5-QH-o5a" kind="unwind" identifier="photoSubmit" unwindAction="submitAddPhotoWithSegue:" id="JCj-2A-4ax"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vjg-kI-dLo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -937,11 +937,11 @@
                         <viewControllerLayoutGuide type="bottom" id="Kks-c4-F0X"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="VSs-AF-wNZ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="443"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1FA-WQ-cJM">
-                                <rect key="frame" x="0.0" y="35" width="375" height="420"/>
+                                <rect key="frame" x="0.0" y="15" width="375" height="420"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="420" id="EkR-Ng-a1U"/>
@@ -1038,7 +1038,7 @@
                         <viewControllerLayoutGuide type="bottom" id="mPo-hb-nqh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="gPb-P9-4K2">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="443"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -1056,7 +1056,7 @@
                         <viewControllerLayoutGuide type="bottom" id="NFb-Pw-dZG"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="QU8-IN-2Bm">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="443"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="u1Y-hN-iwn">
@@ -1083,7 +1083,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="n41-24-o1i"/>
         <segue reference="N06-70-5Uf"/>
     </inferredMetricsTieBreakers>
 </document>

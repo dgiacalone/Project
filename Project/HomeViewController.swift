@@ -9,8 +9,6 @@
 import UIKit
 import MapKit
 
-let imagesDoneNotificationKey = "com.dgiacalone.specialNotificationKey2"
-
 class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var listContainer: UIView!
@@ -21,6 +19,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     var itemsInFilterRange = false
     let defaults = UserDefaults.standard
     var isWithinFilter = false
+    var tbc: TabBarViewController?
     
     var listViewController : ListViewController?
     
@@ -51,10 +50,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(notificationSent), name: NSNotification.Name(rawValue: imagesDoneNotificationKey), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(imagesDoneNotification), name: NSNotification.Name(rawValue: imagesDoneNotificationKey), object: nil)
         
         self.listContainer.alpha = 1
         self.mapContainer.alpha = 0
@@ -66,15 +61,15 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             ratingFilter = Int(rating)!
         }
         
+        let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshPage))
+        self.navigationItem.rightBarButtonItem = refreshButton
+
+        
         configureLocationManager()
-        /*if let tbc = self.tabBarController as? TabBarViewController {
-            let addPhoto = tbc.cameFromAddPhoto
-            if addPhoto == false {
-                getStartingLocations()
-                
-            }
-        }*/
-        //getStartingLocations()
+        tbc = self.tabBarController as! TabBarViewController?
+  
+        print("start")
+        getStartingLocations()
         
         //print("cool ")
         //print(locations.count)
@@ -83,8 +78,16 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        LoadingIndicatorView.show("Loading Locations")
-        getStartingLocations()
+        //getStartingLocations()
+        if (tbc?.didJustDelete)! == true{
+            print("just deleted")
+            tbc?.didJustDelete = false
+            getStartingLocations()
+        } else {
+            self.locations = (tbc?.currentLocations)!
+            self.locationsToDisplay = (tbc?.displayLocations)!
+            self.listViewController?.updateTable()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -96,8 +99,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         
     }
     
-    func imagesDoneNotification() {
-        //LoadingIndicatorView.hide()
+    func refreshPage() {
+        getStartingLocations()
     }
     
     func configureLocationManager() {
@@ -142,33 +145,15 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         return distanceInMiles
     }
     
-    /*func getAllDistances() {
-        print("distance locations count \(locations.count)")
-        distances.removeAll()
-        for loc in locations {
-            var distance = 0.0
-            if loc.lat == 0 && loc.long == 0 {
-                distance = -1
-            }
-            else {
-                distance = getDistance(lat: loc.lat, long: loc.long)
-            }
-            print("distancee: \(distance)")
-            distances.append(distance)
-        }
-        self.listViewController?.distances = self.distances
-        self.listViewController?.updateTable()
-        
-    }*/
     
     func getStartingLocations(){
-        //print("HOW MANY TIMES")
-        //locations.removeAll()
-        //locationsToDisplay.removeAll()
+        print("starting locations")
+        LoadingIndicatorView.show("Loading Locations")
         _ = dataSchema.locationsRef?.observe(FIRDataEventType.value, with: { (snapshot) in
+            print("starting observer")
             self.locations.removeAll()
             self.locationsToDisplay.removeAll()
-            print("HOW MANY TIMES")
+            //print("HOW MANY TIMES")
             var newItems: [Locations] = []
             let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
             for (key, value) in locationDict {
@@ -210,7 +195,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             self.locationsToDisplay.sort(by: {
                 return $0.distanceFromUser < $1.distanceFromUser
             })
-            
+            self.tbc?.currentLocations = self.locations
+            self.tbc?.displayLocations = self.locationsToDisplay
             self.listViewController?.locations = self.locationsToDisplay
             self.listViewController?.updateTable()
 
@@ -244,12 +230,14 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                         }
                         loc.photoToDisplay = getPhoto.photo
                         
-                        self.listViewController?.updateTable()
+                        //self.listViewController?.updateTable()
                     }
                 }
                 if count == size - 1{
                     print("hide")
                     LoadingIndicatorView.hide()
+                    self.tbc?.currentLocations = self.locations
+                    self.tbc?.displayLocations = self.locationsToDisplay
                     self.listViewController?.locations = self.locationsToDisplay
                     self.listViewController?.updateTable()
                 }
@@ -293,10 +281,15 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     }
     
+    @IBAction func submitAddPhoto(segue:UIStoryboardSegue) {
+        getStartingLocations()
+    }
+    
     @IBAction func saveFilter(segue:UIStoryboardSegue) {
         if let sourceViewController = segue.source as? FilterViewController {
             distanceFilter = Int(sourceViewController.distanceRoundedVal)
             ratingFilter = Int(sourceViewController.ratingRoundedVal)
+            getStartingLocations()
             //self.listViewController?.updateTable()
         }
     }

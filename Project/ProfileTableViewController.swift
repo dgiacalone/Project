@@ -12,11 +12,14 @@ class ProfileTableViewController: UITableViewController {
 
     var dataSchema = Database()
     var userPosts = [UserPosts]()
+    var tbc: TabBarViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //LoadingIndicatorView.show("Loading Posts")
-        //getUserPosts()
+        LoadingIndicatorView.show("Loading Posts")
+        getUserPosts()
+        
+        tbc = self.tabBarController as! TabBarViewController?
 
         //self.tableView.contentInset = UIEdgeInsetsMake(100, 0, 0, 0)
         // Uncomment the following line to preserve selection between presentations
@@ -32,8 +35,10 @@ class ProfileTableViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        LoadingIndicatorView.show("Loading Posts")
-        getUserPosts()
+        //LoadingIndicatorView.show("Loading Posts")
+        //getUserPosts()
+        self.userPosts = (tbc?.currentUserPosts)!
+        self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -111,6 +116,7 @@ class ProfileTableViewController: UITableViewController {
                     }
                 }
             }
+            self.tbc?.currentUserPosts = self.userPosts
             LoadingIndicatorView.hide()
             self.tableView.reloadData()
         })
@@ -169,7 +175,7 @@ class ProfileTableViewController: UITableViewController {
     }
     
     @IBAction func deletePost(segue:UIStoryboardSegue) {
-        
+    
     }
     
     
