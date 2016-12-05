@@ -114,7 +114,7 @@ class Database {
                     
                     let posts = data["UserPosts"] as! [String: String]
                     if loc.address == post.address {
-                        print("shouldn't be here")
+                        //print("shouldn't be here")
                         self.updateLocation(post: post, postKey: postKey, locationsKey: key, posts: posts, oldRating: loc.rating)
                         found = true
                         break
@@ -169,7 +169,7 @@ class Database {
                         post.key = key
                         
                         let photoURL = data["Photo"] as! String
-                        print("url \(photoURL)")
+                        //print("url \(photoURL)")
                         let getPhoto = Photo()
                         let url = NSURL(string: photoURL)  //userPhoto URL
                         let data2 = NSData(contentsOf: url! as URL)  //Convert into data

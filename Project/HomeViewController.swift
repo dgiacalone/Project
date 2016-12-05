@@ -53,7 +53,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         
         //NotificationCenter.default.addObserver(self, selector: #selector(gotUserLocation), name: NSNotification.Name(rawValue: userLocationDone), object: nil)
-        
+        print("load?")
+
         self.listContainer.alpha = 1
         self.mapContainer.alpha = 0
         
@@ -82,6 +83,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         //getStartingLocations()
+        print("appear?")
         if (tbc?.didJustDelete)! == true{
             print("just deleted")
             tbc?.didJustDelete = false
