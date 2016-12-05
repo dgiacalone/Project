@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>328198199889-rsj905pku8hoa9c7ojk3gn5o4nn0k49r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.328198199889-rsj905pku8hoa9c7ojk3gn5o4nn0k49r</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA7C7GaDyiFqiipF8RnDxMjhZZwL5xLhRM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>328198199889</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>edu.calpoly.dgiacalo.Project</string>
+	<key>PROJECT_ID</key>
+	<string>project-aaf48</string>
+	<key>STORAGE_BUCKET</key>
+	<string>project-aaf48.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:328198199889:ios:0e83eb3e7ad43135</string>
+	<key>DATABASE_URL</key>
+	<string>https://project-aaf48.firebaseio.com</string>
+</dict>
+</plist>
