@@ -66,9 +66,10 @@ class DetailedPostViewController: UIViewController {
             for (key, value) in locationDict {
                 if let data = value as? [String : AnyObject] {
                     if data["Address"] as? String == self.post.address {
+                        let rating = data["Rating"] as? Int
                         let locKey = key
                         //print("location key \(locKey)")
-                        self.deletePostFromLoc(key: locKey)
+                        self.deletePostFromLoc(key: locKey, oldRating: rating!)
                         break
                     }
                 }
@@ -77,9 +78,10 @@ class DetailedPostViewController: UIViewController {
         
     }
     
-    func deletePostFromLoc(key: String) {
+    func deletePostFromLoc(key: String, oldRating: Int) {
         let userPosts = self.dataSchema.locationsRef?.child(key).child("UserPosts")
         userPosts?.observeSingleEvent(of: .value, with: { (snapshot) in
+            var count = 0
             //print("got inside deletePostFromLoc")
             //print(snapshot)
             if snapshot.childrenCount == 1 {
@@ -87,11 +89,16 @@ class DetailedPostViewController: UIViewController {
             }
             else {
                 for item in snapshot.children.allObjects as! [FIRDataSnapshot]{
-                    if item.value as? String == (self.post.key).replacingOccurrences(of: "User Post ", with: "") {
+                    print("item key \(item.key)")
+                    if item.key == (self.post.key).replacingOccurrences(of: "User Post ", with: "") {
                         item.ref.removeValue()
                         break
                     }
+                    count += 1
                 }
+                /*let sum = (count * oldRating) - self.post.rating
+                let newRating = sum / count
+                self.dataSchema.locationsRef?.child(key).updateChildValues(["Rating": newRating])*/
             }
             self.getUserPosts()
         })

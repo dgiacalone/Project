@@ -56,7 +56,7 @@ class Database {
         
         self.locPostsRef = ref?.child("UserPosts")
         let posts: NSMutableDictionary = [:]
-        posts.setValue(postKey, forKey: "UserPost 0")
+        posts.setValue("post", forKey: postKey)
         self.locPostsRef?.setValue(posts)
         
         print("third(new location) end")
@@ -85,6 +85,7 @@ class Database {
                     let ref = self.postsRef?.child("User Post \(key)")
                     ref?.setValue(userPost)
                     self.imageURL = image
+                    print("image \(self.imageURL)")
                 }
                 //print("done with user post")
                 self.getLocations(post: post, postKey: key)
@@ -111,8 +112,10 @@ class Database {
                     loc.rating = data["Rating"] as! Int
                     self.locations.append(loc)
                     
+                    let posts = data["UserPosts"] as! [String: String]
                     if loc.address == post.address {
-                        self.updateLocation(post: post, postKey: postKey, locationsKey: key, posts: data["UserPosts"] as! NSMutableDictionary, oldRating: loc.rating)
+                        print("shouldn't be here")
+                        self.updateLocation(post: post, postKey: postKey, locationsKey: key, posts: posts, oldRating: loc.rating)
                         found = true
                         break
                     }
@@ -134,14 +137,14 @@ class Database {
         })
     }
 
-    func updateLocation(post: UserPosts, postKey: String, locationsKey: String, posts: NSMutableDictionary, oldRating: Int) {
+    func updateLocation(post: UserPosts, postKey: String, locationsKey: String, posts: [String:String], oldRating: Int) {
         print("third(update location)")
 
-        
-        posts["UserPost \(posts.count)"] = postKey
+        var newPosts = posts
+        newPosts.updateValue("post", forKey: postKey)
         let sum = (posts.count - 1) * oldRating
         let newRating = (sum + post.rating) / posts.count
-        locationsRef?.child(locationsKey).child("UserPosts").setValue(posts)
+        locationsRef?.child(locationsKey).child("UserPosts").setValue(newPosts)
         locationsRef?.child(locationsKey).updateChildValues(["Rating": newRating])
         
         print("third(update location) end")
@@ -166,7 +169,7 @@ class Database {
                         post.key = key
                         
                         let photoURL = data["Photo"] as! String
-                        //print("url \(photoURL)")
+                        print("url \(photoURL)")
                         let getPhoto = Photo()
                         let url = NSURL(string: photoURL)  //userPhoto URL
                         let data2 = NSData(contentsOf: url! as URL)  //Convert into data

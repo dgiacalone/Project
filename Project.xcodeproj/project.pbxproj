@@ -51,6 +51,8 @@
 		8EB5E7F51DF0D902005FBDEF /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5E7F41DF0D902005FBDEF /* FilterViewController.swift */; };
 		8EB5E7F91DF0F2D5005FBDEF /* LocationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5E7F81DF0F2D5005FBDEF /* LocationDetailViewController.swift */; };
 		8EB5E7FB1DF25985005FBDEF /* DetailedPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5E7FA1DF25985005FBDEF /* DetailedPostViewController.swift */; };
+		8EC4DDB11DF4DB3800B6C24F /* DetailedLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4DDB01DF4DB3800B6C24F /* DetailedLocationViewController.swift */; };
+		8EC4DDB31DF4EBB200B6C24F /* LocationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4DDB21DF4EBB200B6C24F /* LocationCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +126,8 @@
 		8EB5E7F41DF0D902005FBDEF /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		8EB5E7F81DF0F2D5005FBDEF /* LocationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationDetailViewController.swift; path = ../LocationDetailViewController.swift; sourceTree = "<group>"; };
 		8EB5E7FA1DF25985005FBDEF /* DetailedPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedPostViewController.swift; sourceTree = "<group>"; };
+		8EC4DDB01DF4DB3800B6C24F /* DetailedLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedLocationViewController.swift; sourceTree = "<group>"; };
+		8EC4DDB21DF4EBB200B6C24F /* LocationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +211,8 @@
 				8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */,
 				8E70B42E1DE26FD1006D8108 /* Database.swift */,
 				8E70B4181DDE5AD8006D8108 /* ListViewController.swift */,
+				8EC4DDB01DF4DB3800B6C24F /* DetailedLocationViewController.swift */,
+				8EC4DDB21DF4EBB200B6C24F /* LocationCollectionViewCell.swift */,
 				8E70B41A1DDE5AD8006D8108 /* SettingsViewController.swift */,
 				8E70B41B1DDE5AD8006D8108 /* ChangePasswordViewController.swift */,
 				8E70B41C1DDE5AD8006D8108 /* ProfileTableViewController.swift */,
@@ -405,6 +411,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E25664E1DD9239E00208F0E /* UserPosts.swift in Sources */,
+				8EC4DDB11DF4DB3800B6C24F /* DetailedLocationViewController.swift in Sources */,
 				8E4E704B1DEA1792006BE426 /* RatingDisplay.swift in Sources */,
 				8E70B42B1DDE5AE6006D8108 /* AddPhotoViewController.swift in Sources */,
 				8E70B42D1DE265B9006D8108 /* TabBarViewController.swift in Sources */,
@@ -429,6 +436,7 @@
 				8E70B41F1DDE5AD8006D8108 /* ListViewController.swift in Sources */,
 				8E70B41D1DDE5AD8006D8108 /* MapViewController.swift in Sources */,
 				8E70B4211DDE5AD8006D8108 /* SettingsViewController.swift in Sources */,
+				8EC4DDB31DF4EBB200B6C24F /* LocationCollectionViewCell.swift in Sources */,
 				8E70B42F1DE26FD1006D8108 /* Database.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

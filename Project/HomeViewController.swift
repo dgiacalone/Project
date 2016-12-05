@@ -9,6 +9,8 @@
 import UIKit
 import MapKit
 
+let userLocationDone = "com.dgiacalone.specialNotificationKey2"
+
 class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var listContainer: UIView!
@@ -28,7 +30,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     var locationsToDisplay = [Locations]()
     var newPost: UserPosts?
     var photosToDisplay = [String: Photo]()
-    //var distances = [Double]()
     
     let locationManager = CLLocationManager()
     var userLocation: CLLocationCoordinate2D?
@@ -50,6 +51,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //NotificationCenter.default.addObserver(self, selector: #selector(gotUserLocation), name: NSNotification.Name(rawValue: userLocationDone), object: nil)
         
         self.listContainer.alpha = 1
         self.mapContainer.alpha = 0
@@ -95,9 +98,10 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         dataSchema.locationsRef?.removeAllObservers()
     }
     
-    func notificationSent() {
-        
-    }
+    /*func gotUserLocation() {
+        print("notified")
+        getStartingLocations()
+    }*/
     
     func refreshPage() {
         getStartingLocations()
@@ -112,7 +116,14 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.distanceFilter = 100.0
             locationManager.startUpdatingLocation()
             
-            userLocation = CLLocationCoordinate2DMake((locationManager.location?.coordinate.latitude)!, (locationManager.location?.coordinate.longitude)!)
+            print("locmanager \(locationManager.location)")
+            //print((locationManager.location?.coordinate.latitude)!)
+            //print((locationManager.location?.coordinate.longitude)!)
+            if let latitude = locationManager.location?.coordinate.latitude {
+                if let longitude = locationManager.location?.coordinate.longitude {
+                    userLocation = CLLocationCoordinate2DMake(latitude, longitude)
+                }
+            }
         }
     }
 
@@ -125,7 +136,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         if let location = locations.first {
             userLocation = location.coordinate
         }
-        //print("locations = \(userLocation?.latitude) \(userLocation?.longitude)")
+        //NotificationCenter.default.post(name: Notification.Name(rawValue: userLocationDone), object: self)
+        print("locmanager got here")
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -148,8 +160,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     func getStartingLocations(){
         print("starting locations")
-        LoadingIndicatorView.show("Loading Locations")
         _ = dataSchema.locationsRef?.observe(FIRDataEventType.value, with: { (snapshot) in
+            LoadingIndicatorView.show("Loading Locations")
             print("starting observer")
             self.locations.removeAll()
             self.locationsToDisplay.removeAll()
@@ -166,9 +178,15 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                     loc.long = data["Long"] as! Double
                     loc.rating = data["Rating"] as! Int
                     if let userData = data["UserPosts"] as? [String : AnyObject] {
-                        if userData.count > 0 {
-                            loc.userPostKey = userData.first?.value as! String
+                        var tempKeys = [String]()
+                        for (k,_) in userData {
+                            print("key here! \(k)")
+                            tempKeys.append(k)
                         }
+                        loc.userPostKeys = tempKeys
+                        /*if userData.count > 0 {
+                            loc.userPostKey = userData.first?.value as! String
+                        }*/
                     }
                     var distance = 0.0
                     if loc.lat == 0 && loc.long == 0 {
@@ -198,7 +216,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             self.tbc?.currentLocations = self.locations
             self.tbc?.displayLocations = self.locationsToDisplay
             self.listViewController?.locations = self.locationsToDisplay
-            self.listViewController?.updateTable()
+            //self.listViewController?.updateTable()
 
         })
     }
@@ -218,7 +236,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         let size = self.locationsToDisplay.count
         var count = 0
         for loc in self.locationsToDisplay {
-            dataSchema.postsRef?.child("User Post \(loc.userPostKey)").observeSingleEvent(of: .value, with: { (snapshot) in
+            print("first key \(loc.userPostKeys.first)")
+            dataSchema.postsRef?.child("User Post \((loc.userPostKeys.first)!)").observeSingleEvent(of: .value, with: { (snapshot) in
                 if let data = snapshot.value as? [String : AnyObject] {
                     if let photoURL = data["Photo"] as? String {
                         //print("photoURL home \(photoURL)")
