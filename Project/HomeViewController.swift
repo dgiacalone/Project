@@ -121,8 +121,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
             
             print("locmanager \(locationManager.location)")
-            //print((locationManager.location?.coordinate.latitude)!)
-            //print((locationManager.location?.coordinate.longitude)!)
             if let latitude = locationManager.location?.coordinate.latitude {
                 if let longitude = locationManager.location?.coordinate.longitude {
                     userLocation = CLLocationCoordinate2DMake(latitude, longitude)

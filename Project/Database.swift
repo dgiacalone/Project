@@ -148,11 +148,11 @@ class Database {
 
         var newPosts = posts
         newPosts.updateValue("post", forKey: postKey)
-        print("size \(Double(posts.count - 1)) oldrating \(oldRating)")
-        let sum = Double(posts.count - 1) * oldRating
+        print("size \(Double(posts.count)) oldrating \(oldRating)")
+        let sum = Double(posts.count) * oldRating
         print("sum \(sum)")
         print("sum plus rating \(sum + Double(post.rating))")
-        let newRating = (sum + Double(post.rating)) / Double(posts.count)
+        let newRating = (sum + Double(post.rating)) / Double(posts.count + 1)
         print("newRating \(newRating)")
         locationsRef?.child(locationsKey).child("UserPosts").setValue(newPosts)
         locationsRef?.child(locationsKey).updateChildValues(["Rating": newRating])
