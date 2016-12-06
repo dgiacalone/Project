@@ -27,8 +27,10 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
         
         nameLabel.text = location.address
         distanceLabel.text = "\(location.distanceFromUser) miles"
-        ratingDisplay.rating = location.rating
-        getLocPhotos()
+        ratingDisplay.rating = Int(location.rating)
+        if location.userPostKeys.count != location.photos.count {
+            getLocPhotos()
+        }
 
         // Do any additional setup after loading the view.
     }
@@ -60,6 +62,7 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
     }
             
     func getLocPhotos() {
+        LoadingIndicatorView.show("Loading Photos")
         var photoArray = [Photo]()
         let size = location.userPostKeys.count
         var count = 0
@@ -80,6 +83,7 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
                 }
                 if count == size - 1{
                     self.location.photos = photoArray
+                    LoadingIndicatorView.hide()
                     self.collectionView.reloadData()
                 }
                 count += 1

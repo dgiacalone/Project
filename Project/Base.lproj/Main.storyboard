@@ -105,6 +105,7 @@
                     <connections>
                         <outlet property="listContainer" destination="cXF-c0-gua" id="Udo-5X-5x9"/>
                         <outlet property="mapContainer" destination="eJ5-QG-Dbl" id="iFt-sD-C8u"/>
+                        <outlet property="searchBar" destination="YUa-Eb-e2j" id="iY1-v8-QnB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eyz-2g-awe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1064,10 +1065,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xlK-fK-wo2">
-                                <rect key="frame" x="16" y="235" width="343" height="362"/>
+                                <rect key="frame" x="16" y="235" width="343" height="307"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="362" id="2DA-Uf-KSM"/>
+                                    <constraint firstAttribute="height" constant="307" id="2DA-Uf-KSM"/>
                                     <constraint firstAttribute="width" constant="343" id="aOd-rI-qB3"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="EC8-GW-hJA">

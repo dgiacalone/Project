@@ -41,7 +41,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         //print("okay size \(locations.count) \(indexPath.row)")
         if locations.count > indexPath.row {
             cell?.addressLabel.text = locations[indexPath.row].address
-            cell?.ratingContainer.rating = locations[indexPath.row].rating
+            cell?.ratingContainer.rating = Int(locations[indexPath.row].rating)
             if locations[indexPath.row].distanceFromUser == -1 {
                 cell?.distanceLabel.text = "Unknown"
             }

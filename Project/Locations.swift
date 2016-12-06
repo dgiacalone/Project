@@ -14,7 +14,7 @@ class Locations {
     var lat = 0.0
     var long = 0.0
     var address = ""
-    var rating = 0
+    var rating = 0.0
     var reviews = [String]()
     var photos = [Photo]()
     var photoToDisplay = UIImage()
@@ -26,7 +26,7 @@ class Locations {
         
     }
     
-    init(lat: CLLocationDegrees, long: CLLocationDegrees,address: String, rating: Int) {
+    init(lat: CLLocationDegrees, long: CLLocationDegrees,address: String, rating: Double) {
         self.lat = lat
         self.long = long
         self.address = address

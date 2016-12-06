@@ -116,7 +116,7 @@
 		8EAD7A851DCFF5900093DED8 /* FirebaseDatabase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseDatabase.framework; path = Firebase/Database/FirebaseDatabase.framework; sourceTree = "<group>"; };
 		8EAD7A861DCFF5900093DED8 /* FirebaseAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAuth.framework; path = Firebase/Auth/FirebaseAuth.framework; sourceTree = "<group>"; };
 		8EAD7A871DCFF5900093DED8 /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GTMSessionFetcher.framework; path = Firebase/Auth/GTMSessionFetcher.framework; sourceTree = "<group>"; };
-		8EAD7A8B1DCFF7650093DED8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8EAD7A8B1DCFF7650093DED8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8EAD7A8E1DD16F2B0093DED8 /* Project.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Project.entitlements; sourceTree = "<group>"; };
 		8EAD7AD11DD2830C0093DED8 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8EAD7AD31DD2831F0093DED8 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -124,7 +124,7 @@
 		8EAD7ADB1DD41C780093DED8 /* RatingControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
 		8EAD7AE71DD7F6C30093DED8 /* Locations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
 		8EB5E7F41DF0D902005FBDEF /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
-		8EB5E7F81DF0F2D5005FBDEF /* LocationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationDetailViewController.swift; path = ../LocationDetailViewController.swift; sourceTree = "<group>"; };
+		8EB5E7F81DF0F2D5005FBDEF /* LocationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDetailViewController.swift; sourceTree = "<group>"; };
 		8EB5E7FA1DF25985005FBDEF /* DetailedPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedPostViewController.swift; sourceTree = "<group>"; };
 		8EC4DDB01DF4DB3800B6C24F /* DetailedLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedLocationViewController.swift; sourceTree = "<group>"; };
 		8EC4DDB21DF4EBB200B6C24F /* LocationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCollectionViewCell.swift; sourceTree = "<group>"; };

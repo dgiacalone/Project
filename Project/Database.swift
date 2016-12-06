@@ -50,7 +50,7 @@ class Database {
         let location: NSDictionary = ["Address" : loc.address,
                                       "Lat" : loc.lat,
                                       "Long" : loc.long,
-                                      "Rating" : loc.rating]
+                                      "Rating" : loc.rating as Double]
         let ref = locationsRef?.child("Location \(key)")
         ref?.setValue(location)
         
@@ -67,6 +67,9 @@ class Database {
     
     func insertUserPost(post: UserPosts){
         print("first")
+        let imageName = NSUUID().uuidString
+        self.imagesRef = storageRef?.child("Images").child("Image \(imageName)")
+        
         if let imageData = UIImagePNGRepresentation(post.photo.photo) {
             imagesRef?.put(imageData, metadata: nil, completion: { (metadata, error) in
                 if error != nil {
@@ -75,6 +78,7 @@ class Database {
                 var key = ""
                 if let image = metadata?.downloadURL()?.absoluteString {
                     key = (self.postsRef?.childByAutoId().key)!
+                    print("unique key created: \(key)")
                     let userPost: NSDictionary = ["User" : post.user,
                                                   "Address" : post.address,
                                                   "Lat" : post.lat,
@@ -109,12 +113,13 @@ class Database {
                     loc.address = data["Address"] as! String
                     loc.lat = data["Lat"] as! Double
                     loc.long = data["Long"] as! Double
-                    loc.rating = data["Rating"] as! Int
+                    loc.rating = data["Rating"] as! Double
                     self.locations.append(loc)
                     
                     let posts = data["UserPosts"] as! [String: String]
                     if loc.address == post.address {
                         //print("shouldn't be here")
+                        print("getLocations key was found: \(postKey)")
                         self.updateLocation(post: post, postKey: postKey, locationsKey: key, posts: posts, oldRating: loc.rating)
                         found = true
                         break
@@ -124,11 +129,12 @@ class Database {
             }
 
             if found == false{
+                print("get locations key was not found \(postKey)")
                 let newLoc = Locations()
                 newLoc.address = post.address
                 newLoc.lat = post.lat
                 newLoc.long = post.long
-                newLoc.rating = post.rating
+                newLoc.rating = Double(post.rating)
                 newLoc.photos.append(post.photo)
                 self.insertNewLocation(loc: newLoc, postKey: postKey)
             }
@@ -137,13 +143,17 @@ class Database {
         })
     }
 
-    func updateLocation(post: UserPosts, postKey: String, locationsKey: String, posts: [String:String], oldRating: Int) {
+    func updateLocation(post: UserPosts, postKey: String, locationsKey: String, posts: [String:String], oldRating: Double) {
         print("third(update location)")
 
         var newPosts = posts
         newPosts.updateValue("post", forKey: postKey)
-        let sum = (posts.count - 1) * oldRating
-        let newRating = (sum + post.rating) / posts.count
+        print("size \(Double(posts.count - 1)) oldrating \(oldRating)")
+        let sum = Double(posts.count - 1) * oldRating
+        print("sum \(sum)")
+        print("sum plus rating \(sum + Double(post.rating))")
+        let newRating = (sum + Double(post.rating)) / Double(posts.count)
+        print("newRating \(newRating)")
         locationsRef?.child(locationsKey).child("UserPosts").setValue(newPosts)
         locationsRef?.child(locationsKey).updateChildValues(["Rating": newRating])
         

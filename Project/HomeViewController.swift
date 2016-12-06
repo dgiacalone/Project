@@ -15,6 +15,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var listContainer: UIView!
     @IBOutlet weak var mapContainer: UIView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     var distanceFilter = 50
     var ratingFilter = 1
@@ -54,6 +55,10 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         
         //NotificationCenter.default.addObserver(self, selector: #selector(gotUserLocation), name: NSNotification.Name(rawValue: userLocationDone), object: nil)
         print("load?")
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissSearch))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
 
         self.listContainer.alpha = 1
         self.mapContainer.alpha = 0
@@ -74,10 +79,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
   
         print("start")
         getStartingLocations()
-        
-        //print("cool ")
-        //print(locations.count)
-        
+
         // Do any additional setup after loading the view.
     }
     
@@ -100,10 +102,10 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         dataSchema.locationsRef?.removeAllObservers()
     }
     
-    /*func gotUserLocation() {
-        print("notified")
-        getStartingLocations()
-    }*/
+    func dismissSearch() {
+        self.searchBar.endEditing(true)
+        self.searchBar.resignFirstResponder()
+    }
     
     func refreshPage() {
         getStartingLocations()
@@ -138,7 +140,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         if let location = locations.first {
             userLocation = location.coordinate
         }
-        //NotificationCenter.default.post(name: Notification.Name(rawValue: userLocationDone), object: self)
         print("locmanager got here")
     }
     
@@ -178,11 +179,10 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                     loc.address = data["Address"] as! String
                     loc.lat = data["Lat"] as! Double
                     loc.long = data["Long"] as! Double
-                    loc.rating = data["Rating"] as! Int
+                    loc.rating = data["Rating"] as! Double
                     if let userData = data["UserPosts"] as? [String : AnyObject] {
                         var tempKeys = [String]()
                         for (k,_) in userData {
-                            print("key here! \(k)")
                             tempKeys.append(k)
                         }
                         loc.userPostKeys = tempKeys
@@ -226,7 +226,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     func checkInFilter() -> Bool {
         var inFilter = false
         for loc in self.locations {
-            if loc.distanceFromUser <= Double(self.distanceFilter) && loc.rating >= self.ratingFilter && loc.distanceFromUser >= 0 {
+            if loc.distanceFromUser <= Double(self.distanceFilter) && Int(loc.rating) >= self.ratingFilter && loc.distanceFromUser >= 0 {
                 inFilter = true
                 self.locationsToDisplay.append(loc)
             }
@@ -238,7 +238,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         let size = self.locationsToDisplay.count
         var count = 0
         for loc in self.locationsToDisplay {
-            print("first key \(loc.userPostKeys.first)")
             dataSchema.postsRef?.child("User Post \((loc.userPostKeys.first)!)").observeSingleEvent(of: .value, with: { (snapshot) in
                 if let data = snapshot.value as? [String : AnyObject] {
                     if let photoURL = data["Photo"] as? String {
