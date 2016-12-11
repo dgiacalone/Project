@@ -39,6 +39,7 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
         locationTextField.delegate = self
         
         tbc = self.tabBarController as! TabBarViewController?
+        currentLocations = (tbc?.currentLocations)!
         
         // Do any additional setup after loading the view.
     }
@@ -63,7 +64,7 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
             userPost?.photo = photo
             if let uploadPost = userPost {
                 LoadingIndicatorView.show("Uploading Image")
-                dataSchema.insertUserPost(post: uploadPost)
+                dataSchema.insertUserPost(post: uploadPost, locs: currentLocations)
             }
         }
         else {
@@ -101,7 +102,7 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func databaseDoneNotification() {
         LoadingIndicatorView.hide()
-        self.tbc?.currentLocations = dataSchema.locations
+        //self.tbc?.currentLocations = dataSchema.locations
         self.tbc?.currentUserPosts = dataSchema.userPosts
         //currentLocations = dataSchema.locations
         print("segue")

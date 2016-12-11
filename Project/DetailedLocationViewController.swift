@@ -11,7 +11,9 @@ import UIKit
 class DetailedLocationViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     var location = Locations()
+    var locations = [Locations]()
     let dataSchema = Database()
+    var tbc: TabBarViewController?
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
@@ -25,6 +27,7 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tbc = self.tabBarController as! TabBarViewController?
         nameLabel.text = location.address
         distanceLabel.text = "\(location.distanceFromUser) miles"
         ratingDisplay.rating = Int(location.rating)
@@ -64,12 +67,14 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
     func getLocPhotos() {
         LoadingIndicatorView.show("Loading Photos")
         var photoArray = [Photo]()
+        var reviewArray = [String]()
         let size = location.userPostKeys.count
         var count = 0
         for key in location.userPostKeys {
             dataSchema.postsRef?.child("User Post \(key)").observeSingleEvent(of: .value, with: { (snapshot) in
                 if let data = snapshot.value as? [String : AnyObject] {
                     let photoURL = data["Photo"] as! String
+                    let review = data["Review"] as! String
                     //print("url \(photoURL)")
                     let getPhoto = Photo()
                     let url = NSURL(string: photoURL)  //userPhoto URL
@@ -79,10 +84,15 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
                         getPhoto.photo = UIImage(data: data2! as Data)!
                         photoArray.append(getPhoto)
                     }
+                    if review != "" {
+                        reviewArray.append(review)
+                    }
 
                 }
                 if count == size - 1{
+                    self.tbc?.currentLocations = self.locations
                     self.location.photos = photoArray
+                    self.location.reviews = reviewArray
                     LoadingIndicatorView.hide()
                     self.collectionView.reloadData()
                 }
@@ -93,14 +103,24 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "reviews" {
+            let reviewsTableViewController = segue.destination as! ReviewsTableViewController
+            reviewsTableViewController.reviews = location.reviews
+        }
+        if segue.identifier == "detailedPhoto" {
+            let detailedPhotoViewController = segue.destination as! DetailedPhotoViewController
+            detailedPhotoViewController.location = location
+            let indexPath = collectionView.indexPath(for: sender as! LocationCollectionViewCell)
+            detailedPhotoViewController.photoToDisplay = location.photos[indexPath!.row]
+        }
     }
-    */
+    
 
 }

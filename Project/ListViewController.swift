@@ -76,6 +76,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         if segue.identifier == "locationDetail" {
             let detailedViewController = segue.destination as! DetailedLocationViewController
             detailedViewController.location = locations[(tableView.indexPathForSelectedRow?.row)!]
+            detailedViewController.locations = locations
         }
     }
     

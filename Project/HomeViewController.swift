@@ -16,6 +16,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var listContainer: UIView!
     @IBOutlet weak var mapContainer: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var filterButton: UIButton!
     
     var distanceFilter = 50
     var ratingFilter = 1
@@ -25,6 +26,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     var tbc: TabBarViewController?
     
     var listViewController : ListViewController?
+    var mapViewController : MapViewController?
     
     let dataSchema = Database()
     var locations = [Locations]()
@@ -161,8 +163,16 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     func getStartingLocations(){
         print("starting locations")
-        _ = dataSchema.locationsRef?.observe(FIRDataEventType.value, with: { (snapshot) in
-            LoadingIndicatorView.show("Loading Locations")
+        //mapViewController?.mapChangedFromUserInteraction = false
+        LoadingIndicatorView.show("Loading Locations")
+        getStartingLocationsHelper()
+
+    }
+    
+    func getStartingLocationsHelper() {
+        _ = dataSchema.locationsRef?.observeSingleEvent(of: .value, with: { (snapshot) in
+            //.observe(FIRDataEventType.value, with: { (snapshot) in
+            //LoadingIndicatorView.show("Loading Locations")
             print("starting observer")
             self.locations.removeAll()
             self.locationsToDisplay.removeAll()
@@ -185,8 +195,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                         }
                         loc.userPostKeys = tempKeys
                         /*if userData.count > 0 {
-                            loc.userPostKey = userData.first?.value as! String
-                        }*/
+                         loc.userPostKey = userData.first?.value as! String
+                         }*/
                     }
                     var distance = 0.0
                     if loc.lat == 0 && loc.long == 0 {
@@ -216,9 +226,11 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             self.tbc?.currentLocations = self.locations
             self.tbc?.displayLocations = self.locationsToDisplay
             self.listViewController?.locations = self.locationsToDisplay
+            self.mapViewController?.locations = self.locationsToDisplay
             //self.listViewController?.updateTable()
-
+            
         })
+
     }
     
     func checkInFilter() -> Bool {
@@ -255,8 +267,11 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                     print("hide")
                     LoadingIndicatorView.hide()
                     self.tbc?.currentLocations = self.locations
+                    print("locatons count \(self.locations.count)")
                     self.tbc?.displayLocations = self.locationsToDisplay
                     self.listViewController?.locations = self.locationsToDisplay
+                    self.mapViewController?.locations = self.locationsToDisplay
+                    self.mapViewController?.addAnnotations()
                     self.listViewController?.updateTable()
                 }
                 count += 1
@@ -278,8 +293,9 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
 
         }
         if segue.identifier == "mapContainer" {
-            let mapViewController = segue.destination as! MapViewController
-            mapViewController.locations = locations
+            mapViewController = segue.destination as? MapViewController
+            mapViewController?.locations = locations
+            mapViewController?.filterMiles = distanceFilter
             
         }
         if segue.identifier == "filter" {

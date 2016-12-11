@@ -65,7 +65,7 @@ class Database {
         
     }
     
-    func insertUserPost(post: UserPosts){
+    func insertUserPost(post: UserPosts, locs: [Locations]){
         print("first")
         let imageName = NSUUID().uuidString
         self.imagesRef = storageRef?.child("Images").child("Image \(imageName)")
@@ -91,7 +91,7 @@ class Database {
                     self.imageURL = image
                     print("image \(self.imageURL)")
                 }
-                //print("done with user post")
+                //self.checkLocations(post: post, postKey: key, locs: locs)
                 self.getLocations(post: post, postKey: key)
                 print("first end")
             })
@@ -142,13 +142,48 @@ class Database {
             self.getUserPosts()
         })
     }
+    
+    func checkLocations(post: UserPosts, postKey: String, locs: [Locations]){
+        var found = false
+        for loc in locs {
+            if loc.address == post.address {
+                var dict = [String: String]()
+                for key in loc.userPostKeys {
+                    dict[key] = "post"
+                    print("whyyy \(key)")
+                    
+                }
+                print("getLocations key was found: \(postKey)")
+                self.updateLocation(post: post, postKey: postKey, locationsKey: loc.key, posts: dict, oldRating: loc.rating)
+                found = true
+                break
+            }
+        }
+        if found == false{
+            print("get locations key was not found \(postKey)")
+            let newLoc = Locations()
+            newLoc.address = post.address
+            newLoc.lat = post.lat
+            newLoc.long = post.long
+            newLoc.rating = Double(post.rating)
+            if post.review != "" {
+                newLoc.reviews.append(post.review)
+            }
+            newLoc.photos.append(post.photo)
+            self.insertNewLocation(loc: newLoc, postKey: postKey)
+        }
+        print("second end")
+        self.getUserPosts()
+    
+    }
 
     func updateLocation(post: UserPosts, postKey: String, locationsKey: String, posts: [String:String], oldRating: Double) {
         print("third(update location)")
-
+        print("locations key \(locationsKey) postKey \(postKey) posts count \(posts.count)")
         var newPosts = posts
-        newPosts.updateValue("post", forKey: postKey)
-        print("size \(Double(posts.count)) oldrating \(oldRating)")
+        //newPosts.updateValue("post", forKey: postKey)
+        newPosts[postKey] = "post"
+        print("size \(Double(newPosts.count)) oldrating \(oldRating)")
         let sum = Double(posts.count) * oldRating
         print("sum \(sum)")
         print("sum plus rating \(sum + Double(post.rating))")

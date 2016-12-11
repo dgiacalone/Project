@@ -53,6 +53,11 @@
 		8EB5E7FB1DF25985005FBDEF /* DetailedPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5E7FA1DF25985005FBDEF /* DetailedPostViewController.swift */; };
 		8EC4DDB11DF4DB3800B6C24F /* DetailedLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4DDB01DF4DB3800B6C24F /* DetailedLocationViewController.swift */; };
 		8EC4DDB31DF4EBB200B6C24F /* LocationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4DDB21DF4EBB200B6C24F /* LocationCollectionViewCell.swift */; };
+		8EFB59C41DF6825900740E5C /* LoadingScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFB59C31DF6825900740E5C /* LoadingScreenViewController.swift */; };
+		8EFB59C61DFA71BE00740E5C /* ReviewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFB59C51DFA71BE00740E5C /* ReviewsTableViewController.swift */; };
+		8EFB59C81DFA71FC00740E5C /* ReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFB59C71DFA71FC00740E5C /* ReviewsTableViewCell.swift */; };
+		8EFB59CA1DFB5FD600740E5C /* DetailedPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFB59C91DFB5FD600740E5C /* DetailedPhotoViewController.swift */; };
+		8EFB59CE1DFCBDB200740E5C /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFB59CD1DFCBDB200740E5C /* AnnotationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +133,11 @@
 		8EB5E7FA1DF25985005FBDEF /* DetailedPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedPostViewController.swift; sourceTree = "<group>"; };
 		8EC4DDB01DF4DB3800B6C24F /* DetailedLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedLocationViewController.swift; sourceTree = "<group>"; };
 		8EC4DDB21DF4EBB200B6C24F /* LocationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCollectionViewCell.swift; sourceTree = "<group>"; };
+		8EFB59C31DF6825900740E5C /* LoadingScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingScreenViewController.swift; sourceTree = "<group>"; };
+		8EFB59C51DFA71BE00740E5C /* ReviewsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewController.swift; sourceTree = "<group>"; };
+		8EFB59C71DFA71FC00740E5C /* ReviewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewCell.swift; sourceTree = "<group>"; };
+		8EFB59C91DFB5FD600740E5C /* DetailedPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedPhotoViewController.swift; sourceTree = "<group>"; };
+		8EFB59CD1DFCBDB200740E5C /* AnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,12 +217,17 @@
 				8E70B4271DDE5AE6006D8108 /* AddPhotoViewController.swift */,
 				8E4E704C1DEEA606006BE426 /* LoadingIndicatorView.swift */,
 				8E70B42C1DE265B9006D8108 /* TabBarViewController.swift */,
-				8E70B4161DDE5AD8006D8108 /* MapViewController.swift */,
 				8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */,
+				8E70B4161DDE5AD8006D8108 /* MapViewController.swift */,
+				8EFB59CD1DFCBDB200740E5C /* AnnotationView.swift */,
+				8EFB59C31DF6825900740E5C /* LoadingScreenViewController.swift */,
 				8E70B42E1DE26FD1006D8108 /* Database.swift */,
 				8E70B4181DDE5AD8006D8108 /* ListViewController.swift */,
 				8EC4DDB01DF4DB3800B6C24F /* DetailedLocationViewController.swift */,
+				8EFB59C71DFA71FC00740E5C /* ReviewsTableViewCell.swift */,
+				8EFB59C51DFA71BE00740E5C /* ReviewsTableViewController.swift */,
 				8EC4DDB21DF4EBB200B6C24F /* LocationCollectionViewCell.swift */,
+				8EFB59C91DFB5FD600740E5C /* DetailedPhotoViewController.swift */,
 				8E70B41A1DDE5AD8006D8108 /* SettingsViewController.swift */,
 				8E70B41B1DDE5AD8006D8108 /* ChangePasswordViewController.swift */,
 				8E70B41C1DDE5AD8006D8108 /* ProfileTableViewController.swift */,
@@ -413,9 +428,13 @@
 				8E25664E1DD9239E00208F0E /* UserPosts.swift in Sources */,
 				8EC4DDB11DF4DB3800B6C24F /* DetailedLocationViewController.swift in Sources */,
 				8E4E704B1DEA1792006BE426 /* RatingDisplay.swift in Sources */,
+				8EFB59CA1DFB5FD600740E5C /* DetailedPhotoViewController.swift in Sources */,
 				8E70B42B1DDE5AE6006D8108 /* AddPhotoViewController.swift in Sources */,
+				8EFB59C81DFA71FC00740E5C /* ReviewsTableViewCell.swift in Sources */,
 				8E70B42D1DE265B9006D8108 /* TabBarViewController.swift in Sources */,
 				8EAD7AD41DD2831F0093DED8 /* SignUpViewController.swift in Sources */,
+				8EFB59C61DFA71BE00740E5C /* ReviewsTableViewController.swift in Sources */,
+				8EFB59C41DF6825900740E5C /* LoadingScreenViewController.swift in Sources */,
 				8EAD7ADA1DD3FFBF0093DED8 /* DoubleExtension.swift in Sources */,
 				8EB5E7F91DF0F2D5005FBDEF /* LocationDetailViewController.swift in Sources */,
 				8E4E704D1DEEA606006BE426 /* LoadingIndicatorView.swift in Sources */,
@@ -430,6 +449,7 @@
 				8EAD7AD21DD2830C0093DED8 /* LoginViewController.swift in Sources */,
 				8EAD7ADC1DD41C780093DED8 /* RatingControl.swift in Sources */,
 				8EAD7A841DCFF4D20093DED8 /* BridgingHeader.m in Sources */,
+				8EFB59CE1DFCBDB200740E5C /* AnnotationView.swift in Sources */,
 				8E70B4291DDE5AE6006D8108 /* LocationsTableViewCell.swift in Sources */,
 				8EB5E7F51DF0D902005FBDEF /* FilterViewController.swift in Sources */,
 				8E70B4281DDE5AE6006D8108 /* ProfileHeaderTableViewCell.swift in Sources */,
