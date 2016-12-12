@@ -67,7 +67,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             //let objectAnnotation = LocationAnnotation(coordinate: pinLocation)
             let objectAnnotation = MKPointAnnotation()
             objectAnnotation.coordinate = pinLocation
-            objectAnnotation.title = "\(loc.address)"
+            objectAnnotation.title = loc.address
+            //objectAnnotation.subtitle = "rating: \(Int(loc.rating))"
             //objectAnnotation.image = loc.photoToDisplay
             
             self.mapView.addAnnotation(objectAnnotation)
@@ -110,7 +111,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let arrowImage = UIImage(named: "arrowImage")
         let detailButton: UIButton = UIButton(type: .custom)
         detailButton.setImage(arrowImage, for: .normal)
-        detailButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        detailButton.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
         pinView?.rightCalloutAccessoryView = detailButton
         
         for loc in locations {
@@ -121,8 +122,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let exampleImage = selectedLocation.photoToDisplay
         let imageButton: UIButton = UIButton(type: .custom)
         imageButton.setImage(exampleImage, for: .normal)
-        imageButton.frame = CGRect(x: 0, y: 0, width: 51, height: 51)
+        imageButton.frame = CGRect(x: 0, y: 0, width: 55, height: 55)
         pinView?.leftCalloutAccessoryView = imageButton
+        
+        let rating = RatingDisplay()
+        rating.rating = Int(selectedLocation.rating)
+        pinView!.detailCalloutAccessoryView = rating
         
         return pinView
     }
@@ -190,6 +195,56 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
+    /*func setUsersClosestCity()
+    {
+        for loc in locations {
+            let geoCoder = CLGeocoder()
+            let location = CLLocation(latitude: loc.lat, longitude: loc.long)
+            geoCoder.reverseGeocodeLocation(location)
+            {
+                (placemarks, error) -> Void in
+                
+                let placeArray = placemarks as [CLPlacemark]!
+                
+                // Place details
+                var placeMark: CLPlacemark!
+                placeMark = placeArray?[0]
+                
+                // Address dictionary
+                //print(placeMark.addressDictionary!)
+                
+                // Location name
+                if let locationName = placeMark.addressDictionary?["Name"] as? NSString
+                {
+                    print("locName \(locationName)")
+                }
+                
+                // Street address
+                if let street = placeMark.addressDictionary?["Thoroughfare"] as? NSString
+                {
+                    print("street \(street)")
+                }
+                
+                // City
+                if let city = placeMark.addressDictionary?["City"] as? NSString
+                {
+                    print("city \(city)")
+                }
+                
+                // Zip code
+                if let zip = placeMark.addressDictionary?["ZIP"] as? NSString
+                {
+                    print("zip  \(zip)")
+                }
+                
+                // Country
+                if let country = placeMark.addressDictionary?["Country"] as? NSString
+                {
+                    print("country \(country)")
+                }
+            }
+        }
+    }*/
 
     
     // MARK: - Navigation

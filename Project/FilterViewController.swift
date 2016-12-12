@@ -14,7 +14,11 @@ class FilterViewController: UIViewController {
     let ratingIncrement: Float = 1
     var distanceRoundedVal: Float = 50
     var ratingRoundedVal: Float = 1
+    var sort = 0
     
+    @IBAction func segControlChanged(_ sender: Any) {
+        sort = segControl.selectedSegmentIndex
+    }
     @IBAction func distanceSliderChanged(_ sender: Any) {
         distanceRoundedVal = round(distanceSlider.value / distanceIncrement) * distanceIncrement
         distanceSlider.value = distanceRoundedVal
@@ -35,14 +39,17 @@ class FilterViewController: UIViewController {
         defaults.setValue(Int(distanceRoundedVal), forKey: "distance")
         ratingRoundedVal = round(ratingSlider.value / ratingIncrement) * ratingIncrement
         defaults.setValue(Int(ratingRoundedVal), forKey: "rating")
+        defaults.setValue(sort, forKey: "sort")
     }
     @IBOutlet weak var distanceSlider: UISlider!
     @IBOutlet weak var ratingSlider: UISlider!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var segControl: UISegmentedControl!
     
     var savedDistance = 50
     var savedRating = 1
+    var savedSort = 0
     
     let defaults = UserDefaults.standard
     
@@ -56,6 +63,9 @@ class FilterViewController: UIViewController {
             print("The prev rating: " + rating)
             savedRating = Int(rating)!
         }
+        if let sort = defaults.string(forKey: "sort") {
+            savedSort = Int(sort)!
+        }
         
         distanceSlider.setValue(Float(savedDistance), animated: false)
         ratingSlider.setValue(Float(savedRating), animated: false)
@@ -66,7 +76,7 @@ class FilterViewController: UIViewController {
         else {
             ratingLabel.text = "\(savedRating) stars"
         }
-
+        segControl.selectedSegmentIndex = savedSort
         // Do any additional setup after loading the view.
     }
 

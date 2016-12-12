@@ -34,6 +34,23 @@ class RatingDisplay: UIView {
             else {
                 button.setImage(emptyStarImage, for: .normal)
             }
+            button.isUserInteractionEnabled = false
+            ratingButtons += [button]
+            addSubview(button)
+        }
+    }
+    
+    init() {
+        super.init(frame: CGRect(x: 0, y: 0, width: size, height: size))
+        for i in 0..<numStars {
+            let button = UIButton(frame: CGRect(x: 0, y: 0, width: size, height: size))
+            if i < rating {
+                button.setImage(filledStarImage, for: .normal)
+            }
+            else {
+                button.setImage(emptyStarImage, for: .normal)
+            }
+            button.isUserInteractionEnabled = false
             ratingButtons += [button]
             addSubview(button)
         }
@@ -49,6 +66,7 @@ class RatingDisplay: UIView {
             else {
                 button.setImage(emptyStarImage, for: .normal)
             }
+            button.isUserInteractionEnabled = false
             ratingButtons += [button]
             addSubview(button)
         }
@@ -62,6 +80,7 @@ class RatingDisplay: UIView {
         for (index, button) in ratingButtons.enumerated() {
             buttonFrame.origin.x = CGFloat(index * (10 + spacing))
             button.frame = buttonFrame
+            button.isUserInteractionEnabled = false
         }
     }
     

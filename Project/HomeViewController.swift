@@ -20,6 +20,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     var distanceFilter = 50
     var ratingFilter = 1
+    var sort = 0
     var itemsInFilterRange = false
     let defaults = UserDefaults.standard
     var isWithinFilter = false
@@ -71,7 +72,9 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         if let rating = defaults.string(forKey: "rating"){
             ratingFilter = Int(rating)!
         }
-        
+        if let s = defaults.string(forKey: "sort") {
+            sort = Int(s)!
+        }
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshPage))
         self.navigationItem.rightBarButtonItem = refreshButton
 
@@ -150,9 +153,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     func getDistance(lat: Double, long: Double) -> Double {
         var distanceInMiles = 0.0
         let coordinate = CLLocation(latitude: lat, longitude: long)
-        //print("userlocation: \(userLocation)")
         if let userLoc = userLocation {
-            //print("shouldn't be 0")
             let user = CLLocation(latitude: userLoc.latitude, longitude: userLoc.longitude)
             let distanceInMeters = coordinate.distance(from: user)
             distanceInMiles = (distanceInMeters / mileConversion).roundTo(places:1)
@@ -163,7 +164,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     func getStartingLocations(){
         print("starting locations")
-        //mapViewController?.mapChangedFromUserInteraction = false
         LoadingIndicatorView.show("Loading Locations")
         getStartingLocationsHelper()
 
@@ -220,9 +220,16 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             else {
                 self.getFirstPhotoURLs()
             }
-            self.locationsToDisplay.sort(by: {
-                return $0.distanceFromUser < $1.distanceFromUser
-            })
+            if self.sort == 0 {
+                self.locationsToDisplay.sort(by: {
+                    return $0.distanceFromUser < $1.distanceFromUser
+                })
+            }
+            else {
+               self.locationsToDisplay.sort(by: {
+                    return $0.rating > $1.rating
+               })
+            }
             self.tbc?.currentLocations = self.locations
             self.tbc?.displayLocations = self.locationsToDisplay
             self.listViewController?.locations = self.locationsToDisplay
@@ -273,6 +280,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                     self.mapViewController?.locations = self.locationsToDisplay
                     self.mapViewController?.addAnnotations()
                     self.listViewController?.updateTable()
+                    //self.mapViewController?.setUsersClosestCity()
                 }
                 count += 1
             })
@@ -323,6 +331,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         if let sourceViewController = segue.source as? FilterViewController {
             distanceFilter = Int(sourceViewController.distanceRoundedVal)
             ratingFilter = Int(sourceViewController.ratingRoundedVal)
+            sort = sourceViewController.sort
             getStartingLocations()
             //self.listViewController?.updateTable()
         }
