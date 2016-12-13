@@ -107,10 +107,19 @@
                         <outlet property="listContainer" destination="cXF-c0-gua" id="Udo-5X-5x9"/>
                         <outlet property="mapContainer" destination="eJ5-QG-Dbl" id="iFt-sD-C8u"/>
                         <outlet property="searchBar" destination="YUa-Eb-e2j" id="iY1-v8-QnB"/>
+                        <outlet property="searchDisplayController" destination="zBR-Gh-FPW" id="izd-oN-Mze"/>
                         <segue destination="Nzj-kl-089" kind="presentation" identifier="homeToLoading" id="AOO-TL-BsQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eyz-2g-awe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="zBR-Gh-FPW">
+                    <connections>
+                        <outlet property="delegate" destination="x7N-7c-qWf" id="ANJ-dG-JpV"/>
+                        <outlet property="searchContentsController" destination="x7N-7c-qWf" id="ah3-eT-3ct"/>
+                        <outlet property="searchResultsDataSource" destination="x7N-7c-qWf" id="JNY-79-6qd"/>
+                        <outlet property="searchResultsDelegate" destination="x7N-7c-qWf" id="6vA-LQ-vL9"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="120.8" y="99.400299850074973"/>
         </scene>
@@ -127,7 +136,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="201"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Q0I-lJ-MgD" id="7IA-sn-m4Q">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="200.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peS-mb-Lvl">
@@ -156,7 +165,7 @@
                                 <rect key="frame" x="0.0" y="229" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wtX-gl-miF" id="bK2-4B-KSB">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qkd-51-YAh">
@@ -308,7 +317,7 @@
             <objects>
                 <navigationController id="2u6-LK-3ne" userLabel="Profile" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Proflie" id="I8z-u2-LzN"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="jnJ-TT-549">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="jnJ-TT-549">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -818,7 +827,7 @@
             <objects>
                 <navigationController id="sMB-hM-VuZ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" id="FJA-ys-PZo"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3rD-Rn-6G0">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="3rD-Rn-6G0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

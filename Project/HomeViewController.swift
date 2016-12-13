@@ -76,7 +76,9 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             sort = Int(s)!
         }
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshPage))
-        self.navigationItem.rightBarButtonItem = refreshButton
+        self.navigationItem.rightBarButtonItems?.append(refreshButton)
+        let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchLocation))
+        self.navigationItem.rightBarButtonItems?.append(searchButton)
 
         
         configureLocationManager()
@@ -114,6 +116,10 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     func refreshPage() {
         getStartingLocations()
+    }
+    
+    func searchLocation() {
+        self.mapViewController?.searchHappened()
     }
     
     func configureLocationManager() {

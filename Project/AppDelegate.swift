@@ -8,6 +8,9 @@
 
 import UIKit
 import Firebase
+import GoogleMaps
+
+//AIzaSyDgRgdAWpLhnh56UI21P_ICdoio8q2ZDfU
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FIRApp.configure()
         FIRDatabase.database().persistenceEnabled = false
+        GMSServices.provideAPIKey("AIzaSyDgRgdAWpLhnh56UI21P_ICdoio8q2ZDfU")
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let _ = FIRAuth.auth()?.currentUser {

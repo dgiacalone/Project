@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate, LocateOnTheMap {
     
     @IBOutlet weak var mapView: MKMapView!
     let locationManager = CLLocationManager()
@@ -20,8 +20,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var mapChangedFromUserInteraction = false
     var userLoc : CLLocation?
     
+    var searchResultController:SearchResultsTableViewController!
+    var resultsArray = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchResultController = SearchResultsTableViewController()
+        searchResultController.delegate = self
+        
         configureLocationManager()
         mapView.showsUserLocation = true
         //addAnnotations()
@@ -98,7 +105,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         if annotation is MKUserLocation {
             return nil
         }
-        
         let reuseId = "pin"
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         
@@ -107,6 +113,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
             pinView!.animatesDrop = true
+        }
+        if annotation.title! == "Searched Location" {
+            pinView?.pinTintColor = UIColor.blue
         }
         let arrowImage = UIImage(named: "arrowImage")
         let detailButton: UIButton = UIButton(type: .custom)
@@ -243,6 +252,48 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     print("country \(country)")
                 }
             }
+        }
+    }*/
+    
+    func locateWithLongitude(lon: Double, andLatitude lat: Double, andTitle title: String) {
+        DispatchQueue.main.async {
+            let pinLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(lat, lon)
+            //let objectAnnotation = LocationAnnotation(coordinate: pinLocation)
+            let objectAnnotation = MKPointAnnotation()
+            objectAnnotation.coordinate = pinLocation
+            objectAnnotation.title = "Searched Location"
+            
+            //objectAnnotation.subtitle = "rating: \(Int(loc.rating))"
+            //objectAnnotation.image = loc.photoToDisplay
+            
+            self.mapView.addAnnotation(objectAnnotation)
+            let region2 = MKCoordinateRegionMakeWithDistance(pinLocation, 6000, 6000);
+            self.mapView.setRegion(region2, animated: true)
+        }
+
+        
+    }
+    
+    func searchHappened() {
+        let searchController = UISearchController(searchResultsController: searchResultController)
+        searchController.searchBar.delegate = self
+        self.present(searchController, animated: true, completion: nil)
+    }
+    
+    /*func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        
+        let placesClient = GMSPlacesClient()
+        placesClient.autocompleteQuery(searchText, bounds: nil, filter: nil) { (results, error:NSError?) -> Void in
+            self.resultsArray.removeAll()
+            if results == nil {
+                return
+            }
+            for result in results!{
+                if let result = result as? GMSAutocompletePrediction{
+                    self.resultsArray.append(result.attributedFullText.string)
+                }
+            }
+            self.searchResultController.reloadDataWithArray(self.resultsArray)
         }
     }*/
 
