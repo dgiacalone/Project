@@ -20,6 +20,7 @@ class Locations {
     var photoToDisplay = UIImage()
     var key = ""
     var distanceFromUser = -1.0
+    var distanceFromSearchedLoc = -1.0
     var userPostKeys = [String]()
     
     init() {

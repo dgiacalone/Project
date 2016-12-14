@@ -10,6 +10,7 @@ import UIKit
 
 protocol LocateOnTheMap{
     func locateWithLongitude(lon:Double, andLatitude lat:Double, andTitle title: String)
+    func noLocations()
 }
 
 class SearchResultsTableViewController: UITableViewController {
@@ -28,6 +29,10 @@ class SearchResultsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,23 +67,31 @@ class SearchResultsTableViewController: UITableViewController {
         self.dismiss(animated: true, completion: nil)
         let correctedAddress = self.searchResults[indexPath.row].addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
         //let correctedAddress:String! = self.searchResults[indexPath.row].stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.symbolCharacterSet())
-        let url = NSURL(string: "https://maps.googleapis.com/maps/api/geocode/json?address=\(correctedAddress)&sensor=false")
+        print("address \(correctedAddress!)")
+        let urlString = "https://maps.googleapis.com/maps/api/geocode/json?address=\(correctedAddress!)&sensor=false"
+        let searchURL : NSURL = NSURL(string: urlString as String)!
+        print("url \(searchURL)")
         
-        let task = URLSession.shared.dataTask(with: url! as URL) { (data, response, error) -> Void in
+        let task = URLSession.shared.dataTask(with: searchURL as URL) { (data, response, error) -> Void in
             do {
                 if data != nil{
                     let dic = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableLeaves) as!  [String : AnyObject]
-                    let results = dic["results"] as! [String: AnyObject]
-                    let geo = results["geometry"] as! [String: AnyObject]
-                    let loc = geo["location"] as! [String: AnyObject]
-                    let lats = loc["lat"] as! [String]
-                    let lat = Double(lats[0])
-                    let longs = loc["lng"] as! [String]
-                    let long = Double(longs[0])
-                    
-                    //let lat = dic["results"]?.valueForKey("geometry")?.valueForKey("location")?.valueForKey("lat")?.objectAtIndex(0) as! Double
-                    //let lon = dic["results"]?.valueForKey("geometry")?.valueForKey("location")?.valueForKey("lng")?.objectAtIndex(0) as! Double
-                    self.delegate.locateWithLongitude(lon: long!, andLatitude: lat!, andTitle: self.searchResults[indexPath.row] )
+                    let status = dic["status"] as! String
+                    if status == "ZERO_RESULTS" {
+                        self.delegate.noLocations()
+                    }
+                    else {
+                        let results = dic["results"] as! [AnyObject]
+                        let first = results[0] as! [String: AnyObject]
+                        let geo = first["geometry"] as! [String: AnyObject]
+                        let loc = geo["location"] as! [String: AnyObject]
+                        let lat = loc["lat"] as! Double
+                        let long = loc["lng"] as! Double
+                        
+                        print("size \(self.searchResults.count)")
+                        print("index \(indexPath.row)")
+                        self.delegate.locateWithLongitude(lon: long, andLatitude: lat, andTitle: self.searchResults[indexPath.row] )
+                    }
                 }
             }catch {
                 print("Error")

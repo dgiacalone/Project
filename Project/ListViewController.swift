@@ -12,6 +12,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     @IBOutlet weak var tableView: UITableView!
     var locations = [Locations]()
+    var search = false
     //var distances = [Double]()
     
     override func viewDidLoad() {
@@ -42,14 +43,28 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         if locations.count > indexPath.row {
             cell?.addressLabel.text = locations[indexPath.row].address
             cell?.ratingContainer.rating = Int(locations[indexPath.row].rating)
-            if locations[indexPath.row].distanceFromUser == -1 {
-                cell?.distanceLabel.text = "Unknown"
-            }
-            else if locations[indexPath.row].distanceFromUser > 50{
-                cell?.distanceLabel.text = "50+ miles"
+            if search {
+                if locations[indexPath.row].distanceFromSearchedLoc == -1 {
+                    cell?.distanceLabel.text = "Unknown"
+                }
+                else if locations[indexPath.row].distanceFromSearchedLoc > 50{
+                    cell?.distanceLabel.text = "50+ miles"
+                }
+                else {
+                    cell?.distanceLabel.text = "\(locations[indexPath.row].distanceFromSearchedLoc) miles"
+                }
             }
             else {
-                cell?.distanceLabel.text = "\(locations[indexPath.row].distanceFromUser) miles"
+                if locations[indexPath.row].distanceFromUser == -1 {
+                    cell?.distanceLabel.text = "Unknown"
+                }
+                else if locations[indexPath.row].distanceFromUser > 50{
+                    cell?.distanceLabel.text = "50+ miles"
+                }
+                else {
+                    cell?.distanceLabel.text = "\(locations[indexPath.row].distanceFromUser) miles"
+                }
+
             }
             cell?.exampleImage.image = locations[indexPath.row].photoToDisplay
         }

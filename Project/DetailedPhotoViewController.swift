@@ -31,7 +31,12 @@ class DetailedPhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         nameLabel.text = location.address
-        distanceLabel.text = "\(location.distanceFromUser) miles"
+        if location.distanceFromUser < 0 {
+            distanceLabel.text = "\(location.distanceFromSearchedLoc) miles"
+        }
+        else {
+            distanceLabel.text = "\(location.distanceFromUser) miles"
+        }
         ratingDisplay.rating = Int(location.rating)
         largerImage.image = photoToDisplay.photo
         // Do any additional setup after loading the view.

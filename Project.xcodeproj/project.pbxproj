@@ -68,9 +68,10 @@
 		8EB773131DFF6A3B0021230E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EB773071DFF6A3B0021230E /* SystemConfiguration.framework */; };
 		8EB773141DFF6A3B0021230E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EB773081DFF6A3B0021230E /* UIKit.framework */; };
 		8EB773161DFF6CD70021230E /* SearchResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB773151DFF6CD70021230E /* SearchResultsTableViewController.swift */; };
+		8EB773191E009A6C0021230E /* GooglePlacePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EB773171E009A6C0021230E /* GooglePlacePicker.framework */; };
+		8EB7731A1E009A6C0021230E /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EB773181E009A6C0021230E /* GooglePlaces.framework */; };
 		8EC4DDB11DF4DB3800B6C24F /* DetailedLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4DDB01DF4DB3800B6C24F /* DetailedLocationViewController.swift */; };
 		8EC4DDB31DF4EBB200B6C24F /* LocationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC4DDB21DF4EBB200B6C24F /* LocationCollectionViewCell.swift */; };
-		8EFB59C41DF6825900740E5C /* LoadingScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFB59C31DF6825900740E5C /* LoadingScreenViewController.swift */; };
 		8EFB59C61DFA71BE00740E5C /* ReviewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFB59C51DFA71BE00740E5C /* ReviewsTableViewController.swift */; };
 		8EFB59C81DFA71FC00740E5C /* ReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFB59C71DFA71FC00740E5C /* ReviewsTableViewCell.swift */; };
 		8EFB59CA1DFB5FD600740E5C /* DetailedPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFB59C91DFB5FD600740E5C /* DetailedPhotoViewController.swift */; };
@@ -165,9 +166,10 @@
 		8EB773071DFF6A3B0021230E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8EB773081DFF6A3B0021230E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8EB773151DFF6CD70021230E /* SearchResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsTableViewController.swift; sourceTree = "<group>"; };
+		8EB773171E009A6C0021230E /* GooglePlacePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlacePicker.framework; path = GoogleMaps/GooglePlacePicker.framework; sourceTree = "<group>"; };
+		8EB773181E009A6C0021230E /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlaces.framework; path = GoogleMaps/GooglePlaces.framework; sourceTree = "<group>"; };
 		8EC4DDB01DF4DB3800B6C24F /* DetailedLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedLocationViewController.swift; sourceTree = "<group>"; };
 		8EC4DDB21DF4EBB200B6C24F /* LocationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCollectionViewCell.swift; sourceTree = "<group>"; };
-		8EFB59C31DF6825900740E5C /* LoadingScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingScreenViewController.swift; sourceTree = "<group>"; };
 		8EFB59C51DFA71BE00740E5C /* ReviewsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewController.swift; sourceTree = "<group>"; };
 		8EFB59C71DFA71FC00740E5C /* ReviewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewCell.swift; sourceTree = "<group>"; };
 		8EFB59C91DFB5FD600740E5C /* DetailedPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedPhotoViewController.swift; sourceTree = "<group>"; };
@@ -179,6 +181,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EB773191E009A6C0021230E /* GooglePlacePicker.framework in Frameworks */,
+				8EB7731A1E009A6C0021230E /* GooglePlaces.framework in Frameworks */,
 				8EB773091DFF6A3B0021230E /* Accelerate.framework in Frameworks */,
 				8EB7730A1DFF6A3B0021230E /* CoreData.framework in Frameworks */,
 				8EB7730B1DFF6A3B0021230E /* CoreGraphics.framework in Frameworks */,
@@ -271,7 +275,6 @@
 				8E70B4171DDE5AD8006D8108 /* HomeViewController.swift */,
 				8E70B4161DDE5AD8006D8108 /* MapViewController.swift */,
 				8EFB59CD1DFCBDB200740E5C /* AnnotationView.swift */,
-				8EFB59C31DF6825900740E5C /* LoadingScreenViewController.swift */,
 				8E70B42E1DE26FD1006D8108 /* Database.swift */,
 				8E70B4181DDE5AD8006D8108 /* ListViewController.swift */,
 				8EC4DDB01DF4DB3800B6C24F /* DetailedLocationViewController.swift */,
@@ -317,6 +320,8 @@
 		8EAD7A731DCFF25E0093DED8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8EB773171E009A6C0021230E /* GooglePlacePicker.framework */,
+				8EB773181E009A6C0021230E /* GooglePlaces.framework */,
 				8EB772FD1DFF6A3B0021230E /* Accelerate.framework */,
 				8EB772FE1DFF6A3B0021230E /* CoreData.framework */,
 				8EB772FF1DFF6A3B0021230E /* CoreGraphics.framework */,
@@ -501,7 +506,6 @@
 				8E70B42D1DE265B9006D8108 /* TabBarViewController.swift in Sources */,
 				8EAD7AD41DD2831F0093DED8 /* SignUpViewController.swift in Sources */,
 				8EFB59C61DFA71BE00740E5C /* ReviewsTableViewController.swift in Sources */,
-				8EFB59C41DF6825900740E5C /* LoadingScreenViewController.swift in Sources */,
 				8EAD7ADA1DD3FFBF0093DED8 /* DoubleExtension.swift in Sources */,
 				8EB5E7F91DF0F2D5005FBDEF /* LocationDetailViewController.swift in Sources */,
 				8E4E704D1DEEA606006BE426 /* LoadingIndicatorView.swift in Sources */,

@@ -29,7 +29,12 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
         
         tbc = self.tabBarController as! TabBarViewController?
         nameLabel.text = location.address
-        distanceLabel.text = "\(location.distanceFromUser) miles"
+        if location.distanceFromUser < 0 {
+            distanceLabel.text = "\(location.distanceFromSearchedLoc) miles"
+        }
+        else {
+            distanceLabel.text = "\(location.distanceFromUser) miles"
+        }
         ratingDisplay.rating = Int(location.rating)
         if location.userPostKeys.count != location.photos.count {
             getLocPhotos()

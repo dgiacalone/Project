@@ -8,10 +8,11 @@
 
 import UIKit
 import MapKit
+import GooglePlaces
 
 let userLocationDone = "com.dgiacalone.specialNotificationKey2"
 
-class HomeViewController: UIViewController, CLLocationManagerDelegate {
+class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, LocateOnTheMap {
     
     @IBOutlet weak var listContainer: UIView!
     @IBOutlet weak var mapContainer: UIView!
@@ -25,6 +26,12 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     let defaults = UserDefaults.standard
     var isWithinFilter = false
     var tbc: TabBarViewController?
+    
+    var searchResultController:SearchResultsTableViewController!
+    var resultsArray = [String]()
+    var searchedLoc : CLLocationCoordinate2D?
+    var searchTitle = ""
+    var search = false
     
     var listViewController : ListViewController?
     var mapViewController : MapViewController?
@@ -56,7 +63,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //NotificationCenter.default.addObserver(self, selector: #selector(gotUserLocation), name: NSNotification.Name(rawValue: userLocationDone), object: nil)
+        searchResultController = SearchResultsTableViewController()
+        searchResultController.delegate = self
         print("load?")
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissSearch))
@@ -76,9 +84,10 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             sort = Int(s)!
         }
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshPage))
-        self.navigationItem.rightBarButtonItems?.append(refreshButton)
+        //self.navigationItem.rightBarButtonItems?.append(refreshButton)
         let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchLocation))
-        self.navigationItem.rightBarButtonItems?.append(searchButton)
+        //self.navigationItem.rightBarButtonItems?.append(searchButton)
+        navigationItem.rightBarButtonItems = [refreshButton, searchButton]
 
         
         configureLocationManager()
@@ -119,7 +128,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func searchLocation() {
-        self.mapViewController?.searchHappened()
+        searchHappened()
     }
     
     func configureLocationManager() {
@@ -170,7 +179,10 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     func getStartingLocations(){
         print("starting locations")
-        LoadingIndicatorView.show("Loading Locations")
+        DispatchQueue.main.async {
+            LoadingIndicatorView.show("Loading Locations")
+        }
+        search = false
         getStartingLocationsHelper()
 
     }
@@ -218,40 +230,61 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             }
             
             self.locations = newItems
-            let inFilter = self.checkInFilter()
+            let inFilter = self.checkInFilter(search: false)
             if !inFilter {
                 print("here")
                 LoadingIndicatorView.hide()
+                self.tbc?.currentLocations = self.locations
+                self.tbc?.displayLocations = self.locationsToDisplay
+                self.listViewController?.locations = self.locationsToDisplay
+                self.mapViewController?.locations = self.locationsToDisplay
+                self.listViewController?.search = self.search
+                self.mapViewController?.search = self.search
+                self.mapViewController?.addAnnotations()
+                self.listViewController?.updateTable()
             }
             else {
                 self.getFirstPhotoURLs()
+                if self.sort == 0 {
+                    self.locationsToDisplay.sort(by: {
+                        return $0.distanceFromUser < $1.distanceFromUser
+                    })
+                }
+                else {
+                    self.locationsToDisplay.sort(by: {
+                        return $0.rating > $1.rating
+                    })
+                }
+                self.tbc?.currentLocations = self.locations
+                self.tbc?.displayLocations = self.locationsToDisplay
+                self.listViewController?.locations = self.locationsToDisplay
+                self.mapViewController?.locations = self.locationsToDisplay
+                self.listViewController?.search = self.search
+                self.mapViewController?.search = self.search
+
             }
-            if self.sort == 0 {
-                self.locationsToDisplay.sort(by: {
-                    return $0.distanceFromUser < $1.distanceFromUser
-                })
-            }
-            else {
-               self.locationsToDisplay.sort(by: {
-                    return $0.rating > $1.rating
-               })
-            }
-            self.tbc?.currentLocations = self.locations
-            self.tbc?.displayLocations = self.locationsToDisplay
-            self.listViewController?.locations = self.locationsToDisplay
-            self.mapViewController?.locations = self.locationsToDisplay
             //self.listViewController?.updateTable()
             
         })
 
     }
     
-    func checkInFilter() -> Bool {
+    func checkInFilter(search: Bool) -> Bool {
         var inFilter = false
-        for loc in self.locations {
-            if loc.distanceFromUser <= Double(self.distanceFilter) && Int(loc.rating) >= self.ratingFilter && loc.distanceFromUser >= 0 {
-                inFilter = true
-                self.locationsToDisplay.append(loc)
+        if search {
+            for loc in self.locations {
+                if loc.distanceFromSearchedLoc <= Double(self.distanceFilter) && Int(loc.rating) >= self.ratingFilter && loc.distanceFromSearchedLoc >= 0 {
+                    inFilter = true
+                    self.locationsToDisplay.append(loc)
+                }
+            }
+        }
+        else {
+            for loc in self.locations {
+                if loc.distanceFromUser <= Double(self.distanceFilter) && Int(loc.rating) >= self.ratingFilter && loc.distanceFromUser >= 0 {
+                    inFilter = true
+                    self.locationsToDisplay.append(loc)
+                }
             }
         }
         return inFilter
@@ -286,12 +319,161 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                     self.mapViewController?.locations = self.locationsToDisplay
                     self.mapViewController?.addAnnotations()
                     self.listViewController?.updateTable()
+                    if self.search {
+                        self.mapViewController?.addSearchAnnotation(pinLocation: self.searchedLoc!, title: self.searchTitle)
+                    }
                     //self.mapViewController?.setUsersClosestCity()
                 }
                 count += 1
             })
         }
     }
+    
+    func getSearchLocations(){
+        print("search locations")
+        DispatchQueue.main.async {
+            LoadingIndicatorView.show("Loading Locations")
+        }
+        search = true
+        getSearchLocationsHelper()
+        
+    }
+    
+    func getSearchLocationsHelper() {
+        _ = dataSchema.locationsRef?.observeSingleEvent(of: .value, with: { (snapshot) in
+            print("starting observer")
+            self.locations.removeAll()
+            self.locationsToDisplay.removeAll()
+            //print("HOW MANY TIMES")
+            var newItems: [Locations] = []
+            let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
+            for (key, value) in locationDict {
+                if let data = value as? [String : AnyObject] {
+                    //print("here \(data)")
+                    let loc = Locations()
+                    loc.key = key
+                    loc.address = data["Address"] as! String
+                    loc.lat = data["Lat"] as! Double
+                    loc.long = data["Long"] as! Double
+                    loc.rating = data["Rating"] as! Double
+                    if let userData = data["UserPosts"] as? [String : AnyObject] {
+                        var tempKeys = [String]()
+                        for (k,_) in userData {
+                            tempKeys.append(k)
+                        }
+                        loc.userPostKeys = tempKeys
+                    }
+                    var distance = 0.0
+                    if loc.lat == 0 && loc.long == 0 {
+                        distance = -1
+                    }
+                    else {
+                        distance = self.getSearchDistance(lat: loc.lat, long: loc.long)
+                    }
+                    loc.distanceFromSearchedLoc = distance
+                    
+                    newItems.append(loc)
+                }
+            }
+            
+            self.locations = newItems
+            let inFilter = self.checkInFilter(search:true)
+            if !inFilter {
+                print("here")
+                LoadingIndicatorView.hide()
+                self.tbc?.currentLocations = self.locations
+                self.tbc?.displayLocations = self.locationsToDisplay
+                self.listViewController?.locations = self.locationsToDisplay
+                self.mapViewController?.locations = self.locationsToDisplay
+                self.listViewController?.search = self.search
+                self.mapViewController?.search = self.search
+                self.mapViewController?.addAnnotations()
+                self.listViewController?.updateTable()
+                if self.search {
+                    self.mapViewController?.addSearchAnnotation(pinLocation: self.searchedLoc!, title: self.searchTitle)
+                }
+            }
+            else {
+                self.getFirstPhotoURLs()
+                if self.sort == 0 {
+                    self.locationsToDisplay.sort(by: {
+                        return $0.distanceFromSearchedLoc < $1.distanceFromSearchedLoc
+                    })
+                }
+                else {
+                    self.locationsToDisplay.sort(by: {
+                        return $0.rating > $1.rating
+                    })
+                }
+                self.tbc?.currentLocations = self.locations
+                self.tbc?.displayLocations = self.locationsToDisplay
+                self.listViewController?.locations = self.locationsToDisplay
+                self.mapViewController?.locations = self.locationsToDisplay
+                self.listViewController?.search = self.search
+                self.mapViewController?.search = self.search
+                /*if self.search {
+                    self.mapViewController?.addSearchAnnotation(pinLocation: self.searchedLoc!, title: self.searchTitle)
+                }*/
+                //self.listViewController?.updateTable()
+
+            }
+            
+        })
+        
+    }
+    
+    func getSearchDistance(lat: Double, long: Double) -> Double {
+        var distanceInMiles = 0.0
+        let coordinate = CLLocation(latitude: lat, longitude: long)
+        if let search = searchedLoc {
+            let point = CLLocation(latitude: search.latitude, longitude: search.longitude)
+            let distanceInMeters = coordinate.distance(from: point)
+            distanceInMiles = (distanceInMeters / mileConversion).roundTo(places:1)
+        }
+        return distanceInMiles
+    }
+
+    
+    func locateWithLongitude(lon: Double, andLatitude lat: Double, andTitle title: String) {
+        let pinLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(lat, lon)
+        searchedLoc = pinLocation
+        searchTitle = title
+        getSearchLocations()
+        //maybe do this later
+    }
+    
+    func noLocations() {
+        let alert = UIAlertController(title : "Error", message: "Couldn't find location", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        self.present(alert, animated:true, completion: nil)
+    }
+    
+    func searchHappened() {
+        let searchController = UISearchController(searchResultsController: searchResultController)
+        searchController.searchBar.delegate = self
+        self.present(searchController, animated: true, completion: nil)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        
+        let placesClient = GMSPlacesClient()
+        placesClient.autocompleteQuery(searchText, bounds: nil, filter: nil, callback: {(results, error) -> Void in
+            self.resultsArray.removeAll()
+            
+            if results == nil {
+                print("Autocomplete error \(error)")
+                return
+            }
+            if let results = results {
+                for result in results {
+                    self.resultsArray.append(result.attributedFullText.string)
+                }
+            }
+            self.searchResultController.reloadDataWithArray(array: self.resultsArray)
+        })
+    }
+
     
     // MARK: - Navigation
 
@@ -304,12 +486,14 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             listViewController = segue.destination as? ListViewController
             //print("count here \(locations.count)")
             listViewController?.locations = locations
+            listViewController?.search = search
 
         }
         if segue.identifier == "mapContainer" {
             mapViewController = segue.destination as? MapViewController
             mapViewController?.locations = locations
             mapViewController?.filterMiles = distanceFilter
+            mapViewController?.search = self.search
             
         }
         if segue.identifier == "filter" {
@@ -338,7 +522,12 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             distanceFilter = Int(sourceViewController.distanceRoundedVal)
             ratingFilter = Int(sourceViewController.ratingRoundedVal)
             sort = sourceViewController.sort
-            getStartingLocations()
+            if search {
+                getSearchLocations()
+            }
+            else {
+                getStartingLocations()
+            }
             //self.listViewController?.updateTable()
         }
     }

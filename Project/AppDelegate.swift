@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import GoogleMaps
+import GooglePlaces
 
 //AIzaSyDgRgdAWpLhnh56UI21P_ICdoio8q2ZDfU
 
@@ -22,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         FIRDatabase.database().persistenceEnabled = false
         GMSServices.provideAPIKey("AIzaSyDgRgdAWpLhnh56UI21P_ICdoio8q2ZDfU")
+        GMSPlacesClient.provideAPIKey("AIzaSyCHS82Prm9xxiXPDZMpIHWwWo6FIQbtjFA")
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let _ = FIRAuth.auth()?.currentUser {
