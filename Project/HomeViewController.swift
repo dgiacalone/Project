@@ -16,8 +16,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
     
     @IBOutlet weak var listContainer: UIView!
     @IBOutlet weak var mapContainer: UIView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var filterButton: UIButton!
+    //@IBOutlet weak var filterButton: UIButton!
     
     var distanceFilter = 50
     var ratingFilter = 1
@@ -67,9 +66,9 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         searchResultController.delegate = self
         print("load?")
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissSearch))
+        /*let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissSearch))
         tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+        view.addGestureRecognizer(tap)*/
 
         self.listContainer.alpha = 1
         self.mapContainer.alpha = 0
@@ -88,6 +87,22 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchLocation))
         //self.navigationItem.rightBarButtonItems?.append(searchButton)
         navigationItem.rightBarButtonItems = [refreshButton, searchButton]
+        
+        /*let filterButton: UIButton = UIButton(type: .custom)
+        filterButton.setImage(#imageLiteral(resourceName: "filter"), for: .normal)
+        filterButton.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+        let filterBarButton = UIBarButtonItem(customView: filterButton)
+        navigationItem.leftBarButtonItem = filterBarButton*/
+        
+        let filterButton = UIButton(type: .custom)
+        filterButton.setImage(#imageLiteral(resourceName: "filter"), for: .normal)
+        filterButton.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        filterButton.addTarget(self, action: #selector(filter), for: .touchUpInside)
+        let item1 = UIBarButtonItem(customView: filterButton)
+        navigationItem.leftBarButtonItem = item1
+        
+        //let filterButton = UIBarButtonItem(barButtonIma, target: self, action: #selector(filter))
+        //navigationItem.leftBarButtonItem = filterBarButton
 
         
         configureLocationManager()
@@ -118,17 +133,16 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         dataSchema.locationsRef?.removeAllObservers()
     }
     
-    func dismissSearch() {
-        self.searchBar.endEditing(true)
-        self.searchBar.resignFirstResponder()
-    }
-    
     func refreshPage() {
         getStartingLocations()
     }
     
     func searchLocation() {
         searchHappened()
+    }
+    
+    func filter() {
+        self.performSegue(withIdentifier: "filter", sender: self)
     }
     
     func configureLocationManager() {
@@ -458,7 +472,10 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
         
         let placesClient = GMSPlacesClient()
-        placesClient.autocompleteQuery(searchText, bounds: nil, filter: nil, callback: {(results, error) -> Void in
+        let autoCompleteFilter = GMSAutocompleteFilter()
+        autoCompleteFilter.type = GMSPlacesAutocompleteTypeFilter.geocode
+        
+        placesClient.autocompleteQuery(searchText, bounds: nil, filter: autoCompleteFilter, callback: {(results, error) -> Void in
             self.resultsArray.removeAll()
             
             if results == nil {

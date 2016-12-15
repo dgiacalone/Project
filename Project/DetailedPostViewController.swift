@@ -25,7 +25,9 @@ class DetailedPostViewController: UIViewController {
         
         refreshAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
             //delete post and location key
-            LoadingIndicatorView.show("Deleting Post")
+            DispatchQueue.main.async {
+                LoadingIndicatorView.show("Deleting Post")
+            }
             self.deletePost()
         }))
         

@@ -16,7 +16,9 @@ class ProfileTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        LoadingIndicatorView.show("Loading Posts")
+        DispatchQueue.main.async {
+            LoadingIndicatorView.show("Loading Posts")
+        }
         getUserPosts()
         
         tbc = self.tabBarController as! TabBarViewController?

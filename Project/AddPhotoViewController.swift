@@ -63,7 +63,9 @@ class AddPhotoViewController: UIViewController, UIImagePickerControllerDelegate,
             userPost = UserPosts(user: (user?.email)!, lat: lat!, long: long!, address: locationTextField.text!, rating: ratingView.rating, review: reviewTextField.text)
             userPost?.photo = photo
             if let uploadPost = userPost {
-                LoadingIndicatorView.show("Uploading Image")
+                DispatchQueue.main.async {
+                    LoadingIndicatorView.show("Uploading Image")
+                }
                 dataSchema.insertUserPost(post: uploadPost, locs: currentLocations)
             }
         }

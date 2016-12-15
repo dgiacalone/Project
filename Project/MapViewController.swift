@@ -49,6 +49,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         /*searchResultController = SearchResultsTableViewController()
         searchResultController.delegate = self*/
+        gpsButton.backgroundColor = UIColor.white
+        gpsButton.layer.cornerRadius = 0.5 * gpsButton.bounds.size.width
+        gpsButton.clipsToBounds = true
         gpsButton.setImage(#imageLiteral(resourceName: "gpsIcon"), for: .normal)
         configureLocationManager()
         mapView.showsUserLocation = true

@@ -70,7 +70,9 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
     }
             
     func getLocPhotos() {
-        LoadingIndicatorView.show("Loading Photos")
+        DispatchQueue.main.async {
+            LoadingIndicatorView.show("Loading Photos")
+        }
         var photoArray = [Photo]()
         var reviewArray = [String]()
         let size = location.userPostKeys.count
