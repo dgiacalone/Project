@@ -83,16 +83,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
             sort = Int(s)!
         }
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshPage))
-        //self.navigationItem.rightBarButtonItems?.append(refreshButton)
         let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchLocation))
-        //self.navigationItem.rightBarButtonItems?.append(searchButton)
         navigationItem.rightBarButtonItems = [refreshButton, searchButton]
-        
-        /*let filterButton: UIButton = UIButton(type: .custom)
-        filterButton.setImage(#imageLiteral(resourceName: "filter"), for: .normal)
-        filterButton.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
-        let filterBarButton = UIBarButtonItem(customView: filterButton)
-        navigationItem.leftBarButtonItem = filterBarButton*/
         
         let filterButton = UIButton(type: .custom)
         filterButton.setImage(#imageLiteral(resourceName: "filter"), for: .normal)
@@ -101,9 +93,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         let item1 = UIBarButtonItem(customView: filterButton)
         navigationItem.leftBarButtonItem = item1
         
-        //let filterButton = UIBarButtonItem(barButtonIma, target: self, action: #selector(filter))
-        //navigationItem.leftBarButtonItem = filterBarButton
-
+        navigationItem.title = "Photocations"
         
         configureLocationManager()
         tbc = self.tabBarController as! TabBarViewController?

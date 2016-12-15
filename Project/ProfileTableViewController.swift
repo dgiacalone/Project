@@ -15,7 +15,16 @@ class ProfileTableViewController: UITableViewController {
     var tbc: TabBarViewController?
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad()        
+        tableView.rowHeight = 100
+        
+        let settingsButton = UIButton(type: .custom)
+        settingsButton.setImage(#imageLiteral(resourceName: "settings"), for: .normal)
+        settingsButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        settingsButton.addTarget(self, action: #selector(settings), for: .touchUpInside)
+        let item1 = UIBarButtonItem(customView: settingsButton)
+        navigationItem.rightBarButtonItem = item1
+
         DispatchQueue.main.async {
             LoadingIndicatorView.show("Loading Posts")
         }
@@ -29,6 +38,10 @@ class ProfileTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    func settings() {
+        self.performSegue(withIdentifier: "settings", sender: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -57,23 +70,16 @@ class ProfileTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return userPosts.count + 1
+        return userPosts.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell : UITableViewCell
-        if indexPath.row == 0 {
-            cell = tableView.dequeueReusableCell(withIdentifier: "userHeaderPostCell", for: indexPath) as! ProfileHeaderTableViewCell
-            cell.selectionStyle = .none
-            
-        }
-        else{
-            cell = tableView.dequeueReusableCell(withIdentifier: "userPostCell", for: indexPath) as! UserPostTableViewCell
-            if indexPath.row <= userPosts.count {
-                (cell as! UserPostTableViewCell).addressLabel.text = userPosts[indexPath.row-1].address
-                (cell as! UserPostTableViewCell).ratingLabel.rating = userPosts[indexPath.row-1].rating
-                (cell as! UserPostTableViewCell).postImage.image = userPosts[indexPath.row-1].photo.photo
-            }
+        cell = tableView.dequeueReusableCell(withIdentifier: "userPostCell", for: indexPath) as! UserPostTableViewCell
+        if indexPath.row <= userPosts.count {
+            (cell as! UserPostTableViewCell).addressLabel.text = userPosts[indexPath.row].address
+            (cell as! UserPostTableViewCell).ratingLabel.rating = userPosts[indexPath.row].rating
+            (cell as! UserPostTableViewCell).postImage.image = userPosts[indexPath.row].photo.photo
         }
         
         // Configure the cell...
@@ -169,7 +175,7 @@ class ProfileTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "detailedPost" {
             let detailedViewController = segue.destination as! DetailedPostViewController
-            detailedViewController.post = userPosts[(tableView.indexPathForSelectedRow?.row)!-1]
+            detailedViewController.post = userPosts[(tableView.indexPathForSelectedRow?.row)!]
         }
         let backItem = UIBarButtonItem()
         backItem.title = "Back"
