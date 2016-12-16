@@ -117,6 +117,9 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
             let indexPath = collectionView.indexPath(for: sender as! LocationCollectionViewCell)
             detailedPhotoViewController.photoToDisplay = location.photos[indexPath!.row]
         }
+        let backItem = UIBarButtonItem()
+        backItem.title = "Back"
+        navigationItem.backBarButtonItem = backItem
     }
     
 

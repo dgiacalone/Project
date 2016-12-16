@@ -19,7 +19,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -85,6 +85,9 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             detailedViewController.location = locations[(tableView.indexPathForSelectedRow?.row)!]
             detailedViewController.locations = locations
         }
+        let backItem = UIBarButtonItem()
+        backItem.title = "Back"
+        navigationItem.backBarButtonItem = backItem
     }
     
 

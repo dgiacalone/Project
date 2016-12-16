@@ -228,6 +228,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             detailedViewController.location = selectedLocation
             detailedViewController.locations = locations
         }
+        let backItem = UIBarButtonItem()
+        backItem.title = "Back"
+        navigationItem.backBarButtonItem = backItem
     }
     
 

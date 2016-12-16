@@ -106,6 +106,9 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
             self.locationsToDisplay = (tbc?.displayLocations)!
             self.listViewController?.updateTable()
         }
+        let backItem = UIBarButtonItem()
+        backItem.title = "Back"
+        navigationItem.backBarButtonItem = backItem
     }
     
     override func viewWillDisappear(_ animated: Bool) {
