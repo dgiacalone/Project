@@ -20,8 +20,6 @@ class UserPosts {
     var photo = Photo()
     var key = ""
     
-    //photo?
-    
     init() {
         
     }

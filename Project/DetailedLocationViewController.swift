@@ -52,7 +52,6 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
         return 1
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return location.userPostKeys.count
     }
@@ -62,10 +61,7 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
         if location.photos.count > indexPath.row{
             cell.imageInCell.image = location.photos[indexPath.row].photo
         }
-        //cell.backgroundColor = UIColor.black
-        
-        // Configure the cell
-        
+    
         return cell
     }
             
@@ -82,19 +78,16 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
                 if let data = snapshot.value as? [String : AnyObject] {
                     let photoURL = data["Photo"] as! String
                     let review = data["Review"] as! String
-                    //print("url \(photoURL)")
                     let getPhoto = Photo()
                     let url = NSURL(string: photoURL)  //userPhoto URL
                     let data2 = NSData(contentsOf: url! as URL)  //Convert into data
                     if data2 != nil  {
-                        //print("getting photo yay")
                         getPhoto.photo = UIImage(data: data2! as Data)!
                         photoArray.append(getPhoto)
                     }
                     if review != "" {
                         reviewArray.append(review)
                     }
-
                 }
                 if count == size - 1{
                     self.tbc?.currentLocations = self.locations
@@ -104,12 +97,9 @@ class DetailedLocationViewController: UIViewController, UICollectionViewDataSour
                     self.collectionView.reloadData()
                 }
                 count += 1
-
             })
         }
     }
-    
-
     
     // MARK: - Navigation
 

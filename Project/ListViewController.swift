@@ -13,7 +13,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var tableView: UITableView!
     var locations = [Locations]()
     var search = false
-    //var distances = [Double]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +38,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationsCell", for: indexPath) as? LocationsTableViewCell
-        //print("okay size \(locations.count) \(indexPath.row)")
         if locations.count > indexPath.row {
             cell?.addressLabel.text = locations[indexPath.row].address
             cell?.ratingContainer.rating = Int(locations[indexPath.row].rating)
@@ -64,17 +62,11 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
                 else {
                     cell?.distanceLabel.text = "\(locations[indexPath.row].distanceFromUser) miles"
                 }
-
             }
             cell?.exampleImage.image = locations[indexPath.row].photoToDisplay
         }
         return cell!
     }
-
-    /*func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-    {
-         return 100
-    }*/
     
     func updateTable() {
         self.tableView.reloadData()

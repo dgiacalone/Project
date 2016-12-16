@@ -50,7 +50,6 @@ class DetailedPostViewController: UIViewController {
         }
         
         tbc = self.tabBarController as! TabBarViewController?
-        
 
         // Do any additional setup after loading the view.
     }
@@ -70,7 +69,6 @@ class DetailedPostViewController: UIViewController {
                     if data["Address"] as? String == self.post.address {
                         let rating = data["Rating"] as? Double
                         let locKey = key
-                        //print("location key \(locKey)")
                         self.deletePostFromLoc(key: locKey, oldRating: rating!)
                         break
                     }
@@ -84,14 +82,11 @@ class DetailedPostViewController: UIViewController {
         let userPosts = self.dataSchema.locationsRef?.child(key).child("UserPosts")
         userPosts?.observeSingleEvent(of: .value, with: { (snapshot) in
             var count = 0
-            //print("got inside deletePostFromLoc")
-            //print(snapshot)
             if snapshot.childrenCount == 1 {
                 self.dataSchema.locationsRef?.child(key).removeValue()
             }
             else {
                 for item in snapshot.children.allObjects as! [FIRDataSnapshot]{
-                    print("item key \(item.key)")
                     if item.key == (self.post.key).replacingOccurrences(of: "User Post ", with: "") {
                         item.ref.removeValue()
                     }
@@ -111,7 +106,6 @@ class DetailedPostViewController: UIViewController {
             let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
             for (key, value) in locationDict {
                 if let data = value as? [String : AnyObject] {
-                    //print("here \(data)")
                     let user = data["User"] as! String
                     if user == FIRAuth.auth()?.currentUser?.email {
                         let post = UserPosts()
@@ -123,16 +117,13 @@ class DetailedPostViewController: UIViewController {
                         post.key = key
                         
                         let photoURL = data["Photo"] as! String
-                        //print("url \(photoURL)")
                         let getPhoto = Photo()
                         let url = NSURL(string: photoURL)  //userPhoto URL
                         let data2 = NSData(contentsOf: url! as URL)  //Convert into data
                         if data2 != nil  {
-                            //print("getting photo yay")
                             getPhoto.photo = UIImage(data: data2! as Data)!
                             post.photo = getPhoto
                         }
-                        
                         self.userPosts.append(post)
                     }
                 }
@@ -141,12 +132,8 @@ class DetailedPostViewController: UIViewController {
             self.tbc?.didJustDelete = true
             self.tbc?.currentUserPosts = self.userPosts
             self.performSegue(withIdentifier: "deletePost", sender: nil)
-
-            //fix rating
         })
     }
-
-    
 
     /*
     // MARK: - Navigation

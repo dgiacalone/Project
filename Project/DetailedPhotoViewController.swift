@@ -25,7 +25,6 @@ class DetailedPhotoViewController: UIViewController {
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(action)
         self.present(alert, animated:true, completion: nil)
-
     }
     
     override func viewDidLoad() {

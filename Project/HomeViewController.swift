@@ -16,7 +16,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
     
     @IBOutlet weak var listContainer: UIView!
     @IBOutlet weak var mapContainer: UIView!
-    //@IBOutlet weak var filterButton: UIButton!
     
     var distanceFilter = 50
     var ratingFilter = 1
@@ -64,11 +63,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         
         searchResultController = SearchResultsTableViewController()
         searchResultController.delegate = self
-        print("load?")
-        
-        /*let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissSearch))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)*/
 
         self.listContainer.alpha = 1
         self.mapContainer.alpha = 0
@@ -98,17 +92,13 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         configureLocationManager()
         tbc = self.tabBarController as! TabBarViewController?
   
-        print("start")
         getStartingLocations()
 
         // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //getStartingLocations()
-        print("appear?")
         if (tbc?.didJustDelete)! == true{
-            print("just deleted")
             tbc?.didJustDelete = false
             getStartingLocations()
         } else {
@@ -119,7 +109,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        print("removing observer")
         dataSchema.locationsRef?.removeAllObservers()
     }
     
@@ -144,7 +133,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
             locationManager.distanceFilter = 100.0
             locationManager.startUpdatingLocation()
             
-            print("locmanager \(locationManager.location)")
             if let latitude = locationManager.location?.coordinate.latitude {
                 if let longitude = locationManager.location?.coordinate.longitude {
                     userLocation = CLLocationCoordinate2DMake(latitude, longitude)
@@ -162,11 +150,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         if let location = locations.first {
             userLocation = location.coordinate
         }
-        print("locmanager got here")
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Failed to find user's location: \(error.localizedDescription)")
     }
     
     func getDistance(lat: Double, long: Double) -> Double {
@@ -182,7 +165,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
     
     
     func getStartingLocations(){
-        print("starting locations")
         DispatchQueue.main.async {
             LoadingIndicatorView.show("Loading Locations")
         }
@@ -193,17 +175,12 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
     
     func getStartingLocationsHelper() {
         _ = dataSchema.locationsRef?.observeSingleEvent(of: .value, with: { (snapshot) in
-            //.observe(FIRDataEventType.value, with: { (snapshot) in
-            //LoadingIndicatorView.show("Loading Locations")
-            print("starting observer")
             self.locations.removeAll()
             self.locationsToDisplay.removeAll()
-            //print("HOW MANY TIMES")
             var newItems: [Locations] = []
             let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
             for (key, value) in locationDict {
                 if let data = value as? [String : AnyObject] {
-                    //print("here \(data)")
                     let loc = Locations()
                     loc.key = key
                     loc.address = data["Address"] as! String
@@ -216,9 +193,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
                             tempKeys.append(k)
                         }
                         loc.userPostKeys = tempKeys
-                        /*if userData.count > 0 {
-                         loc.userPostKey = userData.first?.value as! String
-                         }*/
                     }
                     var distance = 0.0
                     if loc.lat == 0 && loc.long == 0 {
@@ -228,7 +202,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
                         distance = self.getDistance(lat: loc.lat, long: loc.long)
                     }
                     loc.distanceFromUser = distance
-                    
                     newItems.append(loc)
                 }
             }
@@ -236,7 +209,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
             self.locations = newItems
             let inFilter = self.checkInFilter(search: false)
             if !inFilter {
-                print("here")
                 LoadingIndicatorView.hide()
                 self.tbc?.currentLocations = self.locations
                 self.tbc?.displayLocations = self.locationsToDisplay
@@ -267,8 +239,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
                 self.mapViewController?.search = self.search
 
             }
-            //self.listViewController?.updateTable()
-            
         })
 
     }
@@ -301,7 +271,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
             dataSchema.postsRef?.child("User Post \((loc.userPostKeys.first)!)").observeSingleEvent(of: .value, with: { (snapshot) in
                 if let data = snapshot.value as? [String : AnyObject] {
                     if let photoURL = data["Photo"] as? String {
-                        //print("photoURL home \(photoURL)")
                         let getPhoto = Photo()
                         let url = NSURL(string: photoURL)  //userPhoto URL
                         let data2 = NSData(contentsOf: url! as URL)  //Convert into data
@@ -309,15 +278,11 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
                             getPhoto.photo = UIImage(data: data2! as Data)!
                         }
                         loc.photoToDisplay = getPhoto.photo
-                        
-                        //self.listViewController?.updateTable()
                     }
                 }
                 if count == size - 1{
-                    print("hide")
                     LoadingIndicatorView.hide()
                     self.tbc?.currentLocations = self.locations
-                    print("locatons count \(self.locations.count)")
                     self.tbc?.displayLocations = self.locationsToDisplay
                     self.listViewController?.locations = self.locationsToDisplay
                     self.mapViewController?.locations = self.locationsToDisplay
@@ -326,7 +291,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
                     if self.search {
                         self.mapViewController?.addSearchAnnotation(pinLocation: self.searchedLoc!, title: self.searchTitle)
                     }
-                    //self.mapViewController?.setUsersClosestCity()
                 }
                 count += 1
             })
@@ -334,7 +298,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
     }
     
     func getSearchLocations(){
-        print("search locations")
         DispatchQueue.main.async {
             LoadingIndicatorView.show("Loading Locations")
         }
@@ -345,15 +308,12 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
     
     func getSearchLocationsHelper() {
         _ = dataSchema.locationsRef?.observeSingleEvent(of: .value, with: { (snapshot) in
-            print("starting observer")
             self.locations.removeAll()
             self.locationsToDisplay.removeAll()
-            //print("HOW MANY TIMES")
             var newItems: [Locations] = []
             let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
             for (key, value) in locationDict {
                 if let data = value as? [String : AnyObject] {
-                    //print("here \(data)")
                     let loc = Locations()
                     loc.key = key
                     loc.address = data["Address"] as! String
@@ -375,7 +335,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
                         distance = self.getSearchDistance(lat: loc.lat, long: loc.long)
                     }
                     loc.distanceFromSearchedLoc = distance
-                    
                     newItems.append(loc)
                 }
             }
@@ -383,7 +342,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
             self.locations = newItems
             let inFilter = self.checkInFilter(search:true)
             if !inFilter {
-                print("here")
                 LoadingIndicatorView.hide()
                 self.tbc?.currentLocations = self.locations
                 self.tbc?.displayLocations = self.locationsToDisplay
@@ -415,15 +373,9 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
                 self.mapViewController?.locations = self.locationsToDisplay
                 self.listViewController?.search = self.search
                 self.mapViewController?.search = self.search
-                /*if self.search {
-                    self.mapViewController?.addSearchAnnotation(pinLocation: self.searchedLoc!, title: self.searchTitle)
-                }*/
-                //self.listViewController?.updateTable()
-
             }
             
         })
-        
     }
     
     func getSearchDistance(lat: Double, long: Double) -> Double {
@@ -443,7 +395,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         searchedLoc = pinLocation
         searchTitle = title
         getSearchLocations()
-        //maybe do this later
     }
     
     func noLocations() {
@@ -491,7 +442,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
         
         if segue.identifier == "listContainer" {
             listViewController = segue.destination as? ListViewController
-            //print("count here \(locations.count)")
             listViewController?.locations = locations
             listViewController?.search = search
 
@@ -535,7 +485,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate, UISearchB
             else {
                 getStartingLocations()
             }
-            //self.listViewController?.updateTable()
         }
     }
 

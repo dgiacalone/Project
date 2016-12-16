@@ -85,7 +85,6 @@ class RatingDisplay: UIView {
     }
     
     override var intrinsicContentSize: CGSize {
-        //...
         let buttonSize = size
         let width = (buttonSize * numStars) + (spacing * (numStars - 1))
         

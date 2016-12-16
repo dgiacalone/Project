@@ -12,5 +12,4 @@ class LocationCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageInCell: UIImageView!
     
-    
 }

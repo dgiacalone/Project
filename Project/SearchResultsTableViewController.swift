@@ -23,12 +23,6 @@ class SearchResultsTableViewController: UITableViewController {
         
         self.searchResults = Array()
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "searchResult")
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -66,11 +60,9 @@ class SearchResultsTableViewController: UITableViewController {
         indexPath: IndexPath){
         self.dismiss(animated: true, completion: nil)
         let correctedAddress = self.searchResults[indexPath.row].addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
-        //let correctedAddress:String! = self.searchResults[indexPath.row].stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.symbolCharacterSet())
-        print("address \(correctedAddress!)")
+
         let urlString = "https://maps.googleapis.com/maps/api/geocode/json?address=\(correctedAddress!)&sensor=false"
         let searchURL : NSURL = NSURL(string: urlString as String)!
-        print("url \(searchURL)")
         
         let task = URLSession.shared.dataTask(with: searchURL as URL) { (data, response, error) -> Void in
             do {
@@ -88,8 +80,6 @@ class SearchResultsTableViewController: UITableViewController {
                         let lat = loc["lat"] as! Double
                         let long = loc["lng"] as! Double
                         
-                        print("size \(self.searchResults.count)")
-                        print("index \(indexPath.row)")
                         self.delegate.locateWithLongitude(lon: long, andLatitude: lat, andTitle: self.searchResults[indexPath.row] )
                     }
                 }

@@ -31,13 +31,6 @@ class ProfileTableViewController: UITableViewController {
         getUserPosts()
         
         tbc = self.tabBarController as! TabBarViewController?
-
-        //self.tableView.contentInset = UIEdgeInsetsMake(100, 0, 0, 0)
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
     func settings() {
@@ -45,13 +38,10 @@ class ProfileTableViewController: UITableViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        print("removing observer post2")
         dataSchema.postsRef?.removeAllObservers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //LoadingIndicatorView.show("Loading Posts")
-        //getUserPosts()
         self.userPosts = (tbc?.currentUserPosts)!
         self.tableView.reloadData()
     }
@@ -98,7 +88,6 @@ class ProfileTableViewController: UITableViewController {
             let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
             for (key, value) in locationDict {
                 if let data = value as? [String : AnyObject] {
-                    //print("here \(data)")
                     let user = data["User"] as! String
                     if user == FIRAuth.auth()?.currentUser?.email {
                         let post = UserPosts()
@@ -110,16 +99,13 @@ class ProfileTableViewController: UITableViewController {
                         post.key = key
                         
                         let photoURL = data["Photo"] as! String
-                        //print("url \(photoURL)")
                         let getPhoto = Photo()
                         let url = NSURL(string: photoURL)  //userPhoto URL
                         let data2 = NSData(contentsOf: url! as URL)  //Convert into data
                         if data2 != nil  {
-                            //print("getting photo yay")
                             getPhoto.photo = UIImage(data: data2! as Data)!
                             post.photo = getPhoto
                         }
-
                         self.userPosts.append(post)
                     }
                 }
@@ -166,7 +152,6 @@ class ProfileTableViewController: UITableViewController {
     }
     */
 
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -176,6 +161,10 @@ class ProfileTableViewController: UITableViewController {
         if segue.identifier == "detailedPost" {
             let detailedViewController = segue.destination as! DetailedPostViewController
             detailedViewController.post = userPosts[(tableView.indexPathForSelectedRow?.row)!]
+        }
+        if segue.identifier == "settings" {
+            let settingsViewController = segue.destination as! SettingsViewController
+            settingsViewController.userPosts = userPosts
         }
         let backItem = UIBarButtonItem()
         backItem.title = "Back"

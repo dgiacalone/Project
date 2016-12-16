@@ -9,10 +9,6 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
-
-    /*var newUserPost: UserPosts?
-    var locations: [Locations]?*/
-    //var cameFromAddPhoto = false
     
     var currentUserPosts = [UserPosts]()
     var currentLocations = [Locations]()
@@ -21,8 +17,6 @@ class TabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*var home = self.tabBarController?.viewControllers[0] as HomeViewController
-        secondTab.array = firstArray*/
         // Do any additional setup after loading the view.
     }
 

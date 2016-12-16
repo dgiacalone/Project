@@ -31,7 +31,6 @@ class Database {
         self.locationsRef = self.root?.child("Locations")
         self.postsRef = self.root?.child("User Posts")
         self.storageRef = self.storage.reference()
-        //self.storageRef = storage.reference(forURL: "gs://project-aaf48.appspot.com")
         let imageName = NSUUID().uuidString
         self.imagesRef = storageRef?.child("Images").child("Image \(imageName)")
         
@@ -45,7 +44,6 @@ class Database {
 
     
     func insertNewLocation(loc: Locations, postKey: String) {
-        print("third(new location)")
         let key = (locationsRef?.childByAutoId().key)!
         let location: NSDictionary = ["Address" : loc.address,
                                       "Lat" : loc.lat,
@@ -58,15 +56,9 @@ class Database {
         let posts: NSMutableDictionary = [:]
         posts.setValue("post", forKey: postKey)
         self.locPostsRef?.setValue(posts)
-        
-        print("third(new location) end")
-
-        //NotificationCenter.default.post(name: Notification.Name(rawValue: databaseDoneNotificationKey), object: self)
-        
     }
     
     func insertUserPost(post: UserPosts, locs: [Locations]){
-        print("first")
         let imageName = NSUUID().uuidString
         self.imagesRef = storageRef?.child("Images").child("Image \(imageName)")
         
@@ -78,7 +70,6 @@ class Database {
                 var key = ""
                 if let image = metadata?.downloadURL()?.absoluteString {
                     key = (self.postsRef?.childByAutoId().key)!
-                    print("unique key created: \(key)")
                     let userPost: NSDictionary = ["User" : post.user,
                                                   "Address" : post.address,
                                                   "Lat" : post.lat,
@@ -89,26 +80,20 @@ class Database {
                     let ref = self.postsRef?.child("User Post \(key)")
                     ref?.setValue(userPost)
                     self.imageURL = image
-                    print("image \(self.imageURL)")
                 }
-                //self.checkLocations(post: post, postKey: key, locs: locs)
                 self.getLocations(post: post, postKey: key)
-                print("first end")
             })
             
         }
     }
     
     func getLocations(post: UserPosts, postKey: String){
-        print("second")
-        //print("stating get locations")
         locations.removeAll()
         _ = locationsRef?.observeSingleEvent(of: .value, with: { (snapshot) in
             let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
             var found = false
             for (key, value) in locationDict {
                 if let data = value as? [String : AnyObject] {
-                    //print("here \(data)")
                     let loc = Locations()
                     loc.address = data["Address"] as! String
                     loc.lat = data["Lat"] as! Double
@@ -118,8 +103,6 @@ class Database {
                     
                     let posts = data["UserPosts"] as! [String: String]
                     if loc.address == post.address {
-                        //print("shouldn't be here")
-                        print("getLocations key was found: \(postKey)")
                         self.updateLocation(post: post, postKey: postKey, locationsKey: key, posts: posts, oldRating: loc.rating)
                         found = true
                         break
@@ -129,7 +112,6 @@ class Database {
             }
 
             if found == false{
-                print("get locations key was not found \(postKey)")
                 let newLoc = Locations()
                 newLoc.address = post.address
                 newLoc.lat = post.lat
@@ -138,62 +120,17 @@ class Database {
                 newLoc.photos.append(post.photo)
                 self.insertNewLocation(loc: newLoc, postKey: postKey)
             }
-            print("second end")
             self.getUserPosts()
         })
     }
-    
-    func checkLocations(post: UserPosts, postKey: String, locs: [Locations]){
-        var found = false
-        for loc in locs {
-            if loc.address == post.address {
-                var dict = [String: String]()
-                for key in loc.userPostKeys {
-                    dict[key] = "post"
-                    print("whyyy \(key)")
-                    
-                }
-                print("getLocations key was found: \(postKey)")
-                self.updateLocation(post: post, postKey: postKey, locationsKey: loc.key, posts: dict, oldRating: loc.rating)
-                found = true
-                break
-            }
-        }
-        if found == false{
-            print("get locations key was not found \(postKey)")
-            let newLoc = Locations()
-            newLoc.address = post.address
-            newLoc.lat = post.lat
-            newLoc.long = post.long
-            newLoc.rating = Double(post.rating)
-            if post.review != "" {
-                newLoc.reviews.append(post.review)
-            }
-            newLoc.photos.append(post.photo)
-            self.insertNewLocation(loc: newLoc, postKey: postKey)
-        }
-        print("second end")
-        self.getUserPosts()
-    
-    }
 
     func updateLocation(post: UserPosts, postKey: String, locationsKey: String, posts: [String:String], oldRating: Double) {
-        print("third(update location)")
-        print("locations key \(locationsKey) postKey \(postKey) posts count \(posts.count)")
         var newPosts = posts
-        //newPosts.updateValue("post", forKey: postKey)
         newPosts[postKey] = "post"
-        print("size \(Double(newPosts.count)) oldrating \(oldRating)")
         let sum = Double(posts.count) * oldRating
-        print("sum \(sum)")
-        print("sum plus rating \(sum + Double(post.rating))")
         let newRating = (sum + Double(post.rating)) / Double(posts.count + 1)
-        print("newRating \(newRating)")
         locationsRef?.child(locationsKey).child("UserPosts").setValue(newPosts)
         locationsRef?.child(locationsKey).updateChildValues(["Rating": newRating])
-        
-        print("third(update location) end")
-
     }
     
     func getUserPosts(){
@@ -202,7 +139,6 @@ class Database {
             let locationDict = snapshot.value as? [String : AnyObject] ?? [:]
             for (key, value) in locationDict {
                 if let data = value as? [String : AnyObject] {
-                    //print("here \(data)")
                     let user = data["User"] as! String
                     if user == FIRAuth.auth()?.currentUser?.email {
                         let post = UserPosts()
@@ -214,12 +150,10 @@ class Database {
                         post.key = key
                         
                         let photoURL = data["Photo"] as! String
-                        //print("url \(photoURL)")
                         let getPhoto = Photo()
                         let url = NSURL(string: photoURL)  //userPhoto URL
                         let data2 = NSData(contentsOf: url! as URL)  //Convert into data
                         if data2 != nil  {
-                            //print("getting photo yay")
                             getPhoto.photo = UIImage(data: data2! as Data)!
                             post.photo = getPhoto
                         }

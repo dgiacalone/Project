@@ -51,7 +51,6 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
                     }
                 }
                 else {
-                    print("Error: \(error)")
                     let alert = UIAlertController(title : "Error", message: "Couldn't change password", preferredStyle: .alert)
                     let action = UIAlertAction(title: "OK", style: .default, handler: nil)
                     alert.addAction(action)
@@ -77,6 +76,9 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
         newPasswordTextField.delegate = self
         confirmPasswordTextField.delegate = self
         emailTextField.delegate = self
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
     }
 
@@ -90,6 +92,10 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
 
     /*
     // MARK: - Navigation

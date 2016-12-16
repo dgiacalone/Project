@@ -16,6 +16,7 @@ class FilterViewController: UIViewController {
     var ratingRoundedVal: Float = 1
     var sort = 0
     
+    @IBOutlet weak var saveButton: UIButton!
     @IBAction func segControlChanged(_ sender: Any) {
         sort = segControl.selectedSegmentIndex
     }
@@ -34,13 +35,7 @@ class FilterViewController: UIViewController {
             ratingLabel.text = "\(Int(ratingRoundedVal)) stars"
         }
     }
-    @IBAction func saveButton(_ sender: Any) {
-        distanceRoundedVal = round(distanceSlider.value / distanceIncrement) * distanceIncrement
-        defaults.setValue(Int(distanceRoundedVal), forKey: "distance")
-        ratingRoundedVal = round(ratingSlider.value / ratingIncrement) * ratingIncrement
-        defaults.setValue(Int(ratingRoundedVal), forKey: "rating")
-        defaults.setValue(sort, forKey: "sort")
-    }
+    
     @IBOutlet weak var distanceSlider: UISlider!
     @IBOutlet weak var ratingSlider: UISlider!
     @IBOutlet weak var distanceLabel: UILabel!
@@ -56,11 +51,9 @@ class FilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let distance = defaults.string(forKey: "distance"){
-            print("The prev distance: " + distance)
             savedDistance = Int(distance)!
         }
         if let rating = defaults.string(forKey: "rating"){
-            print("The prev rating: " + rating)
             savedRating = Int(rating)!
         }
         if let sort = defaults.string(forKey: "sort") {
@@ -93,6 +86,17 @@ class FilterViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        let button = sender as! UIButton
+        if button === saveButton {
+            distanceRoundedVal = round(distanceSlider.value / distanceIncrement) * distanceIncrement
+            defaults.setValue(Int(distanceRoundedVal), forKey: "distance")
+            ratingRoundedVal = round(ratingSlider.value / ratingIncrement) * ratingIncrement
+            defaults.setValue(Int(ratingRoundedVal), forKey: "rating")
+            sort = segControl.selectedSegmentIndex
+            defaults.setValue(sort, forKey: "sort")
+        }
+
         
     }
     

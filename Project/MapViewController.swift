@@ -41,23 +41,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     var search = false
     
-    /*var searchResultController:SearchResultsTableViewController!
-    var resultsArray = [String]()*/
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        /*searchResultController = SearchResultsTableViewController()
-        searchResultController.delegate = self*/
+    
         gpsButton.backgroundColor = UIColor.white
         gpsButton.layer.cornerRadius = 0.5 * gpsButton.bounds.size.width
         gpsButton.clipsToBounds = true
         gpsButton.setImage(#imageLiteral(resourceName: "gpsIcon"), for: .normal)
         configureLocationManager()
         mapView.showsUserLocation = true
-        //addAnnotations()
         mapView.delegate = self
-
 
         // Do any additional setup after loading the view.
     }
@@ -78,29 +71,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
-    /*func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location = locations.last
-        
-        let center = CLLocationCoordinate2D(latitude: location!.coordinate.latitude, longitude: location!.coordinate.longitude)
-        //let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        let region2 = MKCoordinateRegionMakeWithDistance(center, 3000, 3000);
-
-
-        self.mapView.setRegion(region2, animated: true)
-    }*/
-    
     func addAnnotations() {
         self.mapView.removeAnnotations(self.mapView.annotations)
-        print("HERE \(locations.count)")
         
         for loc in locations {
             let pinLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(loc.lat, loc.long)
-            //let objectAnnotation = LocationAnnotation(coordinate: pinLocation)
             let objectAnnotation = MKPointAnnotation()
             objectAnnotation.coordinate = pinLocation
             objectAnnotation.title = loc.address
-            //objectAnnotation.subtitle = "rating: \(Int(loc.rating))"
-            //objectAnnotation.image = loc.photoToDisplay
             
             self.mapView.addAnnotation(objectAnnotation)
         }
@@ -135,7 +113,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         
         if pinView == nil {
-            //println("Pinview was nil")
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
             pinView!.animatesDrop = true
@@ -213,139 +190,32 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         mapChangedFromUserInteraction = mapViewRegionDidChangeFromUserInteraction()
-        if (mapChangedFromUserInteraction) {
-            print("user changed map region")
-        }
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        if (mapChangedFromUserInteraction) {
-            print("user changed map region")
-        }
+    
     }
     
-    // This function is called each time the user moves.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if mapChangedFromUserInteraction == false {
-            print("map here")
             userLoc = locations.last
-            
-            //let center = CLLocationCoordinate2D(latitude: userLoc!.coordinate.latitude, longitude: userLoc!.coordinate.longitude)
-            //let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-            //let region2 = MKCoordinateRegionMakeWithDistance(center, 3000, 3000);
-            
-            //self.mapView.setRegion(region2, animated: true)
         }
     }
-    
-    /*func setUsersClosestCity()
-    {
-        for loc in locations {
-            let geoCoder = CLGeocoder()
-            let location = CLLocation(latitude: loc.lat, longitude: loc.long)
-            geoCoder.reverseGeocodeLocation(location)
-            {
-                (placemarks, error) -> Void in
-                
-                let placeArray = placemarks as [CLPlacemark]!
-                
-                // Place details
-                var placeMark: CLPlacemark!
-                placeMark = placeArray?[0]
-                
-                // Address dictionary
-                //print(placeMark.addressDictionary!)
-                
-                // Location name
-                if let locationName = placeMark.addressDictionary?["Name"] as? NSString
-                {
-                    print("locName \(locationName)")
-                }
-                
-                // Street address
-                if let street = placeMark.addressDictionary?["Thoroughfare"] as? NSString
-                {
-                    print("street \(street)")
-                }
-                
-                // City
-                if let city = placeMark.addressDictionary?["City"] as? NSString
-                {
-                    print("city \(city)")
-                }
-                
-                // Zip code
-                if let zip = placeMark.addressDictionary?["ZIP"] as? NSString
-                {
-                    print("zip  \(zip)")
-                }
-                
-                // Country
-                if let country = placeMark.addressDictionary?["Country"] as? NSString
-                {
-                    print("country \(country)")
-                }
-            }
-        }
-    }*/
     
     func addSearchAnnotation(pinLocation: CLLocationCoordinate2D, title: String) {
-        //DispatchQueue.main.async {
-            //let objectAnnotation = LocationAnnotation(coordinate: pinLocation)
-            let objectAnnotation = MKPointAnnotation()
-            objectAnnotation.coordinate = pinLocation
-            objectAnnotation.title = title
-            objectAnnotation.subtitle = "Searched Location"
         
-            searchLoc = pinLocation
-            
-            //objectAnnotation.subtitle = "rating: \(Int(loc.rating))"
-            //objectAnnotation.image = loc.photoToDisplay
-            
-            self.mapView.addAnnotation(objectAnnotation)
-            let region = MKCoordinateRegionMakeWithDistance(searchLoc!, 6000, 6000);
-            self.mapView.setRegion(region, animated: true)
-        //}
-
-    }
+        let objectAnnotation = MKPointAnnotation()
+        objectAnnotation.coordinate = pinLocation
+        objectAnnotation.title = title
+        objectAnnotation.subtitle = "Searched Location"
     
-    /*func locateWithLongitude(lon: Double, andLatitude lat: Double, andTitle title: String) {
-        let pinLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(lat, lon)
-        addSearchAnnotation(pinLocation: pinLocation)
-    }
-
-    func noLocations() {
-        let alert = UIAlertController(title : "Error", message: "Couldn't find location", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(action)
-        self.present(alert, animated:true, completion: nil)
-    }
-    
-    func searchHappened() {
-        let searchController = UISearchController(searchResultsController: searchResultController)
-        searchController.searchBar.delegate = self
-        self.present(searchController, animated: true, completion: nil)
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        searchLoc = pinLocation
         
-        let placesClient = GMSPlacesClient()
-        placesClient.autocompleteQuery(searchText, bounds: nil, filter: nil, callback: {(results, error) -> Void in
-            self.resultsArray.removeAll()
-            
-            if results == nil {
-                print("Autocomplete error \(error)")
-                return
-            }
-            if let results = results {
-                for result in results {
-                    self.resultsArray.append(result.attributedFullText.string)
-                }
-            }
-            self.searchResultController.reloadDataWithArray(array: self.resultsArray)
-        })
-    }*/
+        self.mapView.addAnnotation(objectAnnotation)
+        let region = MKCoordinateRegionMakeWithDistance(searchLoc!, 6000, 6000);
+        self.mapView.setRegion(region, animated: true)
 
+    }
     
     // MARK: - Navigation
 
